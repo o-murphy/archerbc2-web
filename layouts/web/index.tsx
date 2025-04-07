@@ -1,12 +1,14 @@
+import EditDialog from "@/components/openDialog/editDialog";
 import StartDialog from "@/components/openDialog/startDialog";
 import { StyleSheet } from "react-native";
-import { Button, Card, Surface, Text } from "react-native-paper";
+import { Surface } from "react-native-paper";
 
 
 
 const WebLayout = () => {
     return(
         <Surface style={styles.view}>
+            <EditDialog />
             <StartDialog />
         </Surface>
     )
