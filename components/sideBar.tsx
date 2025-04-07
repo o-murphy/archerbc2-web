@@ -1,5 +1,23 @@
 import { StyleSheet } from "react-native";
-import { Drawer } from "react-native-paper";
+import { Drawer, Icon } from "react-native-paper";
+// import { useAssets } from 'expo-asset';
+// import { Image }from 'expo-image';
+
+import TabRifleIcon from '../assets/icons/tab-icon-rifle.png';
+import TabCartridgeIcon from '../assets/icons/tab-icon-cartridge.png';
+import TabBulletIcon from '../assets/icons/tab-icon-bullet.png';
+import TabDescriptionIcon from '../assets/icons/tab-icon-description.png';
+import TabZeroingIcon from '../assets/icons/tab-icon-zeroing.png';
+import TabDistancesIcon from '../assets/icons/tab-icon-distances.png';
+
+const drawerItems = [
+    { label: 'Description', icon: TabDescriptionIcon, route: 'description' },
+    { label: 'Rifle', icon: TabRifleIcon, route: 'rifle' },
+    { label: 'Cartridge', icon: TabCartridgeIcon, route: 'cartridge' },
+    { label: 'Bullet', icon: TabBulletIcon, route: 'bullet' },
+    { label: 'Zeroing', icon: TabZeroingIcon, route: 'zeroing' },
+    { label: 'Distances', icon: TabDistancesIcon, route: 'distances' },
+];
 
 // Type for the navigation handler in the Sidebar component
 type SideBarProps = {
@@ -7,55 +25,23 @@ type SideBarProps = {
     selectedRoute: string;
 };
 
+
 // Function to render the side drawer with navigation options
-const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => {
-    return (
-        <Drawer.Section style={styles.sideBar}>
+const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => (
+    <Drawer.Section style={styles.sideBar}>
+        {drawerItems.map(({ label, icon, route }) => (
             <Drawer.CollapsedItem
-                label="Profile"
-                focusedIcon="card-account-details"
-                unfocusedIcon="card-account-details-outline"
-                onPress={() => onNavigate?.('profile')}
-                active={selectedRoute === 'profile'}
+                key={route}
+                style={styles.collapsedItem}
+                label={label}
+                focusedIcon={() => <Icon source={icon} size={40} />}
+                unfocusedIcon={() => <Icon source={icon} size={40} />}
+                onPress={() => onNavigate?.(route)}
+                active={selectedRoute === route}
             />
-            <Drawer.CollapsedItem
-                label="File"
-                focusedIcon="file"
-                unfocusedIcon="file-outline"
-                onPress={() => onNavigate?.('file')}
-                active={selectedRoute === 'file'}
-            />
-            <Drawer.CollapsedItem
-                label="Save"
-                focusedIcon="content-save"
-                unfocusedIcon="content-save-outline"
-                onPress={() => onNavigate?.('save')}
-                active={selectedRoute === 'save'}
-            />
-            <Drawer.CollapsedItem
-                label="Save All"
-                focusedIcon="content-save-all"
-                unfocusedIcon="content-save-all-outline"
-                onPress={() => onNavigate?.('saveAll')}
-                active={selectedRoute === 'saveAll'}
-            />
-            <Drawer.CollapsedItem
-                label="Refresh"
-                focusedIcon="file-refresh"
-                unfocusedIcon="file-refresh-outline"
-                onPress={() => onNavigate?.('refresh')}
-                active={selectedRoute === 'refresh'}
-            />
-            <Drawer.CollapsedItem
-                label="Target"
-                focusedIcon="crosshairs"
-                unfocusedIcon="crosshairs"
-                onPress={() => onNavigate?.('target')}
-                active={selectedRoute === 'target'}
-            />
-        </Drawer.Section>
-    );
-};
+        ))}
+    </Drawer.Section>
+);
 
 export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
     return renderSideDrawer({ onNavigate, selectedRoute });
@@ -65,9 +51,14 @@ export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
 const styles = StyleSheet.create({
     sideBar: {
         alignItems: "center",
-        width: 48,
+        width: 64,
         borderRadius: 16,
     },
+    collapsedItem: {
+        width: 64,
+        height: 48,
+        borderRadius: 16,
+    }
 })
 
 

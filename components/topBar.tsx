@@ -1,26 +1,55 @@
 import { StyleSheet } from "react-native";
-import { IconButton, Surface, Text } from "react-native-paper"
+import { IconButton, Surface, Text, Tooltip } from "react-native-paper"
 
 
 
 const TopBar = () => {
     return (
-        <Surface style={styles.topBar}>
-            <IconButton icon="file-plus" onPress={() => { }} />
-            <IconButton icon="file" onPress={() => { }} />
-            <IconButton icon="content-save" onPress={() => { }} />
-            <IconButton icon="content-save-all" onPress={() => { }} />
-            <IconButton icon="file-refresh" onPress={() => { }} />
-            <IconButton icon="crosshairs" onPress={() => { }} />
-            <IconButton icon="application-import" onPress={() => { }} />
-            <IconButton icon="application-export" onPress={() => { }} />
-            <IconButton icon="theme-light-dark" onPress={() => { }} />
-            <IconButton icon="translate" onPress={() => { }} />
-            <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
-        </Surface>
-    )
-}
-
+      <Surface style={styles.topBar}>
+        <Tooltip title="Create new file" leaveTouchDelay={0.2}>
+          <IconButton icon="file-plus" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Open file" leaveTouchDelay={0.2}>
+          <IconButton icon="folder-open" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Save" leaveTouchDelay={0.2}>
+          <IconButton icon="content-save" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Save as" leaveTouchDelay={0.2}>
+          <IconButton icon="content-save-all" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Reload file" leaveTouchDelay={0.2}>
+          <IconButton icon="file-refresh" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Load zeroing" leaveTouchDelay={0.2}>
+          <IconButton icon="crosshairs" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Import data" leaveTouchDelay={0.2}>
+          <IconButton icon="application-import" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Export data" leaveTouchDelay={0.2}>
+          <IconButton icon="application-export" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Toggle theme" leaveTouchDelay={0.2}>
+          <IconButton icon="theme-light-dark" onPress={() => {}} />
+        </Tooltip>
+  
+        <Tooltip title="Language" leaveTouchDelay={0.2}>
+          <IconButton icon="translate" onPress={() => {}} />
+        </Tooltip>
+  
+        <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
+      </Surface>
+    );
+  };
 
 const styles = StyleSheet.create({
     topBar: {

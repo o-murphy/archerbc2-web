@@ -3,6 +3,8 @@ import { Dimensions, StyleSheet } from "react-native";
 import { Dialog, Portal, Surface, Text } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
+import RifleContent from "./rifleContent";
+import DescriptionContent from "./descriptionContent";
 
 
 // Type for dialog dimensions
@@ -21,11 +23,20 @@ const calculateDialogDimensions = (): DialogDimensions => {
     return { dialogWidth, dialogHeight };
 };
 
+const routeContentMap: Record<string, React.ReactNode> = {
+    description: <DescriptionContent />,
+    rifle: <RifleContent/>,
+    cartridge: <Text>cartridge</Text>,
+    bullet: <Text>bullet</Text>,
+    zeroing: <Text>zeroing</Text>,
+    distances: <Text>distances</Text>,
+  };
+
 const EditDialog = () => {
     // State with TypeScript annotations
     const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(calculateDialogDimensions());
     const [visible, setVisible] = useState<boolean>(true);
-    const [selectedRoute, setSelectedRoute] = useState<string>('profile');
+    const [selectedRoute, setSelectedRoute] = useState<string>('description');
 
     useEffect(() => {
         const handleResize = () => {
@@ -45,24 +56,7 @@ const EditDialog = () => {
         setSelectedRoute(route);
     };
 
-    const renderContent = () => {
-        switch (selectedRoute) {
-            case 'profile':
-                return <Text>Profile Content</Text>;
-            case 'file':
-                return <Text>File Content</Text>;
-            case 'save':
-                return <Text>Save Content</Text>;
-            case 'saveAll':
-                return <Text>Save All Content</Text>;
-            case 'refresh':
-                return <Text>Refresh Content</Text>;
-            case 'target':
-                return <Text>Target Content</Text>;
-            default:
-                return <Text>Unknown</Text>;
-        }
-    };
+    const renderContent = () => routeContentMap[selectedRoute] ?? <Text>Unknown</Text>;
 
     const closeDialog = () => {
         // setVisible(false)  // Optional functionality for closing dialog
@@ -90,6 +84,7 @@ const EditDialog = () => {
                     <Surface style={styles.surfaceContent}>
                         {renderContent()}
                     </Surface>
+                    
                 </Dialog.Content>
             </Dialog>
         </Portal>
@@ -102,8 +97,9 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         height: "100%",
         borderRadius: 16,
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
+        // alignItems: "center",
+        padding: 24
     },
     dialog: {
         minWidth: 720,
