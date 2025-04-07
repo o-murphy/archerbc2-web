@@ -1,5 +1,5 @@
-import EditDialog from "@/components/openDialog/editDialog";
-import StartDialog from "@/components/openDialog/startDialog";
+import EditDialog from "@/components/editDialog";
+import StartDialog from "@/components/startDialog";
 import { StyleSheet } from "react-native";
 import { Surface } from "react-native-paper";
 
