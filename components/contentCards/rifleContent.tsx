@@ -14,7 +14,7 @@ const RifleContent = () => {
             </Text>
 
             <View style={styles.row}>
-                <Text style={styles.label}>Caliber</Text>
+                <Text style={styles.label} >Caliber</Text>
                 <TextInput mode="outlined" dense style={styles.input} />
                 <Text style={styles.label}>{"inch"}</Text>
             </View>

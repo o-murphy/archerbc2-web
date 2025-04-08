@@ -4,40 +4,40 @@ import { TextInput, Text, Divider } from "react-native-paper";
 const DescriptionContent = () => {
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={styles.header}>
+      <Text variant="titleLarge" style={styles.header} >
         Description
       </Text>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Name"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} />
+        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Hints"}</Text>
         <View style={[styles.row, styles.input]}>
-          <TextInput label={"Top"} mode="outlined" dense style={styles.input} />
-          <TextInput label={"Bottom"} mode="outlined" dense style={styles.input} />
+          <TextInput label={"Top"} mode="outlined" dense style={styles.input} maxLength={8} />
+          <TextInput label={"Bottom"} mode="outlined" dense style={styles.input} maxLength={8} />
         </View>
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
-        <Text variant="titleMedium" style={styles.sectionTitle}>{"Round"}</Text>
+        <Text variant="titleMedium" style={styles.sectionTitle} >{"Round"}</Text>
         <Divider style={styles.divider} />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Cartridge"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} />
+        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Bullet"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} />
+        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
         <View style={styles.label} />
       </View>
 
@@ -52,7 +52,8 @@ const DescriptionContent = () => {
           mode="outlined"
           multiline
           numberOfLines={4}
-          style={[styles.input, {flex: 4}]}
+          maxLength={1024}
+          style={[styles.input, { flex: 4 }]}
         />
         <View style={styles.label} />
       </View>
@@ -81,9 +82,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 3,
     // height: 24
-  },
-  section: {
-    marginBottom: 8,
   },
   sectionTitle: {
     flex: 1,

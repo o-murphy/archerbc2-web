@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-import { Drawer, Icon } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Drawer, Icon, useTheme } from "react-native-paper";
 // import { useAssets } from 'expo-asset';
 // import { Image }from 'expo-image';
 
@@ -9,6 +9,8 @@ import TabBulletIcon from '../assets/icons/tab-icon-bullet.png';
 import TabDescriptionIcon from '../assets/icons/tab-icon-description.png';
 import TabZeroingIcon from '../assets/icons/tab-icon-zeroing.png';
 import TabDistancesIcon from '../assets/icons/tab-icon-distances.png';
+import { useThemeToggle } from "@/app/_layout";
+import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
 
 const drawerItems = [
     { label: 'Description', icon: TabDescriptionIcon, route: 'description' },
@@ -25,6 +27,18 @@ type SideBarProps = {
     selectedRoute: string;
 };
 
+const ThemedTabIcon = ({source, size}: {source: IconSource, size: number}) => {
+    const theme = useTheme()
+    const style = {
+        borderRadius: size,
+        backgroundColor: !theme.dark ? theme.colors.onSurfaceVariant : undefined
+    }
+    return (
+        <View style={style}>
+            <Icon source={source} size={size}/>
+        </View>
+    )
+}
 
 // Function to render the side drawer with navigation options
 const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => (
@@ -34,8 +48,8 @@ const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => (
                 key={route}
                 style={styles.collapsedItem}
                 label={label}
-                focusedIcon={() => <Icon source={icon} size={40} />}
-                unfocusedIcon={() => <Icon source={icon} size={40} />}
+                focusedIcon={() => <ThemedTabIcon source={icon} size={40} />}
+                unfocusedIcon={() => <ThemedTabIcon source={icon} size={40} />}
                 onPress={() => onNavigate?.(route)}
                 active={selectedRoute === route}
             />

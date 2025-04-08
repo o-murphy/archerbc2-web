@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Text, List, FAB } from "react-native-paper";
+import { Text, List, FAB, Button, Chip } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 
 const RenderItems = () => {
@@ -51,6 +51,16 @@ const DistancesContent = () => {
       <Text variant="titleLarge" style={styles.header}>
         Distances
       </Text>
+
+      <View style={{flexDirection: "row", gap: 8}}>
+        <Text style={{alignSelf: "center"}}>Quick set:</Text>
+        <Chip mode="flat">Subsonic</Chip>
+        <Chip mode="flat">Low</Chip>
+        <Chip mode="flat">Medium</Chip>
+        <Chip mode="flat">Long</Chip>
+        <Chip mode="flat">Ultra long</Chip>
+      </View>
+
       <DistancesList />
       <FAB icon="plus" label="Add" mode="flat" variant="secondary" onPress={onAddPress}/>
 

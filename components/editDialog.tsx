@@ -29,12 +29,12 @@ const calculateDialogDimensions = (): DialogDimensions => {
 
 const routeContentMap: Record<string, React.ReactNode> = {
     description: <DescriptionContent />,
-    rifle: <RifleContent/>,
+    rifle: <RifleContent />,
     cartridge: <CartridgeContent />,
     bullet: <BulletContent />,
     zeroing: <ZeroingContent />,
     distances: <DistancesContent />,
-  };
+};
 
 const EditDialog = () => {
     // State with TypeScript annotations
@@ -86,9 +86,9 @@ const EditDialog = () => {
                 <Dialog.Content style={styles.dialogContent}>
                     <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
                     <Surface style={styles.surfaceContent}>
-                        {renderContent()}
+                            {renderContent()}
                     </Surface>
-                    
+
                 </Dialog.Content>
             </Dialog>
         </Portal>
@@ -101,12 +101,12 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         height: "100%",
         borderRadius: 16,
-        // justifyContent: "center",
-        // alignItems: "center",
-        padding: 24
+        padding: 24,
+
+        // @ts-expect-error: Web-only style, allowed intentionally
+        overflow: "auto"
     },
     dialog: {
-        // minWidth: 720,
         width: 1024,
         height: 720,
         alignSelf: "center",
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     dialogTitle: {
         justifyContent: "center",
         overflow: "hidden",
+        borderRadius: 16,
     },
     dialogContent: {
         flex: 1,

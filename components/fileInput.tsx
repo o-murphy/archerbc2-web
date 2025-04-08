@@ -12,7 +12,7 @@ const FileInput: React.FC<FileInputProps> = ({ fileInputRef, handleFileChange, a
             type="file"
             ref={fileInputRef}
             style={{ display: 'none' }} // Hide the default file input
-            id="file-upload" // Give an ID to the input
+            key="file-upload" // Give an ID to the input
             onChange={handleFileChange}
             accept={allowedExtensions.join(',')} // Restrict to specific file types
         />
