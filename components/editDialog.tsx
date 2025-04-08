@@ -3,8 +3,12 @@ import { Dimensions, StyleSheet } from "react-native";
 import { Dialog, Portal, Surface, Text } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
-import RifleContent from "./rifleContent";
-import DescriptionContent from "./descriptionContent";
+import RifleContent from "./contentCards/rifleContent";
+import DescriptionContent from "./contentCards/descriptionContent";
+import CartridgeContent from "./contentCards/cartridgeContent";
+import BulletContent from "./contentCards/bulletContent";
+import ZeroingContent from "./contentCards/zeroingContent";
+import DistancesContent from "./contentCards/distancesContent";
 
 
 // Type for dialog dimensions
@@ -17,8 +21,8 @@ type DialogDimensions = {
 const calculateDialogDimensions = (): DialogDimensions => {
     const { width, height } = Dimensions.get('window');
 
-    const dialogWidth = width < 800 ? (width < 800 ? width : 700) : 800;
-    const dialogHeight = height < 600 ? (height < 600 ? height : 500) : 600;
+    const dialogWidth = width < 1024 ? (width < 1024 ? width : 720) : 1024;
+    const dialogHeight = height < 720 ? (height < 720 ? height : 540) : 720;
 
     return { dialogWidth, dialogHeight };
 };
@@ -26,10 +30,10 @@ const calculateDialogDimensions = (): DialogDimensions => {
 const routeContentMap: Record<string, React.ReactNode> = {
     description: <DescriptionContent />,
     rifle: <RifleContent/>,
-    cartridge: <Text>cartridge</Text>,
-    bullet: <Text>bullet</Text>,
-    zeroing: <Text>zeroing</Text>,
-    distances: <Text>distances</Text>,
+    cartridge: <CartridgeContent />,
+    bullet: <BulletContent />,
+    zeroing: <ZeroingContent />,
+    distances: <DistancesContent />,
   };
 
 const EditDialog = () => {
@@ -102,17 +106,19 @@ const styles = StyleSheet.create({
         padding: 24
     },
     dialog: {
-        minWidth: 720,
-        width: 800,
-        height: 600,
+        // minWidth: 720,
+        width: 1024,
+        height: 720,
         alignSelf: "center",
     },
     dialogTitle: {
         justifyContent: "center",
+        overflow: "hidden",
     },
     dialogContent: {
+        flex: 1,
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "stretch",  // important to allow vertical growth
         borderRadius: 16,
     },
 });

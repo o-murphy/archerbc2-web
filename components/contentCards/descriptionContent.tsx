@@ -5,51 +5,56 @@ const DescriptionContent = () => {
   return (
     <View style={styles.container}>
       <Text variant="titleLarge" style={styles.header}>
-        Rifle Settings
+        Description
       </Text>
 
-      {/* Name Row */}
       <View style={styles.row}>
         <Text style={styles.label}>{"Name"}</Text>
         <TextInput mode="outlined" dense style={styles.input} />
+        <View style={styles.label} />
       </View>
 
-      {/* Top and Bot Row */}
       <View style={styles.row}>
         <Text style={styles.label}>{"Hints"}</Text>
-        <TextInput label={"Top"} mode="outlined" dense style={styles.halfInput} />
-        <TextInput label={"Bottom"} mode="outlined" dense style={styles.halfInput} />
+        <View style={[styles.row, styles.input]}>
+          <TextInput label={"Top"} mode="outlined" dense style={styles.input} />
+          <TextInput label={"Bottom"} mode="outlined" dense style={styles.input} />
+        </View>
+        <View style={styles.label} />
       </View>
 
-      {/* Round Section */}
       <View style={styles.row}>
         <Text variant="titleMedium" style={styles.sectionTitle}>{"Round"}</Text>
         <Divider style={styles.divider} />
+        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Cartridge"}</Text>
         <TextInput mode="outlined" dense style={styles.input} />
+        <View style={styles.label} />
       </View>
+
       <View style={styles.row}>
         <Text style={styles.label}>{"Bullet"}</Text>
         <TextInput mode="outlined" dense style={styles.input} />
+        <View style={styles.label} />
       </View>
 
-      {/* User Note Section */}
       <View style={styles.row}>
         <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text>
         <Divider style={styles.divider} />
+        <View style={styles.label} />
       </View>
 
-      {/* Note Text Area */}
       <View style={styles.row}>
         <TextInput
           mode="outlined"
           multiline
           numberOfLines={4}
-          style={[styles.input, { width: "100%", height: styles.input.height * 2 }]}
+          style={[styles.input, {flex: 4}]}
         />
+        <View style={styles.label} />
       </View>
     </View>
   );
@@ -58,7 +63,7 @@ const DescriptionContent = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    width: 500,
+    width: 600,
   },
   header: {
     marginBottom: 8,
@@ -71,24 +76,21 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   label: {
-    fontSize: 14,
+    flex: 1,
   },
   input: {
-    width: "60%",
-    height: 32
-  },
-  halfInput: {
-    width: "25%",
-    height: 24
+    flex: 3,
+    // height: 24
   },
   section: {
     marginBottom: 8,
   },
   sectionTitle: {
+    flex: 1,
     marginBottom: 4,
   },
   divider: {
-    width: "75%",
+    flex: 3,
   },
 });
 
