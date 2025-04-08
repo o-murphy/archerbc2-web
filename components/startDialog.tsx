@@ -1,20 +1,32 @@
-import { useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Dialog, Portal, Surface, Text, TouchableRipple } from "react-native-paper"
 import { FileInput } from "./fileInput";
-
-const AllowedExtensions = [".a7p"]
+import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
+import parseA7P from "@/utils/a7p";
+import { useFileContext } from "@/hooks/fileContext";
+import useParseFile from "@/hooks/useFileParsing";
 
 
 const StartDialog = () => {
 
     const [visible, setVisible] = useState(true)
+    const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
+
+    const {fileState, parsedData} = useFileContext()
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    const handleFileChange = () => {
+    useEffect(() => {
+        if (!fileHandleState.error && fileHandleState.data && parsedData.profile) {
+            setVisible(false)
+        } else {
+            setVisible(true)
+        }
+    }, [fileState, parsedData])
 
-    }
+    // Use the reusable file parsing hook
+    useParseFile(fileHandleState);
 
     const onCreatePress = () => {
         console.log("Create pressed")

@@ -1,16 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Drawer, Icon, useTheme } from "react-native-paper";
-// import { useAssets } from 'expo-asset';
-// import { Image }from 'expo-image';
-
-import TabRifleIcon from '../assets/icons/tab-icon-rifle.png';
-import TabCartridgeIcon from '../assets/icons/tab-icon-cartridge.png';
-import TabBulletIcon from '../assets/icons/tab-icon-bullet.png';
-import TabDescriptionIcon from '../assets/icons/tab-icon-description.png';
-import TabZeroingIcon from '../assets/icons/tab-icon-zeroing.png';
-import TabDistancesIcon from '../assets/icons/tab-icon-distances.png';
-import { useThemeToggle } from "@/app/_layout";
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon";
+import { TabRifleIcon, TabBulletIcon, TabCartridgeIcon, TabDescriptionIcon, TabDistancesIcon, TabZeroingIcon } from "./tabIcons";
 
 const drawerItems = [
     { label: 'Description', icon: TabDescriptionIcon, route: 'description' },
@@ -27,7 +18,7 @@ type SideBarProps = {
     selectedRoute: string;
 };
 
-const ThemedTabIcon = ({source, size}: {source: IconSource, size: number}) => {
+const ThemedTabIcon = ({ source, size }: { source: IconSource, size: number }) => {
     const theme = useTheme()
     const style = {
         borderRadius: size,
@@ -35,7 +26,7 @@ const ThemedTabIcon = ({source, size}: {source: IconSource, size: number}) => {
     }
     return (
         <View style={style}>
-            <Icon source={source} size={size}/>
+            <Icon source={source} size={size} />
         </View>
     )
 }

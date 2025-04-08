@@ -1,43 +1,77 @@
 import { StyleSheet, View } from "react-native";
-import { TextInput, Text, Divider } from "react-native-paper";
+import { Text, Divider } from "react-native-paper";
+import { FileEditInput } from "../fileEditInput";
 
 const DescriptionContent = () => {
+
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={styles.header} >
+      <Text variant="titleLarge" style={styles.header}>
         Description
       </Text>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Name"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
+        <FileEditInput
+          maxLength={50}
+          field={'profileName'}
+          {...{
+            style: styles.input
+          }}
+        />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Hints"}</Text>
         <View style={[styles.row, styles.input]}>
-          <TextInput label={"Top"} mode="outlined" dense style={styles.input} maxLength={8} />
-          <TextInput label={"Bottom"} mode="outlined" dense style={styles.input} maxLength={8} />
+          <FileEditInput
+            maxLength={8}
+            field={'shortNameTop'}
+            {...{
+              labe: "Top",
+              style: styles.input
+            }}
+          />
+          <FileEditInput
+            maxLength={8}
+            field={'shortNameBot'}
+            {...{
+              labe: "Bottom",
+              style: styles.input
+            }}
+          />
         </View>
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
-        <Text variant="titleMedium" style={styles.sectionTitle} >{"Round"}</Text>
+        <Text variant="titleMedium" style={styles.sectionTitle}>{"Round"}</Text>
         <Divider style={styles.divider} />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Cartridge"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
+        <FileEditInput
+          maxLength={50}
+          field={'cartridgeName'}
+          {...{
+            style: styles.input
+          }}
+        />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Bullet"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} maxLength={50} />
+        <FileEditInput
+          maxLength={50}
+          field={'bulletName'}
+          {...{
+            style: styles.input
+          }}
+        />
         <View style={styles.label} />
       </View>
 
@@ -48,12 +82,13 @@ const DescriptionContent = () => {
       </View>
 
       <View style={styles.row}>
-        <TextInput
-          mode="outlined"
-          multiline
-          numberOfLines={4}
+        <FileEditInput
           maxLength={1024}
-          style={[styles.input, { flex: 4 }]}
+          field={'userNote'}
+          {...{
+            style: styles.input,
+            multiline: true
+          }}
         />
         <View style={styles.label} />
       </View>

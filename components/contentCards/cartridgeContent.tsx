@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import { TextInput, Text, Button, IconButton } from "react-native-paper";
+import { TextInput, Text } from "react-native-paper";
+import { FileEditInputInt } from "../fileEditInput";
 
 
 const CartridgeContent = () => {
@@ -11,20 +12,40 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Muzzle velocity"}</Text>
-        <TextInput mode="outlined" dense style={styles.input}/>
+        <FileEditInputInt
+          field="cMuzzleVelocity"
+          range={{ min: 1, max: 3000 }}
+          multiplier={10}
+          {...{
+            style: styles.input
+          }}
+        />
         <Text style={styles.label}>{"mps"}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Powder temperature"}</Text>
-        <TextInput mode="outlined" dense style={styles.input} />
+        <FileEditInputInt
+          field="cZeroPTemperature"
+          range={{ min: -50, max: 50 }}
+          multiplier={1}
+          {...{
+            style: styles.input
+          }}
+        />
         <Text style={styles.label}>{"°C"}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Temperature sensitivity"}</Text>
-        <TextInput mode="outlined" dense style={styles.input}
-          left={<TextInput.Icon icon={"calculator"} />}
+        <FileEditInputInt  //FIXME float
+          field="cTCoeff"
+          range={{ min: 0, max: 100 }}
+          multiplier={1000}
+          {...{
+            style: styles.input,
+            left: <TextInput.Icon icon={"calculator"} />
+          }}
         />
         <Text style={styles.label}>{"%/15°C"}</Text>
       </View>

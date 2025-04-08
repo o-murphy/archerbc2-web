@@ -9,6 +9,9 @@ import CartridgeContent from "./contentCards/cartridgeContent";
 import BulletContent from "./contentCards/bulletContent";
 import ZeroingContent from "./contentCards/zeroingContent";
 import DistancesContent from "./contentCards/distancesContent";
+import { useFileContext } from "@/hooks/fileContext";
+import useParseFile from "@/hooks/useFileParsing";
+import { useFileHandler } from "@/hooks/useFileHandler";
 
 
 // Type for dialog dimensions
@@ -39,8 +42,18 @@ const routeContentMap: Record<string, React.ReactNode> = {
 const EditDialog = () => {
     // State with TypeScript annotations
     const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(calculateDialogDimensions());
-    const [visible, setVisible] = useState<boolean>(true);
+    const [visible, setVisible] = useState<boolean>(false);
     const [selectedRoute, setSelectedRoute] = useState<string>('description');
+
+    const {parsedData} = useFileContext()
+
+    useEffect(() => {
+        if (parsedData.profile) {
+            setVisible(true)
+        } else {
+            setVisible(false)
+        }
+    }, [parsedData])
 
     useEffect(() => {
         const handleResize = () => {
@@ -85,7 +98,8 @@ const EditDialog = () => {
 
                 <Dialog.Content style={styles.dialogContent}>
                     <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
-                    <Surface style={styles.surfaceContent}>
+                    {/* @ts-expect-error: Web-only style, allowed intentionally */}
+                    <Surface style={[styles.surfaceContent, webSurfaceOverflow]}>
                             {renderContent()}
                     </Surface>
 
@@ -95,16 +109,19 @@ const EditDialog = () => {
     );
 };
 
+const webSurfaceOverflow = {
+    // // @ts-expect-error: Web-only style, allowed intentionally
+    overflow: "auto"
+}
+
 const styles = StyleSheet.create({
+
     surfaceContent: {
         flex: 1,
         marginLeft: 16,
         height: "100%",
         borderRadius: 16,
         padding: 24,
-
-        // @ts-expect-error: Web-only style, allowed intentionally
-        overflow: "auto"
     },
     dialog: {
         width: 1024,

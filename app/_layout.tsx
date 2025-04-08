@@ -7,6 +7,7 @@ import {
   ThemeBase,
 } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { FileProvider } from "@/hooks/fileContext";
 
 // Define the theme context type
 type ThemeContextType = {
@@ -31,13 +32,15 @@ export default function RootLayout() {
   const toggleTheme = () => setIsDark(prev => !prev);
 
   return (
-    <SafeAreaProvider>
-      <ThemeContext.Provider value={{ theme, toggleTheme }}>
-        <PaperProvider theme={theme}>
-          <WebLayout />
-        </PaperProvider>
-      </ThemeContext.Provider>
-    </SafeAreaProvider>
+    <FileProvider>
+      <SafeAreaProvider>
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+          <PaperProvider theme={theme}>
+            <WebLayout />
+          </PaperProvider>
+        </ThemeContext.Provider>
+      </SafeAreaProvider>
+    </FileProvider>
   );
 }
 
