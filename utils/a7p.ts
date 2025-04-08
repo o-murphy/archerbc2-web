@@ -48,8 +48,27 @@ export interface ProfileProps {
     // zeroDistance?: number;
 }
 
+let cachedRoot: protobuf.Root | null = null;
 
+// Retry parameters
+const MAX_RETRIES = 3; // Maximum number of retries
+const RETRY_DELAY = 1000; // Delay between retries in milliseconds (1 second)
 
+async function loadProtobufSchemaWithRetry(url: string, retries: number = 0): Promise<protobuf.Root> {
+    try {
+        return await protobuf.load(url);
+    } catch (error) {
+        console.error(`Failed to load protobuf schema (attempt ${retries + 1}/${MAX_RETRIES}):`, error);
+
+        if (retries < MAX_RETRIES) {
+            // Wait for a delay before retrying
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * Math.pow(2, retries))); // Exponential backoff
+            return loadProtobufSchemaWithRetry(url, retries + 1);
+        } else {
+            throw new Error("Error loading protobuf schema after several attempts");
+        }
+    }
+}
 
 // Utility function to convert array buffer to base64
 export function bufferToBase64(buffer: any): string {
@@ -79,12 +98,21 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
     const calculatedChecksum = md5(actualData);
 
     if (md5Checksum !== calculatedChecksum) {
-        console.error("Invalid A7P file checksum")
-        throw new Error("Invalid A7P file checksum")
+        console.error("Invalid A7P file checksum");
+        throw new Error("Invalid A7P file checksum");
     }
 
-    const root = await protobuf.load(PROTO_URL);
-    const Payload = root.lookupType('profedit.Payload');
+    // Use the cached protobuf schema if it is already loaded
+    if (!cachedRoot) {
+        try {
+            cachedRoot = await loadProtobufSchemaWithRetry(PROTO_URL);  // Load with retries
+        } catch (error) {
+            console.error("Failed to load protobuf schema:", error);
+            throw new Error("Error loading protobuf schema after retries");
+        }
+    }
+
+    const Payload = cachedRoot.lookupType('profedit.Payload');
 
     try {
         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
@@ -96,14 +124,48 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
             defaults: true,
             arrays: true
         });
-        const profile: ProfileProps = payloadObject.profile
-        return profile
+        const profile: ProfileProps = payloadObject.profile;
+        return profile;
     } catch (error) {
-        console.error(error)
+        console.error(error);
         throw new Error(`Error decoding payload`);
     }
+}
 
-};
+// export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> {
+//     const base64 = bufferToBase64(arrayBuffer);
+//     const binaryData = atob(base64);
+//     const md5Checksum = binaryData.slice(0, MD5_LENGTH);
+//     const actualData = binaryData.slice(MD5_LENGTH);
+
+//     const calculatedChecksum = md5(actualData);
+
+//     if (md5Checksum !== calculatedChecksum) {
+//         console.error("Invalid A7P file checksum")
+//         throw new Error("Invalid A7P file checksum")
+//     }
+
+//     const root = await protobuf.load(PROTO_URL);
+//     const Payload = root.lookupType('profedit.Payload');
+
+//     try {
+//         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
+//         const payload = Payload.decode(uint8ArrayData);
+//         const payloadObject = Payload.toObject(payload, {
+//             longs: Number,
+//             enums: String,
+//             bytes: String,
+//             defaults: true,
+//             arrays: true
+//         });
+//         const profile: ProfileProps = payloadObject.profile
+//         return profile
+//     } catch (error) {
+//         console.error(error)
+//         throw new Error(`Error decoding payload`);
+//     }
+
+// };
 
 export const fetchDetails = async ({ path, onSuccess, onError }: FetchProfileArgs) => {
     console.log(path)
