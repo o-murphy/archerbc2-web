@@ -1,7 +1,8 @@
 import { useFileContext } from "@/hooks/fileContext";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View } from "react-native";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
+import { DoubleSpinBox } from "./doubleSpinBox";
 
 // Extending TextInputProps with field and maxLength
 interface FileEditInputProps extends TextInputProps {
@@ -9,40 +10,63 @@ interface FileEditInputProps extends TextInputProps {
     maxLength?: number;
 }
 
-const FileEditInput = ({ field, maxLength = undefined, ...props }: FileEditInputProps) => {
+export function useFileField<T>({
+    field,
+    defaultValue,
+    parse = (v: any) => v,
+    format = (v: T) => v,
+    validate,
+}: {
+    field: string;
+    defaultValue: T;
+    parse?: (v: any) => T;
+    format?: (v: T) => any;
+    validate?: (v: T) => boolean;
+}) {
     const { parsedData, setParsedData, dummyState } = useFileContext();
     const isLocalChange = useRef(false);
 
-    const [value, setValue] = useState<any>(parsedData.profile?.[field] || "");
+    const [value, setValue] = useState<T>(
+        parsedData.profile?.[field] !== undefined
+            ? parse(parsedData.profile?.[field])
+            : defaultValue
+    );
 
-    // Update local state when parsedData.profile changes (e.g., when a new file is loaded)
     useEffect(() => {
-        // if (parsedData.profile && parsedData.profile[field] !== value) {
         if (parsedData.profile) {
-            setValue(parsedData.profile[field] || "");
+            const newVal = parse(parsedData.profile?.[field]);
+            setValue(newVal ?? defaultValue);
         }
-    }, [parsedData.profile, field]);
+    }, [parsedData.profile, field, dummyState]);
 
-    // Update parsedData when local state changes
     useEffect(() => {
         if (!parsedData.profile || !isLocalChange.current) return;
+        if (validate && validate(value)) return;
 
         setParsedData({
             ...parsedData,
             profile: {
                 ...parsedData.profile,
-                [field]: value,
+                [field]: format(value),
             },
         });
 
         isLocalChange.current = false;
     }, [value, parsedData, field, setParsedData]);
 
-    // Memoized change handler
-    const handleChange = useCallback((val: string) => {
+    const handleChange = (val: T) => {
         isLocalChange.current = true;
         setValue(val);
-    }, []);
+    };
+
+    return [value, handleChange] as const;
+}
+
+const FileEditInput = ({ field, maxLength, ...props }: FileEditInputProps) => {
+    const [value, setValue] = useFileField<string>({
+        field,
+        defaultValue: "",
+    });
 
     return (
         <TextInput
@@ -50,93 +74,56 @@ const FileEditInput = ({ field, maxLength = undefined, ...props }: FileEditInput
             dense
             maxLength={maxLength}
             value={value}
-            onChangeText={handleChange}
+            onChangeText={setValue}
             {...props}
         />
     );
 };
 
-interface FileEditInputIntProps extends FileEditInputProps {
+interface FileEditInputFloatProps extends FileEditInputProps {
     range?: { min?: number; max?: number };
-    multiplier?: number
+    multiplier?: number;
+    fraction?: number;
 }
 
-const FileEditInputInt = ({
+const FileEditInputFloat = ({
     field,
     maxLength,
     range,
     multiplier = 1,
+    fraction = 2,
     ...props
-}: FileEditInputIntProps) => {
-    const { parsedData, setParsedData, dummyState } = useFileContext();
-    const isLocalChange = useRef(false);
-
-    const [value, setValue] = useState<string>(
-        Math.round(parsedData.profile?.[field] / multiplier).toFixed(0) || ""
-    );
+}: FileEditInputFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    // Update local state when parsedData.profile changes (e.g., when a new file is loaded)
-    useEffect(() => {
-        // if (parsedData.profile && parsedData.profile[field] !== value) {
-        if (parsedData.profile) {
-            setValue(Math.round(parsedData.profile?.[field] / multiplier).toFixed(0) || "");
-        }
-    }, [parsedData.profile, field, dummyState]);
+    const [value, setValue] = useFileField<string>({
+        field,
+        defaultValue: "",
+        parse: (v) => (v / multiplier).toString(),
+        format: (v) => parseFloat(v) * multiplier,
+        validate: useCallback(() => {
+            return !!err
+        }, [err])
+    });
 
-    useEffect(() => {
-
-        // Only update parsedData if the value is valid and profile exists
-        if (!parsedData.profile || !isLocalChange.current) return;
-        if (!validateRange(value)) return;
-        console.log("dump")
-
-        // Update parsedData when value is valid
-        setParsedData({
-            ...parsedData,
-            profile: {
-                ...parsedData.profile,
-                [field]: Math.round(parseInt(value) * multiplier),
-            },
-        });
-
-        // Reset flag after update
-        isLocalChange.current = false;
-    }, [value, parsedData, field, setParsedData]);
-
-    // Memoized change handler
-    const handleChange = useCallback((val: string) => {
-        isLocalChange.current = true;
-        setValue(val);
-    }, []);
-
-    const validateRange = (val: string) => {
-        const constr = isOutOfRange(val);
-        setErr(constr ? new Error(constr) : null);
-        return constr === null; // Return true if valid, false if invalid
-    };
-
-    const isOutOfRange = (val: string) => {
-        const intVal = parseInt(val);
-        if (range?.max && intVal > range.max) {
-            return `Value must be less than or equal to ${range.max}`;
-        }
-        if (range?.min && intVal < range.min) {
-            return `Value must be greater than or equal to ${range.min}`;
-        }
-        return null;
-    };
-
+    const handleSetValue = (value: number) => {
+        setValue(value.toString())
+    }
+    console.log(field, 'vu', value)
     return (
         <View style={props?.style}>
-            <TextInput
-                {...props}
-                error={!!err}
+            <DoubleSpinBox 
+                
+                floatValue={parseFloat(value)}
+                onFloatValueChange={handleSetValue}
+                fractionDigits={fraction}
+                onError={setErr}
+                range={range}
+
                 mode="outlined"
-                dense
+                keyboardType="decimal-pad"
                 maxLength={maxLength}
-                value={value}
-                onChangeText={handleChange}
+                dense
             />
             <HelperText type="error" visible={!!err}>
                 {err?.message}
@@ -146,4 +133,5 @@ const FileEditInputInt = ({
 };
 
 
-export { FileEditInput, FileEditInputInt };
+
+export { FileEditInput, FileEditInputFloat };

@@ -44,7 +44,7 @@ export const useFileHandler = () => {
                 data: reader.result,
                 error: null,
             });
-            console.log(reader.result);
+            // console.log(reader.result);  // 
         };
 
         reader.onerror = () => {

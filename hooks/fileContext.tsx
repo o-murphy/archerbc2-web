@@ -39,6 +39,8 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     // Dummy state for forcing re-render
     const [dummyState, setDummyState] = useState<boolean>(false);
 
+    console.log(parsedData.profile)
+
     useEffect(() => {
         if (parsedData.profile && !backupData.profile) {
             syncBackup()
