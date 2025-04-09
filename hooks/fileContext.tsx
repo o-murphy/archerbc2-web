@@ -1,5 +1,5 @@
 import { ProfileProps } from '@/utils/a7p';
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from 'react';
 import { FileHandleState } from './useFileHandler';
 
 interface ParsedData {
@@ -39,7 +39,9 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     // Dummy state for forcing re-render
     const [dummyState, setDummyState] = useState<boolean>(false);
 
-    console.log(parsedData.profile)
+    if (parsedData.profile) {
+        console.log(parsedData.profile)
+    }
 
     useEffect(() => {
         if (parsedData.profile && !backupData.profile) {

@@ -109,7 +109,7 @@ const FileEditInputFloat = ({
     const handleSetValue = (value: number) => {
         setValue(value.toString())
     }
-    console.log(field, 'vu', value)
+
     return (
         <View style={props?.style}>
             <DoubleSpinBox 
