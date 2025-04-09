@@ -1,23 +1,18 @@
 import { useFileContext } from "@/hooks/fileContext";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
 import { DoubleSpinBox } from "./doubleSpinBox";
+import { ProfileProps } from "@/utils/a7p";
 
-// Extending TextInputProps with field and maxLength
-interface FileEditInputProps extends TextInputProps {
-    field: string;
-    maxLength?: number;
-}
 
-export function useFileField<T>({
+export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>({
     field,
     defaultValue,
     parse = (v: any) => v,
     format = (v: T) => v,
     validate,
 }: {
-    field: string;
+    field: K;
     defaultValue: T;
     parse?: (v: any) => T;
     format?: (v: T) => any;
@@ -62,8 +57,15 @@ export function useFileField<T>({
     return [value, handleChange] as const;
 }
 
+
+// Extend TextInputProps and constrain 'field' to keys of ProfileProps
+interface FileEditInputProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
+    field: keyof ProfileProps;
+    maxLength?: number;
+}
+
 const FileEditInput = ({ field, maxLength, ...props }: FileEditInputProps) => {
-    const [value, setValue] = useFileField<string>({
+    const [value, setValue] = useFileField<typeof field, string>({
         field,
         defaultValue: "",
     });
@@ -72,9 +74,9 @@ const FileEditInput = ({ field, maxLength, ...props }: FileEditInputProps) => {
         <TextInput
             mode="outlined"
             dense
-            maxLength={maxLength}
             value={value}
             onChangeText={setValue}
+            maxLength={maxLength}
             {...props}
         />
     );
@@ -96,7 +98,7 @@ const FileEditInputFloat = ({
 }: FileEditInputFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue] = useFileField<string>({
+    const [value, setValue] = useFileField<typeof field, string>({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),
@@ -111,7 +113,7 @@ const FileEditInputFloat = ({
     }
 
     return (
-        <View style={props?.style}>
+        <>
             <DoubleSpinBox 
                 
                 floatValue={parseFloat(value)}
@@ -128,7 +130,7 @@ const FileEditInputFloat = ({
             <HelperText type="error" visible={!!err}>
                 {err?.message}
             </HelperText>
-        </View>
+        </>
     );
 };
 

@@ -4,7 +4,7 @@ import { TextInput, Text, SegmentedButtons } from "react-native-paper";
 
 const RifleContent = () => {
 
-    const [value, setValue] = useState<"RIGHT" | "LEFT">('RIGHT');
+    const [value, setValue] = useState<"RIGHT" | "LEFT" | string >('RIGHT');
 
 
     return (

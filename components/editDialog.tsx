@@ -10,8 +10,6 @@ import BulletContent from "./contentCards/bulletContent";
 import ZeroingContent from "./contentCards/zeroingContent";
 import DistancesContent from "./contentCards/distancesContent";
 import { useFileContext } from "@/hooks/fileContext";
-import useParseFile from "@/hooks/useFileParsing";
-import { useFileHandler } from "@/hooks/useFileHandler";
 
 
 // Type for dialog dimensions

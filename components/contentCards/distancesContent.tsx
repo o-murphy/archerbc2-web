@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Text, List, FAB, Button, Chip } from "react-native-paper";
+import { Text, List, FAB, Chip } from "react-native-paper";
 import { useTheme } from "react-native-paper";
 
 const RenderItems = () => {

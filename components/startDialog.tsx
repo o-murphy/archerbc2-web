@@ -1,9 +1,8 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, Dialog, Portal, Surface, Text, TouchableRipple } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
-import parseA7P from "@/utils/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import useParseFile from "@/hooks/useFileParsing";
 
