@@ -9,7 +9,8 @@ type FetchProfileArgs = {
 }
 
 // Path to your protobuf file
-const PUBLIC_PATH = __DEV__ ? '/' : '/a7pIndex/'
+const PUBLIC_PATH = __DEV__ ? '/' : '/ArcherBC2-Web/'
+// const PUBLIC_PATH = '/'
 const PROTO_URL = PUBLIC_PATH + 'proto/profedit.proto';
 const MD5_LENGTH = 32;
 
