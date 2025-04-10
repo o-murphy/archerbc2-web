@@ -1,5 +1,104 @@
 import { StyleSheet, View } from "react-native";
-import { TextInput, Text } from "react-native-paper";
+import { Text, TextInput } from "react-native-paper";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fileEditInput";
+import { useCallback, useMemo, useState } from "react";
+import { useFileContext } from "@/hooks/fileContext";
+import { Dropdown } from 'react-native-paper-dropdown';
+
+const ZeroingFloatFields: FieldFloatProps = {
+  zeroX: {
+    field: "zeroX",
+    range: { min: -200, max: 200 },
+    multiplier: -1000,
+    fraction: 2,
+  },
+  zeroY: {
+    field: "zeroY",
+    range: { min: -200, max: 200 },
+    multiplier: 1000,
+    fraction: 2,
+  },
+
+  cZeroWPitch: {
+    field: "cZeroWPitch",
+    range: { min: -90, max: 90 },
+    multiplier: 1,
+    fraction: 0,
+  },
+
+  cZeroAirTemperature: {
+    field: "cZeroAirTemperature",
+    range: { min: -50, max: 50 },
+    multiplier: 1,
+    fraction: 0,
+  },
+  cZeroPTemperature: {
+    field: "cZeroPTemperature",
+    range: { min: -50, max: 50 },
+    multiplier: 1,
+    fraction: 0,
+  },
+  cZeroAirPressure: {
+    field: "cZeroAirPressure",
+    range: { min: 0, max: 65535 },
+    multiplier: 10,
+    fraction: 0,
+  },
+  cZeroAirHumidity: {
+    field: "cZeroAirHumidity",
+    range: { min: 0, max: 100 },
+    multiplier: 1,
+    fraction: 0,
+  },
+};
+
+const ZeroDistanceField = () => {
+
+  const { parsedData, setParsedData, dummyState } = useFileContext()
+
+  const distances = useMemo(() => {
+    if (parsedData.profile?.distances) {
+      return parsedData.profile.distances.map((item, index) => {
+        return {
+          label: `${(item / 100)} m`,
+          value: index
+        }
+      })
+    }
+    return []
+  }, [parsedData, dummyState])
+
+  const zeroDistanceIdx = useMemo(
+    () => parsedData.profile?.cZeroDistanceIdx
+      ? parsedData.profile?.cZeroDistanceIdx : 0,
+    [parsedData, dummyState]
+  )
+
+  const handleZeroDistanceChange = (value: number) => {
+    setParsedData({
+      ...parsedData,
+      profile: {
+        ...parsedData.profile,
+        cZeroDistanceIdx: value,
+      },
+    });
+  }
+
+  return <View style={styles.row}>
+    <Text style={styles.label}>{"Distance (m)"}</Text>
+    <Dropdown
+      placeholder="Select zero distance"
+      options={distances}
+      value={zeroDistanceIdx}
+      onSelect={handleZeroDistanceChange}
+      mode="outlined"
+      style={styles.input}
+      CustomDropdownInput={
+        (props) => <TextInput {...props} value={distances[zeroDistanceIdx].label} />
+      }
+    />
+  </View>
+}
 
 const ZeroingContent = () => {
   return (
@@ -12,41 +111,59 @@ const ZeroingContent = () => {
         <View style={styles.column}>
           <View style={styles.row}>
             <Text style={styles.label}>{"Zero X (click)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.zeroX as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Distance (m)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
-          </View>
+          <ZeroDistanceField />
 
           <View style={styles.row}>
             <Text style={styles.label}>{"Air (°C)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.cZeroAirTemperature as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
 
           <View style={styles.row}>
             <Text style={styles.label}>{"Pressure (hPa)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.cZeroAirPressure as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
         </View>
 
         <View style={styles.column}>
           <View style={styles.row}>
             <Text style={styles.label}>{"Zero Y (click)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>{"Pitch (degrees)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.cZeroWPitch as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>{"Powder (°C)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.cZeroPTemperature as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>{"Humidity (%)"}</Text>
-            <TextInput mode="outlined" dense style={styles.input} />
+            <FieldEditFloat  //FIXME float
+              {...ZeroingFloatFields.cZeroAirHumidity as FieldEditFloatProps}
+              style={styles.input}
+            />
           </View>
         </View>
       </View>

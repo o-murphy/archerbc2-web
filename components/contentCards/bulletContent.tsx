@@ -41,7 +41,7 @@ const DragModel = () => {
     defaultValue: BcType.G1,
   });
 
-  const onChangeBcType = (value: string) => {
+  const handleBcTypeChange = (value: string) => {
     setBcType(value as BcType); // value is safely typed as ModelType
   }
 
@@ -51,7 +51,7 @@ const DragModel = () => {
     <>
       <View style={styles.row}>
         <Text style={styles.label}>{"Drag model"}</Text>
-        <SegmentedButtons style={styles.segmented} onValueChange={onChangeBcType} value={bcType}
+        <SegmentedButtons style={styles.segmented} onValueChange={handleBcTypeChange} value={bcType}
           buttons={[
             {
               value: BcType.G1,

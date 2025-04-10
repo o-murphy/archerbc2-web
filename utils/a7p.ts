@@ -143,41 +143,6 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
     }
 }
 
-// export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> {
-//     const base64 = bufferToBase64(arrayBuffer);
-//     const binaryData = atob(base64);
-//     const md5Checksum = binaryData.slice(0, MD5_LENGTH);
-//     const actualData = binaryData.slice(MD5_LENGTH);
-
-//     const calculatedChecksum = md5(actualData);
-
-//     if (md5Checksum !== calculatedChecksum) {
-//         console.error("Invalid A7P file checksum")
-//         throw new Error("Invalid A7P file checksum")
-//     }
-
-//     const root = await protobuf.load(PROTO_URL);
-//     const Payload = root.lookupType('profedit.Payload');
-
-//     try {
-//         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
-//         const payload = Payload.decode(uint8ArrayData);
-//         const payloadObject = Payload.toObject(payload, {
-//             longs: Number,
-//             enums: String,
-//             bytes: String,
-//             defaults: true,
-//             arrays: true
-//         });
-//         const profile: ProfileProps = payloadObject.profile
-//         return profile
-//     } catch (error) {
-//         console.error(error)
-//         throw new Error(`Error decoding payload`);
-//     }
-
-// };
-
 export const fetchDetails = async ({ path, onSuccess, onError }: FetchProfileArgs) => {
     console.log(path)
     const fileUrl = PUBLIC_PATH + path; // Path to the file in the public directory
@@ -220,3 +185,4 @@ export const downloadProfile = (path?: string) => {
         Linking.openURL(fileUrl);
     }
 }
+ 

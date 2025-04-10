@@ -10,8 +10,8 @@ const CartridgeFields: FieldFloatProps = {
     multiplier: 10,
     fraction: 0
   },
-  cZeroPTemperature: {
-    field: "cZeroPTemperature",
+  cZeroTemperature: {
+    field: "cZeroTemperature",
     range: { min: -50, max: 50 },
     multiplier: 1,
     fraction: 0
