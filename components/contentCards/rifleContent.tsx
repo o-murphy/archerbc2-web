@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Text, SegmentedButtons } from "react-native-paper";
+import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fileEditInput";
 import { ProfileProps, TwistDir } from "@/utils/a7p";
 
@@ -66,8 +66,9 @@ const RifleContent = () => {
                 <FieldEdit  //FIXME float
                     {...RifleTextFields.caliber as FieldEditProps}
                     style={styles.input}
+                    right={<TextInput.Affix text={"inch"} />}
                 />
-                <Text style={styles.label}>{"inch"}</Text>
+                <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
@@ -75,8 +76,9 @@ const RifleContent = () => {
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.rTwist as FieldEditFloatProps}
                     style={styles.input}
+                    right={<TextInput.Affix text={"inch/turn"} />}
                 />
-                <Text style={styles.label}>{"inch/turn"}</Text>
+                <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
@@ -90,8 +92,9 @@ const RifleContent = () => {
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.scHeight as FieldEditFloatProps}
                     style={styles.input}
+                    right={<TextInput.Affix text={"mm"} />}
                 />
-                <Text style={styles.label}>{"mm"}</Text>
+                <View style={styles.label} />
             </View>
         </View>
     );

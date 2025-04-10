@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { Text, SegmentedButtons } from "react-native-paper";
+import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
 import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useFileField } from "../fileEditInput";
@@ -66,10 +66,12 @@ const DragModel = () => {
               label: 'CUSTOM',
             },
           ]}
-        />    <View style={styles.label} />
+        />    
+        <View style={styles.label} />
       </View>
       <View style={styles.row}>
-        {renderContent()}
+        <View style={{flex: 4}}>{renderContent()}</View>
+        <View style={styles.label} />
       </View>
     </>
   )
@@ -91,8 +93,9 @@ const BulletContent = () => {
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bDiameter as FieldEditFloatProps}
           style={styles.input}
+          right={<TextInput.Affix text={"inch"} />}
         />
-        <Text style={styles.label}>{"inch"}</Text>
+        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -100,8 +103,9 @@ const BulletContent = () => {
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bWeight as FieldEditFloatProps}
           style={styles.input}
+          right={<TextInput.Affix text={"grain"} />}
         />
-        <Text style={styles.label}>{"grain"}</Text>
+        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -109,8 +113,9 @@ const BulletContent = () => {
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bLength as FieldEditFloatProps}
           style={styles.input}
+          right={<TextInput.Affix text={"inch"} />}
         />
-        <Text style={styles.label}>{"inch"}</Text>
+        <View style={styles.label} />
       </View>
 
       <DragModel />

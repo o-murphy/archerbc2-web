@@ -1,9 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { Text, TextInput } from "react-native-paper";
+import { Button, FAB, IconButton, Text, TextInput, ToggleButton } from "react-native-paper";
 import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fileEditInput";
-import { useCallback, useMemo, useState } from "react";
-import { useFileContext } from "@/hooks/fileContext";
-import { Dropdown } from 'react-native-paper-dropdown';
+import ZeroDistanceField from "../zeroDistanceField";
 
 const ZeroingFloatFields: FieldFloatProps = {
   zeroX: {
@@ -52,64 +50,10 @@ const ZeroingFloatFields: FieldFloatProps = {
   },
 };
 
-const ZeroDistanceField = () => {
+const handleDistancesEdit = () => {
 
-  const { parsedData, setParsedData, dummyState } = useFileContext()
-
-  const distances = useMemo(() => {
-    if (parsedData.profile?.distances) {
-      return parsedData.profile.distances.map((item, index) => {
-        return {
-          label: `${(item / 100)} m`,
-          value: index.toString()
-        }
-      })
-    }
-    return []
-  }, [parsedData, dummyState])
-
-  const zeroDistanceIdx = useMemo<string>(
-    () => (parsedData.profile?.cZeroDistanceIdx ?? 0).toString(),
-    [parsedData, dummyState]
-  )
-
-  const handleZeroDistanceChange = (value: string) => {
-    const intValue = parseInt(value)
-    if (parsedData.profile?.cZeroDistanceIdx === intValue) return;
-    setParsedData({
-      ...parsedData,
-      profile: {
-        ...parsedData.profile,
-        cZeroDistanceIdx: intValue,
-      },
-    });
-  };
-
-  return <View style={styles.row}>
-    <Text style={styles.label}>{"Distance (m)"}</Text>
-    <Dropdown
-      placeholder="Select zero distance"
-      options={distances}
-      value={zeroDistanceIdx}
-      onSelect={handleZeroDistanceChange}
-      menuContentStyle={{flexDirection: "row", width: "72%"}}
-      hideMenuHeader={true}
-      maxMenuHeight={400}
-      CustomDropdownInput={
-        (props) => <TextInput
-          {...props}
-          dense={true}
-          mode="outlined"
-          style={[styles.input, {margin: 8, width: "72%"}]}
-          outlineStyle={styles.input}
-          underlineStyle={styles.input}
-          value={distances[zeroDistanceIdx].label}
-          right={<TextInput.Icon icon={"arrow-down"} disabled/>}
-        />
-      }
-    />
-  </View>
 }
+
 
 const ZeroingContent = () => {
   return (
@@ -121,59 +65,72 @@ const ZeroingContent = () => {
       <View style={styles.columns}>
         <View style={styles.column}>
           <View style={styles.row}>
-            <Text style={styles.label}>{"Zero X (click)"}</Text>
+            <Text style={styles.label}>{"Zero X"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.zeroX as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"click"}/>}
             />
           </View>
 
-          <ZeroDistanceField />
+          <View style={styles.row}>
+            <Text style={styles.label}>{"Distance (m)"}</Text>
+            <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
+              <ZeroDistanceField style={styles.select}/>
+              <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={handleDistancesEdit} />
+            </View>
+          </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>{"Air (°C)"}</Text>
+            <Text style={styles.label}>{"Air"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.cZeroAirTemperature as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"°C"}/>}
             />
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>{"Pressure (hPa)"}</Text>
+            <Text style={styles.label}>{"Pressure"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.cZeroAirPressure as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"hPa"}/>}
             />
           </View>
         </View>
 
         <View style={styles.column}>
           <View style={styles.row}>
-            <Text style={styles.label}>{"Zero Y (click)"}</Text>
+            <Text style={styles.label}>{"Zero Y"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"click"}/>}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>{"Pitch (degrees)"}</Text>
+            <Text style={styles.label}>{"Pitch"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.cZeroWPitch as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"degree"}/>}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>{"Powder (°C)"}</Text>
+            <Text style={styles.label}>{"Powder"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.cZeroPTemperature as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"°C"}/>}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>{"Humidity (%)"}</Text>
+            <Text style={styles.label}>{"Humidity"}</Text>
             <FieldEditFloat  //FIXME float
               {...ZeroingFloatFields.cZeroAirHumidity as FieldEditFloatProps}
               style={styles.input}
+              right={<TextInput.Affix text={"%"}/>}
             />
           </View>
         </View>
@@ -202,7 +159,12 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 3,
-    // height: 24
+  },
+  select: {
+    flex: 3,
+  },
+  distancesEditBtn: {
+    borderRadius: 4,
   },
   columns: {
     flexDirection: "row",

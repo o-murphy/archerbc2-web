@@ -37,8 +37,9 @@ const CartridgeContent = () => {
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cMuzzleVelocity as FieldEditFloatProps}
           style={styles.input}
+          right={<TextInput.Affix text={"mps"} />}
         />
-        <Text style={styles.label}>{"mps"}</Text>
+        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -46,8 +47,9 @@ const CartridgeContent = () => {
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cZeroTemperature as FieldEditFloatProps}
           style={styles.input}
+          right={<TextInput.Affix text={"°C"} />}
         />
-        <Text style={styles.label}>{"°C"}</Text>
+        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -56,8 +58,9 @@ const CartridgeContent = () => {
           {...CartridgeFields.cTCoeff as FieldEditFloatProps}
           style={styles.input}
           left={<TextInput.Icon icon={"calculator"} />}
+          right={<TextInput.Affix text={"%/15°C"} />}
         />
-        <Text style={styles.label}>{"%/15°C"}</Text>
+        <View style={styles.label} />
       </View>
 
     </View>
