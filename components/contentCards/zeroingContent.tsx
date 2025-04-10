@@ -61,28 +61,29 @@ const ZeroDistanceField = () => {
       return parsedData.profile.distances.map((item, index) => {
         return {
           label: `${(item / 100)} m`,
-          value: index
+          value: index.toString()
         }
       })
     }
     return []
   }, [parsedData, dummyState])
 
-  const zeroDistanceIdx = useMemo(
-    () => parsedData.profile?.cZeroDistanceIdx
-      ? parsedData.profile?.cZeroDistanceIdx : 0,
+  const zeroDistanceIdx = useMemo<string>(
+    () => (parsedData.profile?.cZeroDistanceIdx ?? 0).toString(),
     [parsedData, dummyState]
   )
 
-  const handleZeroDistanceChange = (value: number) => {
+  const handleZeroDistanceChange = (value: string) => {
+    const intValue = parseInt(value)
+    if (parsedData.profile?.cZeroDistanceIdx === intValue) return;
     setParsedData({
       ...parsedData,
       profile: {
         ...parsedData.profile,
-        cZeroDistanceIdx: value,
+        cZeroDistanceIdx: intValue,
       },
     });
-  }
+  };
 
   return <View style={styles.row}>
     <Text style={styles.label}>{"Distance (m)"}</Text>
@@ -91,10 +92,20 @@ const ZeroDistanceField = () => {
       options={distances}
       value={zeroDistanceIdx}
       onSelect={handleZeroDistanceChange}
-      mode="outlined"
-      style={styles.input}
+      menuContentStyle={{flexDirection: "row", width: "72%"}}
+      hideMenuHeader={true}
+      maxMenuHeight={400}
       CustomDropdownInput={
-        (props) => <TextInput {...props} value={distances[zeroDistanceIdx].label} />
+        (props) => <TextInput
+          {...props}
+          dense={true}
+          mode="outlined"
+          style={[styles.input, {margin: 8, width: "72%"}]}
+          outlineStyle={styles.input}
+          underlineStyle={styles.input}
+          value={distances[zeroDistanceIdx].label}
+          right={<TextInput.Icon icon={"arrow-down"} disabled/>}
+        />
       }
     />
   </View>

@@ -44,7 +44,7 @@ const CartridgeContent = () => {
       <View style={styles.row}>
         <Text style={styles.label}>{"Powder temperature"}</Text>
         <FieldEditFloat  //FIXME float
-          {...CartridgeFields.cZeroPTemperature as FieldEditFloatProps}
+          {...CartridgeFields.cZeroTemperature as FieldEditFloatProps}
           style={styles.input}
         />
         <Text style={styles.label}>{"°C"}</Text>
