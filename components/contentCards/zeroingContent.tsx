@@ -50,12 +50,8 @@ const ZeroingFloatFields: FieldFloatProps = {
   },
 };
 
-const handleDistancesEdit = () => {
 
-}
-
-
-const ZeroingContent = () => {
+const ZeroingContent = ({onDistancesBtnPress}: {onDistancesBtnPress?: () => void}) => {
   return (
     <View style={[styles.container]}>
       <Text variant="titleLarge" style={styles.header}>
@@ -74,10 +70,10 @@ const ZeroingContent = () => {
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.label}>{"Distance (m)"}</Text>
+            <Text style={styles.label}>{"Zero distance"}</Text>
             <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
               <ZeroDistanceField style={styles.select}/>
-              <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={handleDistancesEdit} />
+              <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={onDistancesBtnPress} />
             </View>
           </View>
 

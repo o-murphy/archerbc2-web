@@ -28,13 +28,13 @@ const calculateDialogDimensions = (): DialogDimensions => {
     return { dialogWidth, dialogHeight };
 };
 
-const routeContentMap: Record<string, React.ReactNode> = {
-    description: <DescriptionContent />,
-    rifle: <RifleContent />,
-    cartridge: <CartridgeContent />,
-    bullet: <BulletContent />,
-    zeroing: <ZeroingContent />,
-    distances: <DistancesContent />,
+const routeContentMap: Record<string, React.FC> = {
+    description: DescriptionContent,
+    rifle: RifleContent,
+    cartridge: CartridgeContent,
+    bullet: BulletContent,
+    zeroing: ZeroingContent,
+    distances: DistancesContent,
 };
 
 const EditDialog = () => {
@@ -71,8 +71,13 @@ const EditDialog = () => {
         setSelectedRoute(route);
     };
 
-    const renderContent = () => routeContentMap[selectedRoute] ?? <Text>Unknown</Text>;
-
+    const renderContent = () => {
+        if (selectedRoute === 'zeroing') {
+            return <ZeroingContent onDistancesBtnPress={() => handleNavigate('distances')} />
+        }
+        const ContentComponent = routeContentMap[selectedRoute];
+        return ContentComponent ? <ContentComponent /> : <Text>Unknown</Text>;
+    };
     const closeDialog = () => {
         // setVisible(false)  // Optional functionality for closing dialog
     };
