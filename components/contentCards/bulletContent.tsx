@@ -47,29 +47,31 @@ const DragModel = () => {
 
   const renderContent = () => bcTypeMap[bcType] ?? <Text>Unknown</Text>;
 
-
   return (
-    <View style={styles.row}>
-      <Text style={styles.label}>{"Drag model"}</Text>
-      <SegmentedButtons style={styles.segmented} onValueChange={onChangeBcType} value={bcType}
-        buttons={[
-          {
-            value: BcType.G1,
-            label: 'G7',
-          },
-          {
-            value: BcType.G7,
-            label: 'G1',
-          },
-          {
-            value: BcType.CUSTOM,
-            label: 'CUSTOM',
-          },
-        ]}
-      />    <View style={styles.label} />
-
-      {renderContent()}
-    </View>
+    <>
+      <View style={styles.row}>
+        <Text style={styles.label}>{"Drag model"}</Text>
+        <SegmentedButtons style={styles.segmented} onValueChange={onChangeBcType} value={bcType}
+          buttons={[
+            {
+              value: BcType.G1,
+              label: 'G7',
+            },
+            {
+              value: BcType.G7,
+              label: 'G1',
+            },
+            {
+              value: BcType.CUSTOM,
+              label: 'CUSTOM',
+            },
+          ]}
+        />    <View style={styles.label} />
+      </View>
+      <View style={styles.row}>
+        {renderContent()}
+      </View>
+    </>
   )
 };
 
