@@ -1,7 +1,7 @@
 {
   "name": "archerbc2-web",
   "main": "expo-router/entry",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "homepage": "https://o-murphy.github.io/ArcherBC2-Web",
   "scripts": {
     "start": "expo start",
@@ -12,7 +12,8 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "deploy": "gh-pages --nojekyll -t -d dist",
-    "predeploy": "expo export -p web -c"
+    "predeploy": "expo export -p web -c",
+    "build-web": "expo export -p web"
   },
   "jest": {
     "preset": "jest-expo"
