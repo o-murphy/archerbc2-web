@@ -16,21 +16,21 @@ const bcTypeMap: Record<string, React.ReactNode> = {
 const BulletFloatFields: FieldFloatProps = {
   bDiameter: {
     field: "bDiameter",
-    range: { min: -50, max: 50 },
-    multiplier: 100,
-    fraction: 2,
+    range: { min: 0.01, max: 50 },
+    multiplier: 1000,
+    fraction: 3,
   },
   bWeight: {
     field: "bWeight",
-    range: { min: 0, max: 100 },
-    multiplier: 1,
-    fraction: 0,
+    range: { min: 0.1, max: 30000 },
+    multiplier: 10,
+    fraction: 1,
   },
   bLength: {
     field: "bLength",
-    range: { min: 0, max: 100 },
-    multiplier: 1,
-    fraction: 0,
+    range: { min: 0.01, max: 50 },
+    multiplier: 1000,
+    fraction: 3,
   },
 };
 
@@ -88,9 +88,7 @@ const BulletContent = () => {
         {/* <TextInput mode="outlined" dense style={styles.input} /> */}
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bDiameter as FieldEditFloatProps}
-          {...{
-            style: styles.input,
-          }}
+          style={styles.input}
         />
         <Text style={styles.label}>{"inch"}</Text>
       </View>
@@ -99,9 +97,7 @@ const BulletContent = () => {
         <Text style={styles.label}>{"Weight"}</Text>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bWeight as FieldEditFloatProps}
-          {...{
-            style: styles.input,
-          }}
+          style={styles.input}
         />
         <Text style={styles.label}>{"grain"}</Text>
       </View>
@@ -110,9 +106,7 @@ const BulletContent = () => {
         <Text style={styles.label}>{"Length"}</Text>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bLength as FieldEditFloatProps}
-          {...{
-            style: styles.input,
-          }}
+          style={styles.input}
         />
         <Text style={styles.label}>{"inch"}</Text>
       </View>

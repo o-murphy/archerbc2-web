@@ -65,9 +65,7 @@ const RifleContent = () => {
                 <Text style={styles.label} >Caliber</Text>
                 <FieldEdit  //FIXME float
                     {...RifleTextFields.caliber as FieldEditProps}
-                    {...{
-                        style: styles.input,
-                    }}
+                    style={styles.input}
                 />
                 <Text style={styles.label}>{"inch"}</Text>
             </View>
@@ -76,9 +74,7 @@ const RifleContent = () => {
                 <Text style={styles.label}>Twist Rate</Text>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.rTwist as FieldEditFloatProps}
-                    {...{
-                        style: styles.input,
-                    }}
+                    style={styles.input}
                 />
                 <Text style={styles.label}>{"inch/turn"}</Text>
             </View>
@@ -93,9 +89,7 @@ const RifleContent = () => {
                 <Text style={styles.label}>Sight Height</Text>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.scHeight as FieldEditFloatProps}
-                    {...{
-                        style: styles.input,
-                    }}
+                    style={styles.input}
                 />
                 <Text style={styles.label}>{"mm"}</Text>
             </View>

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
 import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
 import { ProfileProps } from "@/utils/a7p";
+import { View, ViewStyle } from "react-native";
 
 
 export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>({
@@ -108,7 +109,7 @@ export const FieldEditFloat = ({
     }
 
     return (
-        <>
+        <View style={props?.style as ViewStyle}>
             <DoubleSpinBox
                 floatValue={parseFloat(value)}
                 onFloatValueChange={handleSetValue}
@@ -121,7 +122,7 @@ export const FieldEditFloat = ({
             <HelperText type="error" visible={!!err}>
                 {err?.message}
             </HelperText>
-        </>
+        </View>
     );
 };
 
