@@ -1,7 +1,7 @@
 import { useFileContext } from "@/hooks/fileContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
-import { DoubleSpinBox } from "./doubleSpinBox";
+import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
 import { ProfileProps } from "@/utils/a7p";
 
 
@@ -59,13 +59,12 @@ export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>(
 
 
 // Extend TextInputProps and constrain 'field' to keys of ProfileProps
-interface FileEditInputProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
+export interface FieldEditProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
     field: keyof ProfileProps;
-    maxLength?: number;
 }
 
-const FileEditInput = ({ field, maxLength, ...props }: FileEditInputProps) => {
-    const [value, setValue] = useFileField<typeof field, string>({
+export const FieldEdit = ({ field, maxLength, ...props }: FieldEditProps) => {
+    const [value, setValue] = useFileField<keyof ProfileProps, string>({
         field,
         defaultValue: "",
     });
@@ -76,29 +75,25 @@ const FileEditInput = ({ field, maxLength, ...props }: FileEditInputProps) => {
             dense
             value={value}
             onChangeText={setValue}
-            maxLength={maxLength}
             {...props}
         />
     );
 };
 
-interface FileEditInputFloatProps extends FileEditInputProps {
-    range?: { min?: number; max?: number };
+export interface FieldEditFloatProps extends FieldEditProps, SpinBoxProps {
+    field: keyof ProfileProps;
     multiplier?: number;
     fraction?: number;
 }
 
-const FileEditInputFloat = ({
+export const FieldEditFloat = ({
     field,
-    maxLength,
-    range,
     multiplier = 1,
-    fraction = 2,
     ...props
-}: FileEditInputFloatProps) => {
+}: FieldEditFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue] = useFileField<typeof field, string>({
+    const [value, setValue] = useFileField<keyof ProfileProps, string>({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),
@@ -114,18 +109,14 @@ const FileEditInputFloat = ({
 
     return (
         <>
-            <DoubleSpinBox 
-                
+            <DoubleSpinBox
                 floatValue={parseFloat(value)}
                 onFloatValueChange={handleSetValue}
-                fractionDigits={fraction}
                 onError={setErr}
-                range={range}
-
                 mode="outlined"
                 keyboardType="decimal-pad"
-                maxLength={maxLength}
                 dense
+                {...props}
             />
             <HelperText type="error" visible={!!err}>
                 {err?.message}
@@ -135,5 +126,10 @@ const FileEditInputFloat = ({
 };
 
 
+export type FieldProps = {
+    [K in keyof ProfileProps]?: Partial<FieldEditProps>;
+}
 
-export { FileEditInput, FileEditInputFloat };
+export type FieldFloatProps = {
+    [K in keyof ProfileProps]?: Partial<FieldEditFloatProps>;
+} 

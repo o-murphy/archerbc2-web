@@ -14,11 +14,22 @@ const PROTO_URL = PUBLIC_PATH + 'proto/profedit.proto';
 const MD5_LENGTH = 32;
 
 
+export enum TwistDir {
+    LEFT = 'LEFT',
+    RIGHT = 'RIGHT'
+}
+
+export enum BcType {
+    G1 = 'G1',
+    G7 = 'G7',
+    CUSTOM = "CUSTOM"
+}
+
 export interface ProfileProps {
     bDiameter: number;
     bLength: number;
     bWeight: number;
-    bcType: string;
+    bcType: BcType;
     bulletName: string;
     cMuzzleVelocity: number;
     cTCoeff: number;
@@ -40,7 +51,7 @@ export interface ProfileProps {
     shortNameBot: string;
     shortNameTop: string;
     switches: any[];
-    twistDir: string;
+    twistDir: TwistDir;
     userNote: string;
     zeroX: number;
     zeroY: number;

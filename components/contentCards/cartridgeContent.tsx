@@ -1,6 +1,28 @@
 import { StyleSheet, View } from "react-native";
 import { TextInput, Text } from "react-native-paper";
-import { FileEditInputFloat } from "../fileEditInput";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fileEditInput";
+
+
+const CartridgeFields: FieldFloatProps = {
+  cMuzzleVelocity: {
+    field: "cMuzzleVelocity",
+    range: { min: 1, max: 3000 },
+    multiplier: 10,
+    fraction: 0
+  },
+  cZeroPTemperature: {
+    field: "cZeroPTemperature",
+    range: { min: -50, max: 50 },
+    multiplier: 1,
+    fraction: 0
+  },
+  cTCoeff: {
+    field: "cTCoeff",
+    range: { min: 0, max: 100 },
+    multiplier: 1000,
+    fraction: 2
+  }
+}
 
 
 const CartridgeContent = () => {
@@ -12,43 +34,28 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Muzzle velocity"}</Text>
-        <FileEditInputFloat  //FIXME float
-          field="cMuzzleVelocity"
-          range={{ min: 1, max: 3000 }}
-          multiplier={10}
-          fraction={0}
-          {...{
-            style: styles.input,
-          }}
+        <FieldEditFloat  //FIXME float
+          {...CartridgeFields.cMuzzleVelocity as FieldEditFloatProps}
+          style={styles.input}
         />
         <Text style={styles.label}>{"mps"}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Powder temperature"}</Text>
-        <FileEditInputFloat  //FIXME float
-          field="cZeroPTemperature"
-          range={{ min: -50, max: 50 }}
-          multiplier={1}
-          fraction={0}
-          {...{
-            style: styles.input,
-          }}
+        <FieldEditFloat  //FIXME float
+          {...CartridgeFields.cZeroPTemperature as FieldEditFloatProps}
+          style={styles.input}
         />
         <Text style={styles.label}>{"°C"}</Text>
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Temperature sensitivity"}</Text>
-        <FileEditInputFloat  //FIXME float
-          field="cTCoeff"
-          range={{ min: 0, max: 100 }}
-          multiplier={1000}
-          fraction={2}
-          {...{
-            style: styles.input,
-            left: <TextInput.Icon icon={"calculator"} />
-          }}
+        <FieldEditFloat  //FIXME float
+          {...CartridgeFields.cTCoeff as FieldEditFloatProps}
+          style={styles.input}
+          left={<TextInput.Icon icon={"calculator"} />}
         />
         <Text style={styles.label}>{"%/15°C"}</Text>
       </View>
@@ -77,7 +84,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 3,
-    // height: 24
   },
 });
 

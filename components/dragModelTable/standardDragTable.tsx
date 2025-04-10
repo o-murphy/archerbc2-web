@@ -1,16 +1,12 @@
+import { BcType } from "@/utils/a7p";
 import { StyleSheet, View } from "react-native"
 import { IconButton, Surface, Text, TextInput, useTheme } from "react-native-paper"
 
 
 const MAX_ITEM_COUNT = 5
-export type ModelType = "G1" | "G7" | "CUSTOM"
-
-export const isModelType = (value: any): value is ModelType => {
-    return value === "G1" || value === "G7" || value === "CUSTOM";
-};
 
 
-const StandardDragHeader = ({ model }: { model: ModelType }) => {
+const StandardDragHeader = ({ model }: { model: BcType }) => {
     return (
         <View style={styles.row}>
             <Text style={styles.input}>{"Velocity"}</Text>
@@ -34,7 +30,7 @@ const StandardDragRow = ({ velocity = 0, bc = 0 }: { velocity: number, bc: numbe
 }
 
 
-const StandardDragTable = ({ model }: { model: ModelType }) => {
+const StandardDragTable = ({ model }: { model: BcType }) => {
 
     const rows = [
         { v: 0, bc: 0 },

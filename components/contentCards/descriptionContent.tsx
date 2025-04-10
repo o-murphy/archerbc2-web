@@ -1,6 +1,35 @@
 import { StyleSheet, View } from "react-native";
 import { Text, Divider } from "react-native-paper";
-import { FileEditInput } from "../fileEditInput";
+import { FieldEdit, FieldEditProps, FieldProps } from "../fileEditInput";
+
+
+const DescriptionFields: FieldProps = {
+  profileName: {
+    field: 'profileName',
+    maxLength: 50
+  },
+  shortNameTop: {
+    field: 'shortNameTop',
+    maxLength: 8
+  },
+  shortNameBot: {
+    field: 'shortNameBot',
+    maxLength: 8
+  },
+  cartridgeName: {
+    field: 'cartridgeName',
+    maxLength: 50
+  },
+  bulletName: {
+    field: 'bulletName',
+    maxLength: 50
+  },
+  userNote: {
+    field: 'userNote',
+    maxLength: 1024,
+    multiline: true
+  },
+};
 
 const DescriptionContent = () => {
 
@@ -12,34 +41,22 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Name"}</Text>
-        <FileEditInput
-          maxLength={50}
-          field={'profileName'}
-          {...{
-            style: styles.input
-          }}
-        />
+        <FieldEdit
+          {...DescriptionFields.profileName as FieldEditProps}
+          style={styles.input}        />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Hints"}</Text>
         <View style={[styles.row, styles.input]}>
-          <FileEditInput
-            maxLength={8}
-            field={'shortNameTop'}
-            {...{
-              labe: "Top",
-              style: styles.input
-            }}
+          <FieldEdit
+            {...DescriptionFields.shortNameTop as FieldEditProps}
+            style={styles.input}
           />
-          <FileEditInput
-            maxLength={8}
-            field={'shortNameBot'}
-            {...{
-              labe: "Bottom",
-              style: styles.input
-            }}
+          <FieldEdit
+            {...DescriptionFields.shortNameBot as FieldEditProps}
+            style={styles.input}
           />
         </View>
         <View style={styles.label} />
@@ -53,24 +70,18 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Cartridge"}</Text>
-        <FileEditInput
-          maxLength={50}
-          field={'cartridgeName'}
-          {...{
-            style: styles.input
-          }}
+        <FieldEdit
+          {...DescriptionFields.cartridgeName as FieldEditProps}
+          style={styles.input}
         />
         <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Bullet"}</Text>
-        <FileEditInput
-          maxLength={50}
-          field={'bulletName'}
-          {...{
-            style: styles.input
-          }}
+        <FieldEdit
+          {...DescriptionFields.bulletName as FieldEditProps}
+          style={styles.input}
         />
         <View style={styles.label} />
       </View>
@@ -82,13 +93,9 @@ const DescriptionContent = () => {
       </View>
 
       <View style={styles.row}>
-        <FileEditInput
-          maxLength={1024}
-          field={'userNote'}
-          {...{
-            style: styles.input,
-            multiline: true
-          }}
+        <FieldEdit
+          {...DescriptionFields.userNote as FieldEditProps}
+          style={styles.input}
         />
         <View style={styles.label} />
       </View>
@@ -116,7 +123,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 3,
-    // height: 24
   },
   sectionTitle: {
     flex: 1,

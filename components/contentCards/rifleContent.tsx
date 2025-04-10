@@ -1,11 +1,59 @@
-import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { TextInput, Text, SegmentedButtons } from "react-native-paper";
+import { Text, SegmentedButtons } from "react-native-paper";
+import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fileEditInput";
+import { ProfileProps, TwistDir } from "@/utils/a7p";
+
+
+const RifleTextFields: FieldProps = {
+    caliber: {
+        field: "caliber",
+        maxLength: 50,
+    },
+};
+
+const RifleFloatFields: FieldFloatProps = {
+    rTwist: {
+        field: "rTwist",
+        range: { min: -50, max: 50 },
+        multiplier: 100,
+        fraction: 2,
+    },
+    scHeight: {
+        field: "scHeight",
+        range: { min: 0, max: 100 },
+        multiplier: 1,
+        fraction: 0,
+    },
+};
+
+const TwistField = () => {
+    const [twistDir, setTwistDir] = useFileField<keyof ProfileProps, TwistDir>({
+        field: 'twistDir',
+        defaultValue: TwistDir.RIGHT,
+    });
+
+    return (
+        <SegmentedButtons
+            style={styles.segmented}
+            onValueChange={(value) => setTwistDir(value as TwistDir)}
+            value={twistDir}
+            buttons={[
+                {
+                    value: TwistDir.LEFT,
+                    label: 'Left',
+                    icon: 'rotate-left',
+                },
+                {
+                    value: TwistDir.RIGHT,
+                    label: 'Right',
+                    icon: 'rotate-right',
+                },
+            ]}
+        />
+    );
+};
 
 const RifleContent = () => {
-
-    const [value, setValue] = useState<"RIGHT" | "LEFT" | string >('RIGHT');
-
 
     return (
         <View style={styles.container}>
@@ -15,39 +63,41 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <Text style={styles.label} >Caliber</Text>
-                <TextInput mode="outlined" dense style={styles.input} />
+                <FieldEdit  //FIXME float
+                    {...RifleTextFields.caliber as FieldEditProps}
+                    {...{
+                        style: styles.input,
+                    }}
+                />
                 <Text style={styles.label}>{"inch"}</Text>
             </View>
 
             <View style={styles.row}>
                 <Text style={styles.label}>Twist Rate</Text>
-                <TextInput mode="outlined" dense keyboardType="numeric" style={styles.input} />
+                <FieldEditFloat  //FIXME float
+                    {...RifleFloatFields.rTwist as FieldEditFloatProps}
+                    {...{
+                        style: styles.input,
+                    }}
+                />
                 <Text style={styles.label}>{"inch/turn"}</Text>
             </View>
 
             <View style={styles.row}>
                 <Text style={styles.label}>Twist Direction</Text>
-                <SegmentedButtons style={styles.segmented} onValueChange={value => setValue(value)} value={value}
-                    buttons={[
-                        {
-                            value: 'LEFT',
-                            label: 'Left',
-                            icon: 'rotate-left'
-                        },
-                        {
-                            value: 'RIGHT',
-                            label: 'Right',
-                            icon: 'rotate-right'
-                        },
-                    ]}
-                />
+                <TwistField />
                 <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
                 <Text style={styles.label}>Sight Height</Text>
-                <TextInput mode="outlined" dense keyboardType="numeric" style={styles.input} />
-                <Text style={styles.label}>{"cm"}</Text>
+                <FieldEditFloat  //FIXME float
+                    {...RifleFloatFields.scHeight as FieldEditFloatProps}
+                    {...{
+                        style: styles.input,
+                    }}
+                />
+                <Text style={styles.label}>{"mm"}</Text>
             </View>
         </View>
     );
@@ -76,7 +126,6 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 3,
-        // height: 24
     },
     segmented: {
         flex: 3,

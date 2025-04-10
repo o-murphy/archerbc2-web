@@ -2,19 +2,23 @@ import { useEffect, useState } from 'react';
 import { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { TextInput, TextInputProps } from "react-native-paper";
 
+export type SpinBoxRange = {
+    min?: number;
+    max?: number;
+}
 
 export interface SpinBoxProps extends TextInputProps {
     floatValue?: number;
     onFloatValueChange?: (newValue: number) => void;
-    fractionDigits?: number; // Number of decimal places
-    range?: { min?: number; max?: number };
+    fraction?: number; // Number of decimal places
+    range?: SpinBoxRange;
     step?: number; // Step increment/decrement value
     strict?: boolean;
     onError?: (error: Error | null) => void;
     debounceDelay?: number;
 }
 
-function validateRange(value: number, range?: { min?: number; max?: number }): Error | null {
+function validateRange(value: number, range?: SpinBoxRange): Error | null {
     if (range?.min !== undefined && value < range.min) {
         return new Error(`Value must be at least ${range.min}`);
     }
@@ -27,20 +31,20 @@ function validateRange(value: number, range?: { min?: number; max?: number }): E
 export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
     floatValue = 0,
     onFloatValueChange = undefined,
-    fractionDigits: fixedPoints = 3, // Default to 3 decimal places
+    fraction = 2, // Default to 2 decimal places
     range = undefined,
     step = 1,
     strict = false,
     onError = undefined,
     ...props
 }) => {
-    const [currentValue, setCurrentValue] = useState<string>(floatValue.toFixed(fixedPoints));
+    const [currentValue, setCurrentValue] = useState<string>(floatValue.toFixed(fraction));
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
         const error = validateRange(floatValue, range);
         onErrorSet(error)
-        setCurrentValue(floatValue.toFixed(fixedPoints))
+        setCurrentValue(floatValue.toFixed(fraction))
     }, [floatValue])
 
     const onErrorSet = (error: Error | null) => {
@@ -55,7 +59,7 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
         const sanitizedText = text.replace(/(?!^-)[^0-9]/g, '');
 
         if (sanitizedText === '') {
-            setCurrentValue('0'.padEnd(fixedPoints + 1, '0'));
+            setCurrentValue('0'.padEnd(fraction + 1, '0'));
             // debouncedValueChange(0);
             valueChanged(0);
             return;
@@ -63,7 +67,7 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
 
         const isNegative = sanitizedText.startsWith('-');
         const parsedValue = parseInt(sanitizedText, 10);
-        const newValue = (parsedValue / Math.pow(10, fixedPoints)).toFixed(fixedPoints);
+        const newValue = (parsedValue / Math.pow(10, fraction)).toFixed(fraction);
         const numericValue = parseFloat(newValue);
 
         const error = validateRange(numericValue, range);
@@ -87,9 +91,9 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
         } else {
             const numValue = parseFloat(currentValue);
             if (key === 'ArrowUp') {
-                handleInputChange((numValue + step).toFixed(fixedPoints));
+                handleInputChange((numValue + step).toFixed(fraction));
             } else if (key === 'ArrowDown') {
-                handleInputChange((numValue - step).toFixed(fixedPoints));
+                handleInputChange((numValue - step).toFixed(fraction));
             }
         }
     };
