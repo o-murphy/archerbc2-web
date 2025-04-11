@@ -96,6 +96,7 @@ const DescriptionContent = () => {
         <FieldEdit
           {...DescriptionFields.userNote as FieldEditProps}
           style={styles.input}
+          placeholder="Add your profile specific notes here"
         />
         <View style={styles.label} />
       </View>
