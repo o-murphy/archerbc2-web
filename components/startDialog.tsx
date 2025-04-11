@@ -12,7 +12,7 @@ const StartDialog = () => {
     const [visible, setVisible] = useState(true)
     const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
 
-    const {fileState, parsedData} = useFileContext()
+    const { fileState, parsedData } = useFileContext()
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -48,10 +48,15 @@ const StartDialog = () => {
                 <TouchableRipple style={styles.touchable} onPress={onOpenPress}>
                     <Surface elevation={0}>
                         <Dialog.Title style={styles.dialogTitle}>
-                            Start menu
+                            ArcherBC2
                         </Dialog.Title>
+
                         <Dialog.Content style={styles.dialogContent}>
+                            <Text variant="headlineMedium">
+                                Start menu
+                            </Text>
                             <Text variant="bodyLarge">
+                                {/* <Dialog.Icon icon="file" /> */}
                                 Open or create new profile
                             </Text>
                             <Text variant="bodyMedium">

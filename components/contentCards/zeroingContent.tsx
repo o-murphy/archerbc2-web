@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Button, FAB, IconButton, Text, TextInput, ToggleButton } from "react-native-paper";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fileEditInput";
-import ZeroDistanceField from "../zeroDistanceField";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fieldsEdit/fieldEditInput";
+import ZeroDistanceField from "../fieldsEdit/zeroDistanceField";
 
 const ZeroingFloatFields: FieldFloatProps = {
   zeroX: {

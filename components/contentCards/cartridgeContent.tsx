@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { TextInput, Text } from "react-native-paper";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fileEditInput";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fieldsEdit/fieldEditInput";
 
 
 const CartridgeFields: FieldFloatProps = {

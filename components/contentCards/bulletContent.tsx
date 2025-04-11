@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useFileField } from "../fileEditInput";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useFileField } from "../fieldsEdit/fieldEditInput";
 import { BcType, ProfileProps } from "@/utils/a7p";
 
 

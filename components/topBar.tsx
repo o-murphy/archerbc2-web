@@ -3,24 +3,10 @@ import { AllowedExtensions, useFileHandler } from "@/hooks/useFileHandler";
 import useParseFile from "@/hooks/useFileParsing";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
+import { IconButton, Surface, Text, Tooltip } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileContext } from "@/hooks/fileContext";
-
-
-const CloseButton = () => {
-  const theme = useTheme();
-
-  const onClosePress = () => {
-    console.log("CLose pressed")
-  }
-
-  return (
-    <Tooltip title="Close" leaveTouchDelay={0.2}>
-      <IconButton icon="close-circle-outline" iconColor={theme.colors.error} onPress={onClosePress} />
-    </Tooltip>
-  )
-}
+import { CloseDialogWidget } from "./closeDialog";
 
 
 const TopBar = () => {
@@ -62,7 +48,7 @@ const TopBar = () => {
         <IconButton icon="folder-open" onPress={onOpenPress} />
       </Tooltip>
 
-      <Tooltip title="Save" leaveTouchDelay={0.2}>
+      <Tooltip title="Download" leaveTouchDelay={0.2}>
         <IconButton icon="content-save" onPress={onSavePress} />
       </Tooltip>
 
@@ -73,8 +59,6 @@ const TopBar = () => {
       <Tooltip title="Load zeroing" leaveTouchDelay={0.2}>
         <IconButton icon="crosshairs" onPress={() => { }} />
       </Tooltip>
-
-
 
       <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
 
@@ -94,7 +78,7 @@ const TopBar = () => {
 
         <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
 
-        <CloseButton />
+        <CloseDialogWidget />
       </View>
     </Surface>
   );

@@ -2,16 +2,18 @@ import protobuf from 'protobufjs';
 import CryptoJS from 'crypto-js';
 import { Linking, Platform } from 'react-native';
 
-type FetchProfileArgs = {
-    path?: string;
-    onSuccess?: (result: any) => void;
-    onError?: () => void;
-}
+import {profedit} from './profedit'
 
-// Path to your protobuf file
-const PUBLIC_PATH = __DEV__ ? '/' : '/ArcherBC2-Web/'
+// type FetchProfileArgs = {
+//     path?: string;
+//     onSuccess?: (result: any) => void;
+//     onError?: () => void;
+// }
+
+// Path to your protobuf file  // old via fetch
+// const PUBLIC_PATH = __DEV__ ? '/' : '/ArcherBC2-Web/'
 // const PUBLIC_PATH = '/'
-const PROTO_URL = PUBLIC_PATH + 'proto/profedit.proto';
+// const PROTO_URL = PUBLIC_PATH + 'proto/profedit.proto';
 const MD5_LENGTH = 32;
 
 
@@ -101,6 +103,49 @@ export function md5(data: any) {
     return hash.toString(CryptoJS.enc.Hex);
 };
 
+// export default async function parseA7P_old(arrayBuffer: any): Promise<ProfileProps> {
+//     const base64 = bufferToBase64(arrayBuffer);
+//     const binaryData = atob(base64);
+//     const md5Checksum = binaryData.slice(0, MD5_LENGTH);
+//     const actualData = binaryData.slice(MD5_LENGTH);
+
+//     const calculatedChecksum = md5(actualData);
+
+//     if (md5Checksum !== calculatedChecksum) {
+//         console.error("Invalid A7P file checksum");
+//         throw new Error("Invalid A7P file checksum");
+//     }
+
+//     // Use the cached protobuf schema if it is already loaded
+//     if (!cachedRoot) {
+//         try {
+//             cachedRoot = await loadProtobufSchemaWithRetry(PROTO_URL);  // Load with retries
+//         } catch (error) {
+//             console.error("Failed to load protobuf schema:", error);
+//             throw new Error("Error loading protobuf schema after retries");
+//         }
+//     }
+
+//     const Payload = cachedRoot.lookupType('profedit.Payload');
+
+//     try {
+//         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
+//         const payload = Payload.decode(uint8ArrayData);
+//         const payloadObject = Payload.toObject(payload, {
+//             longs: Number,
+//             enums: String,
+//             bytes: String,
+//             defaults: true,
+//             arrays: true
+//         });
+//         const profile: ProfileProps = payloadObject.profile;
+//         return profile;
+//     } catch (error) {
+//         console.error(error);
+//         throw new Error(`Error decoding payload`);
+//     }
+// }
+
 export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> {
     const base64 = bufferToBase64(arrayBuffer);
     const binaryData = atob(base64);
@@ -114,17 +159,7 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
         throw new Error("Invalid A7P file checksum");
     }
 
-    // Use the cached protobuf schema if it is already loaded
-    if (!cachedRoot) {
-        try {
-            cachedRoot = await loadProtobufSchemaWithRetry(PROTO_URL);  // Load with retries
-        } catch (error) {
-            console.error("Failed to load protobuf schema:", error);
-            throw new Error("Error loading protobuf schema after retries");
-        }
-    }
-
-    const Payload = cachedRoot.lookupType('profedit.Payload');
+    const Payload = profedit.Payload
 
     try {
         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
@@ -144,46 +179,46 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
     }
 }
 
-export const fetchDetails = async ({ path, onSuccess, onError }: FetchProfileArgs) => {
-    console.log(path)
-    const fileUrl = PUBLIC_PATH + path; // Path to the file in the public directory
-    try {
-        const response = await fetch(fileUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const buf = await response.arrayBuffer();
-        const result = await parseA7P(buf);
-        console.log(result)
-        onSuccess?.(result)
-    } catch (error) {
-        console.error("Error fetching file:", error);
-        onError?.()
-    }
-}
+// export const fetchDetails = async ({ path, onSuccess, onError }: FetchProfileArgs) => {
+//     console.log(path)
+//     const fileUrl = PUBLIC_PATH + path; // Path to the file in the public directory
+//     try {
+//         const response = await fetch(fileUrl);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+//         const buf = await response.arrayBuffer();
+//         const result = await parseA7P(buf);
+//         console.log(result)
+//         onSuccess?.(result)
+//     } catch (error) {
+//         console.error("Error fetching file:", error);
+//         onError?.()
+//     }
+// }
 
-export const downloadProfile = (path?: string) => {
-    if (!path) {
-        console.log("Undefined path")
-        return
-    }
+// export const downloadProfile = (path?: string) => {
+//     if (!path) {
+//         console.log("Undefined path")
+//         return
+//     }
 
-    const fileUrl = PUBLIC_PATH + path;
+//     const fileUrl = PUBLIC_PATH + path;
 
-    if (Platform.OS === "web") {
-        const anchor = document.createElement("a");
-        anchor.href = fileUrl;
+//     if (Platform.OS === "web") {
+//         const anchor = document.createElement("a");
+//         anchor.href = fileUrl;
 
-        const dwnld = fileUrl.split("/").pop()
-        if (dwnld) {
-            anchor.download = dwnld;
-            document.body.appendChild(anchor);
-            anchor.click();
-            document.body.removeChild(anchor);
-        }
-    } else {
-        // Open the file URL in the browser for native platforms
-        Linking.openURL(fileUrl);
-    }
-}
+//         const dwnld = fileUrl.split("/").pop()
+//         if (dwnld) {
+//             anchor.download = dwnld;
+//             document.body.appendChild(anchor);
+//             anchor.click();
+//             document.body.removeChild(anchor);
+//         }
+//     } else {
+//         // Open the file URL in the browser for native platforms
+//         Linking.openURL(fileUrl);
+//     }
+// }
  

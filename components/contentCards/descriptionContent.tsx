@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Text, Divider } from "react-native-paper";
-import { FieldEdit, FieldEditProps, FieldProps } from "../fileEditInput";
+import { FieldEdit, FieldEditProps, FieldProps } from "../fieldsEdit/fieldEditInput";
 
 
 const DescriptionFields: FieldProps = {

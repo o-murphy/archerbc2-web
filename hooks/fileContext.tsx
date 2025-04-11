@@ -1,6 +1,7 @@
 import { ProfileProps } from '@/utils/a7p';
 import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from 'react';
 import { FileHandleState } from './useFileHandler';
+import { Platform } from 'react-native';
 
 interface ParsedData {
     profile: ProfileProps | null;
@@ -20,6 +21,8 @@ interface FileContextType {
 
     dummyState: boolean; // This state will trigger re-renders
     setDummyState: React.Dispatch<React.SetStateAction<boolean>>; // Function to modify dummy state
+
+    closeFile: (save?: boolean) => void;
 }
 
 // Define the props type for FileProvider
@@ -30,11 +33,14 @@ interface FileProviderProps {
 // Create context with default values
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
+const defaultState = { name: 'Upload file', data: null, error: null }
+const defaultData = { profile: null, error: null }
+
 // Provider component to wrap around your app
 export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
-    const [fileState, setFileState] = useState<FileHandleState>({ name: 'Upload file', data: null, error: null });
-    const [parsedData, setParsedData] = useState<ParsedData>({ profile: null, error: null });
-    const [backupData, setBackupData] = useState<ParsedData>({ profile: null, error: null });
+    const [fileState, setFileState] = useState<FileHandleState>(defaultState);
+    const [parsedData, setParsedData] = useState<ParsedData>(defaultData);
+    const [backupData, setBackupData] = useState<ParsedData>(defaultData);
 
     // Dummy state for forcing re-render
     const [dummyState, setDummyState] = useState<boolean>(false);
@@ -59,13 +65,37 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         setParsedData(backupData)
     }
 
+    const closeFile = (save?: boolean = false) => {
+        setBackupData(defaultData)
+        setParsedData(defaultData)
+        setFileState(defaultState)
+    }
+
+    useEffect(() => {
+        if (Platform.OS !== 'web') return;
+    
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            e.returnValue = 'Input data can be lost';
+        };
+    
+        if (parsedData.profile !== null) {
+            window.addEventListener('beforeunload', handleBeforeUnload);
+        }
+    
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [parsedData.profile]);
+
     return (
         <FileContext.Provider value={{
             fileState, setFileState,
             parsedData, setParsedData,
             backupData, setBackupData,
             syncBackup, restoreBackup,
-            dummyState, setDummyState
+            dummyState, setDummyState,
+            closeFile,
         }}>
             {children}
         </FileContext.Provider>

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
-import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fileEditInput";
+import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fieldsEdit/fieldEditInput";
 import { ProfileProps, TwistDir } from "@/utils/a7p";
 
 
