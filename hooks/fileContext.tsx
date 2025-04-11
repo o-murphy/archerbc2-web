@@ -1,11 +1,12 @@
-import { ProfileProps } from '@/utils/a7p';
-import React, { createContext, useState, useContext, ReactNode, useEffect, useRef } from 'react';
+import { buildA7P, downloadA7PFile, ProfileProps } from '@/utils/a7p';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { FileHandleState } from './useFileHandler';
 import { Platform } from 'react-native';
 
+
 interface ParsedData {
     profile: ProfileProps | null;
-    error: string | null;
+    error: Error | null;
 }
 
 // Define the context value type
@@ -23,6 +24,7 @@ interface FileContextType {
     setDummyState: React.Dispatch<React.SetStateAction<boolean>>; // Function to modify dummy state
 
     closeFile: (save?: boolean) => void;
+    saveFile: () => void
 }
 
 // Define the props type for FileProvider
@@ -33,7 +35,7 @@ interface FileProviderProps {
 // Create context with default values
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-const defaultState = { name: 'Upload file', data: null, error: null }
+const defaultState = { name: null, data: null, error: null }
 const defaultData = { profile: null, error: null }
 
 // Provider component to wrap around your app
@@ -65,7 +67,20 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         setParsedData(backupData)
     }
 
-    const closeFile = (save?: boolean = false) => {
+    const saveFile = () => {
+        if (parsedData.profile && !parsedData.error) {
+            const buffer = buildA7P(parsedData.profile)
+            if (!fileState.name || fileState.name === "Upload file") {
+                fileState.name = `${parsedData.profile.profileName}_${parsedData.profile.cartridgeName}.a7p`
+            }
+            downloadA7PFile(buffer, fileState.name)
+        }
+    }
+
+    const closeFile = (save: boolean = false) => {
+        if (save) {
+            saveFile()
+        }
         setBackupData(defaultData)
         setParsedData(defaultData)
         setFileState(defaultState)
@@ -73,16 +88,16 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (Platform.OS !== 'web') return;
-    
+
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault();
             e.returnValue = 'Input data can be lost';
         };
-    
+
         if (parsedData.profile !== null) {
             window.addEventListener('beforeunload', handleBeforeUnload);
         }
-    
+
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
@@ -95,7 +110,7 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
             backupData, setBackupData,
             syncBackup, restoreBackup,
             dummyState, setDummyState,
-            closeFile,
+            closeFile, saveFile,
         }}>
             {children}
         </FileContext.Provider>

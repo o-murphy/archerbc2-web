@@ -1,7 +1,7 @@
 import { useFileContext } from "@/hooks/fileContext";
 import { useState } from "react";
 import { PressableProps, StyleSheet } from "react-native";
-import { Button, IconButton, Dialog, Portal, Surface, Text, Tooltip, useTheme, DialogProps } from "react-native-paper"
+import { Button, IconButton, Dialog, Portal, Surface, Text, Tooltip, useTheme, DialogProps, FAB, Icon } from "react-native-paper"
 
 
 export const CloseDialogButton = ({ icon = "close-circle-outline", ...props }) => {
@@ -19,11 +19,11 @@ export const CloseDialog: React.FC<any> = (
         { visible: boolean, setVisible: React.Dispatch<React.SetStateAction<boolean>> }
 ) => {
 
-    const { closeFile } = useFileContext()
+    const { closeFile, saveFile } = useFileContext()
+    const theme = useTheme()
 
     const savePress = () => {
-        closeFile(true)
-        closeDialog()
+        saveFile()
     }
 
     const notSavePress = () => {
@@ -39,17 +39,41 @@ export const CloseDialog: React.FC<any> = (
         <Dialog visible={visible} style={styles.dialog} onDismiss={closeDialog}>
             <Surface elevation={0}>
                 <Dialog.Title style={styles.dialogTitle}>
-                    Close file
+                    ⚠️ Close File ⚠️
                 </Dialog.Title>
                 <Dialog.Content style={styles.dialogContent}>
-                    <Text variant="bodyLarge">
-                        Do you want to save changes?
+                    <Text variant="bodyLarge" style={{textAlign: "center"}}>
+                        Do you want to save the changes before closing?
                     </Text>
+                    <Text variant="bodyLarge" style={[styles.warning, { color: theme.colors.error }]}>
+                        🔴 If you don’t, your data will be lost.
+                    </Text>
+                    <FAB
+                        mode="flat"
+                        variant="primary"
+                        style={styles.fab}
+                        icon="file-download"
+                        onPress={savePress}
+                        label="Download and Close"
+                    />
                 </Dialog.Content>
                 <Dialog.Actions style={styles.dialogActions}>
-                    <Button mode="contained-tonal" style={styles.actionButton} onPress={savePress}>Save</Button>
-                    <Button mode="contained-tonal" style={styles.actionButton} onPress={notSavePress}>Don't save</Button>
-                    <Button mode="contained-tonal" style={styles.actionButton} onPress={closeDialog}>Cancel</Button>
+                    <Button
+                        mode="outlined"
+                        style={styles.actionButton}
+                        icon="delete-forever"
+                        onPress={notSavePress}
+                    >
+                        Close Without Saving
+                    </Button>
+                    <Button
+                        mode="outlined"
+                        style={styles.actionButton}
+                        icon="cancel"
+                        onPress={closeDialog}
+                    >
+                        Cancel
+                    </Button>
                 </Dialog.Actions>
             </Surface>
         </Dialog>
@@ -95,6 +119,13 @@ const styles = StyleSheet.create({
     actionButton: {
         flex: 1,
     },
+    fab: {
+        flex: 1,
+        marginTop: 16
+    },
+    warning: {
+
+    }
 })
 
 

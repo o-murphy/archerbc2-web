@@ -14,7 +14,7 @@ const TopBar = () => {
   const { theme, toggleTheme } = useThemeToggle();
 
   const { fileHandleState, handleFileChange } = useFileHandler();
-  const { syncBackup, restoreBackup } = useFileContext();
+  const { syncBackup, restoreBackup, saveFile } = useFileContext();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useParseFile(fileHandleState);
@@ -30,6 +30,7 @@ const TopBar = () => {
 
   const onSavePress = () => {
     syncBackup();
+    saveFile();
     console.log("SyncBackup");
   };
 
@@ -49,10 +50,10 @@ const TopBar = () => {
       </Tooltip>
 
       <Tooltip title="Download" leaveTouchDelay={0.2}>
-        <IconButton icon="content-save" onPress={onSavePress} />
+        <IconButton icon="file-download" onPress={onSavePress} />
       </Tooltip>
 
-      <Tooltip title="Reload file" leaveTouchDelay={0.2}>
+      <Tooltip title="Reject changes" leaveTouchDelay={0.2}>
         <IconButton icon="file-refresh" onPress={onReloadPress} />
       </Tooltip>
 

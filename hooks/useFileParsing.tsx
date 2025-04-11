@@ -1,29 +1,28 @@
 
 import { useEffect } from "react";
-import parseA7P from "@/utils/a7p";
+import { parseA7P } from "@/utils/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
 
 // The custom hook to handle file parsing
 const useParseFile = (fileHandleState: FileHandleState) => {
-    const { setParsedData, setBackupData } = useFileContext();
+    const { setParsedData, setBackupData, setFileState } = useFileContext();
 
     useEffect(() => {
-        if (fileHandleState.data && !fileHandleState.error) {
-            // Parse the file data using parseA7P
-            parseA7P(fileHandleState.data)
-                .then((props) => {
-                    setParsedData({ profile: props, error: null });
-                    setBackupData({ profile: props, error: null });
-                })
-                .catch((error) => {
-                    console.error("Error parsing A7P file:", error);
-                    setParsedData({ profile: null, error });
-                });
+        if (fileHandleState.data && !fileHandleState.error && fileHandleState.data instanceof ArrayBuffer) {
+
+            try {
+                const profile = parseA7P(fileHandleState.data)
+                setParsedData({ profile: profile, error: null });
+                setBackupData({ profile: profile, error: null });
+            } catch (error: any) {
+                setParsedData({ profile: null, error: new Error(`Error parsing A7P file: ${error}`) });
+            };
         } else if (fileHandleState.error) {
-            console.error(fileHandleState.error); // Log the error if it's present in the fileState
+            setParsedData({ profile: null, error: fileHandleState.error });
         }
-    }, [fileHandleState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
+        setFileState(fileHandleState)
+    }, [fileHandleState, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
 };
 
 export default useParseFile;

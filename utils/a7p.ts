@@ -1,19 +1,7 @@
-import protobuf from 'protobufjs';
 import CryptoJS from 'crypto-js';
-import { Linking, Platform } from 'react-native';
 
-import {profedit} from './profedit'
+import { profedit } from './profedit'
 
-// type FetchProfileArgs = {
-//     path?: string;
-//     onSuccess?: (result: any) => void;
-//     onError?: () => void;
-// }
-
-// Path to your protobuf file  // old via fetch
-// const PUBLIC_PATH = __DEV__ ? '/' : '/ArcherBC2-Web/'
-// const PUBLIC_PATH = '/'
-// const PROTO_URL = PUBLIC_PATH + 'proto/profedit.proto';
 const MD5_LENGTH = 32;
 
 
@@ -58,31 +46,8 @@ export interface ProfileProps {
     userNote: string;
     zeroX: number;
     zeroY: number;
-
-    // zeroDistance?: number;
 }
 
-let cachedRoot: protobuf.Root | null = null;
-
-// Retry parameters
-const MAX_RETRIES = 3; // Maximum number of retries
-const RETRY_DELAY = 1000; // Delay between retries in milliseconds (1 second)
-
-async function loadProtobufSchemaWithRetry(url: string, retries: number = 0): Promise<protobuf.Root> {
-    try {
-        return await protobuf.load(url);
-    } catch (error) {
-        console.error(`Failed to load protobuf schema (attempt ${retries + 1}/${MAX_RETRIES}):`, error);
-
-        if (retries < MAX_RETRIES) {
-            // Wait for a delay before retrying
-            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * Math.pow(2, retries))); // Exponential backoff
-            return loadProtobufSchemaWithRetry(url, retries + 1);
-        } else {
-            throw new Error("Error loading protobuf schema after several attempts");
-        }
-    }
-}
 
 // Utility function to convert array buffer to base64
 export function bufferToBase64(buffer: any): string {
@@ -103,50 +68,40 @@ export function md5(data: any) {
     return hash.toString(CryptoJS.enc.Hex);
 };
 
-// export default async function parseA7P_old(arrayBuffer: any): Promise<ProfileProps> {
-//     const base64 = bufferToBase64(arrayBuffer);
-//     const binaryData = atob(base64);
-//     const md5Checksum = binaryData.slice(0, MD5_LENGTH);
-//     const actualData = binaryData.slice(MD5_LENGTH);
 
-//     const calculatedChecksum = md5(actualData);
 
-//     if (md5Checksum !== calculatedChecksum) {
-//         console.error("Invalid A7P file checksum");
-//         throw new Error("Invalid A7P file checksum");
-//     }
+export function buildA7P(profile: ProfileProps): ArrayBuffer {
+    const Payload = profedit.Payload;
 
-//     // Use the cached protobuf schema if it is already loaded
-//     if (!cachedRoot) {
-//         try {
-//             cachedRoot = await loadProtobufSchemaWithRetry(PROTO_URL);  // Load with retries
-//         } catch (error) {
-//             console.error("Failed to load protobuf schema:", error);
-//             throw new Error("Error loading protobuf schema after retries");
-//         }
-//     }
+    // Step 1: Convert profile to payload message
+    const payloadMessage = Payload.fromObject({ profile });
 
-//     const Payload = cachedRoot.lookupType('profedit.Payload');
+    // Step 2: Encode to Uint8Array (protobuf)
+    const encoded = Payload.encode(payloadMessage).finish(); // Uint8Array
 
-//     try {
-//         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
-//         const payload = Payload.decode(uint8ArrayData);
-//         const payloadObject = Payload.toObject(payload, {
-//             longs: Number,
-//             enums: String,
-//             bytes: String,
-//             defaults: true,
-//             arrays: true
-//         });
-//         const profile: ProfileProps = payloadObject.profile;
-//         return profile;
-//     } catch (error) {
-//         console.error(error);
-//         throw new Error(`Error decoding payload`);
-//     }
-// }
+    // Step 3: Convert Uint8Array to binary string
+    const binaryData = Array.from(encoded).map(byte => String.fromCharCode(byte)).join('');
 
-export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> {
+    // Step 4: Calculate MD5 of actual data
+    const checksum = md5(binaryData); // Should be 32-char ASCII hex
+
+    // Step 5: Prepend checksum
+    const fullBinary = checksum + binaryData;
+
+    // Step 6: Convert to base64, then back to binary string, then to ArrayBuffer
+    const base64 = btoa(fullBinary);
+
+    // Convert base64 -> binary -> ArrayBuffer
+    const rawBinary = atob(base64);
+    const buffer = new Uint8Array(rawBinary.length);
+    for (let i = 0; i < rawBinary.length; i++) {
+        buffer[i] = rawBinary.charCodeAt(i);
+    }
+
+    return buffer.buffer;
+}
+
+export function parseA7P(arrayBuffer: ArrayBuffer): ProfileProps {
     const base64 = bufferToBase64(arrayBuffer);
     const binaryData = atob(base64);
     const md5Checksum = binaryData.slice(0, MD5_LENGTH);
@@ -179,46 +134,24 @@ export default async function parseA7P(arrayBuffer: any): Promise<ProfileProps> 
     }
 }
 
-// export const fetchDetails = async ({ path, onSuccess, onError }: FetchProfileArgs) => {
-//     console.log(path)
-//     const fileUrl = PUBLIC_PATH + path; // Path to the file in the public directory
-//     try {
-//         const response = await fetch(fileUrl);
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-//         const buf = await response.arrayBuffer();
-//         const result = await parseA7P(buf);
-//         console.log(result)
-//         onSuccess?.(result)
-//     } catch (error) {
-//         console.error("Error fetching file:", error);
-//         onError?.()
-//     }
-// }
 
-// export const downloadProfile = (path?: string) => {
-//     if (!path) {
-//         console.log("Undefined path")
-//         return
-//     }
+export function downloadA7PFile(arrayBuffer: ArrayBuffer, filename: string = 'profile.a7p') {
+    if (typeof window === 'undefined') return;
 
-//     const fileUrl = PUBLIC_PATH + path;
+    // Create a Blob from the ArrayBuffer
+    const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
 
-//     if (Platform.OS === "web") {
-//         const anchor = document.createElement("a");
-//         anchor.href = fileUrl;
+    // Create a temporary link element
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
 
-//         const dwnld = fileUrl.split("/").pop()
-//         if (dwnld) {
-//             anchor.download = dwnld;
-//             document.body.appendChild(anchor);
-//             anchor.click();
-//             document.body.removeChild(anchor);
-//         }
-//     } else {
-//         // Open the file URL in the browser for native platforms
-//         Linking.openURL(fileUrl);
-//     }
-// }
- 
+    // Trigger the download
+    document.body.appendChild(a);
+    a.click();
+
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}

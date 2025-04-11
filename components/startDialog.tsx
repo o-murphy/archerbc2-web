@@ -1,18 +1,41 @@
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Dialog, Portal, Surface, Text, TouchableRipple } from "react-native-paper"
+import { Button, Dialog, Portal, Snackbar, Surface, Text, TouchableRipple, useTheme } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
 import useParseFile from "@/hooks/useFileParsing";
 
 
+const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visible: boolean, onDismiss: () => void, message: string, isError?: boolean }) => {
+    const theme = useTheme()
+
+    return (
+        <Snackbar
+            visible={visible}
+            onDismiss={onDismiss}
+            duration={3000}
+            style={{
+                alignSelf: "center",
+                maxWidth: 400,
+                marginBottom: 100,
+                ...(isError ? { backgroundColor: theme.colors.error } : {}),
+            }}
+            icon={isError ? "alert-circle" : undefined}
+        >
+            {message}
+        </Snackbar>
+    );
+}
+
+
 const StartDialog = () => {
 
     const [visible, setVisible] = useState(true)
     const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
-
     const { fileState, parsedData } = useFileContext()
+
+    const [visibleSnack, setVisibleSnack] = useState(false)
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -29,6 +52,7 @@ const StartDialog = () => {
 
     const onCreatePress = () => {
         console.log("Create pressed")
+        onToggleSnackBar()
     }
 
     const onOpenPress = () => {
@@ -41,6 +65,9 @@ const StartDialog = () => {
     const closeDialog = () => {
         // setVisible(false)
     }
+
+    const onToggleSnackBar = () => setVisibleSnack(!visibleSnack);
+    const onDismissSnackBar = () => setVisibleSnack(false);
 
     return (
         <Portal>
@@ -71,6 +98,12 @@ const StartDialog = () => {
                 </TouchableRipple>
             </Dialog>
             <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
+            {RenderSnackBar({
+                visible: visibleSnack,
+                onDismiss: onDismissSnackBar,
+                message: "Not implemented yet",
+                isError: true
+            })}
         </Portal>
     )
 }
