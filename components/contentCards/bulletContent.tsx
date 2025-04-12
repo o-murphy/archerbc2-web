@@ -55,11 +55,11 @@ const DragModel = () => {
           buttons={[
             {
               value: BcType.G1,
-              label: 'G7',
+              label: 'G1',
             },
             {
               value: BcType.G7,
-              label: 'G1',
+              label: 'G7',
             },
             {
               value: BcType.CUSTOM,
