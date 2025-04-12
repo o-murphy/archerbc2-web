@@ -1,6 +1,10 @@
-import { BcType } from "@/utils/a7p";
+import { BcType } from "@/utils/a7p/types";
 import { StyleSheet, View } from "react-native"
-import { IconButton, Surface, Text, TextInput, useTheme } from "react-native-paper"
+import { IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
+import { useFileField } from "../fieldsEdit/fieldEditInput";
+import { CoefRow, Profile } from "@/utils/a7p/types";
+import { DoubleSpinBox } from "../fieldsEdit/doubleSpinBox";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 
 const MAX_ITEM_COUNT = 5
@@ -9,7 +13,7 @@ const MAX_ITEM_COUNT = 5
 const StandardDragHeader = ({ model }: { model: BcType }) => {
     return (
         <View style={styles.row}>
-            <Text style={styles.input}>{"Velocity"}</Text>
+            <Text style={styles.input}>{"Velocity, mps"}</Text>
             <Text style={styles.input}>{`BC (${model})`}</Text>
             <View style={styles.icon}></View>
         </View>
@@ -17,14 +21,55 @@ const StandardDragHeader = ({ model }: { model: BcType }) => {
 }
 
 
-const StandardDragRow = ({ velocity = 0, bc = 0 }: { velocity: number, bc: number }) => {
+const StandardDragRow = ({ row: { velocity = 0, bc = 0 }, setRow, onError }: {
+    row: {
+        velocity: number,
+        bc: number,
+    },
+    setRow: (
+        velocity: number | null,
+        bc: number | null
+    ) => void,
+    onError: (value: null | Error) => void,
+}) => {
     const theme = useTheme()
+
+    const [mvErr, setMvErr] = useState<null | Error>(null)
+    const [bcCdErr, setBcCdErr] = useState<null | Error>(null)
+
+    useEffect(() => {
+        onError(mvErr || bcCdErr)
+    }, [mvErr, bcCdErr])
+
+    const clearRow = () => {
+        setRow(0, 0)
+    }
 
     return (
         <View style={styles.row}>
-            <TextInput mode="outlined" style={styles.input} value={velocity.toFixed(0)} />
-            <TextInput mode="outlined" style={styles.input} value={bc.toFixed(3)} />
-            <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} />
+            <DoubleSpinBox
+                floatValue={velocity}
+                onFloatValueChange={(value) => setRow(value, null)}
+                range={{ min: 0, max: 3000 }}
+                fraction={0}
+                onError={setMvErr}
+
+                mode="outlined"
+                style={styles.input}
+            />
+            <DoubleSpinBox
+                floatValue={bc}
+                onFloatValueChange={(value) => setRow(null, value)}
+                range={{ min: 0, max: 10 }}
+                fraction={3}
+                onError={setBcCdErr}
+
+                mode="outlined"
+                style={styles.input}
+            />
+            <Tooltip title="Clear row">
+                <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} onPress={clearRow} />
+            </Tooltip>
         </View>
     )
 }
@@ -32,18 +77,69 @@ const StandardDragRow = ({ velocity = 0, bc = 0 }: { velocity: number, bc: numbe
 
 const StandardDragTable = ({ model }: { model: BcType }) => {
 
-    const rows = [
-        { v: 0, bc: 0 },
-        { v: 0, bc: 0 },
-        { v: 0, bc: 0 },
-        { v: 0, bc: 0 },
-        { v: 0, bc: 0 },
-    ].slice(0, MAX_ITEM_COUNT)
+    const field = 'coefRows'
+
+    const [err, setErr] = useState<Error | null>(null);
+    const [value, setValue] = useFileField<keyof Profile, CoefRow[]>({
+        field,
+        defaultValue: [],
+        validate: useCallback(() => {
+            return !!err
+        }, [err])
+    });
+
+    const rows = useMemo(() => {
+        const filledRows = value.slice(0, MAX_ITEM_COUNT).map(item => ({
+            bcCd: item.bcCd / 10000,
+            mv: item.mv / 10
+        }));
+
+        // If there are fewer than 5 rows, fill the rest with { bcCd: 0, mv: 0 }
+        while (filledRows.length < 5) {
+            filledRows.push({ bcCd: 0, mv: 0 });
+        }
+
+        return filledRows;
+    }, [value, setValue]);
+
+    const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
+        console.log('handle', !err)
+
+        if (!err) {
+            const newValue = [...value];  // Create a shallow copy of the value array
+            while (newValue.length < 5) {
+                newValue.push({ bcCd: 0, mv: 0 });
+            }
+            newValue[index] = {
+                ...newValue[index],  // Copy the existing row
+                mv: mv !== null && mv >= 0 ? mv * 10 : newValue[index].mv,  // Ensure mv is not 0
+                bcCd: bcCd != null && bcCd >= 0 ? bcCd * 10000 : newValue[index].bcCd
+            };
+            console.log(newValue)
+            // Filter out rows with bcCd: 0 and mv: 0
+            // const filteredValue = newValue.filter(row => row.bcCd !== 0 || row.mv !== 0);
+
+            // console.log("cr", filteredValue);
+            // setValue(filteredValue);  // Update state with the filtered array
+
+            setValue(newValue)
+        }
+    }
 
     return (
         <Surface style={styles.surface}>
             <StandardDragHeader model={model} />
-            {rows.map((item, index) => <StandardDragRow key={index} velocity={item.v} bc={item.bc} />)}
+            {rows.map((item, index) => <StandardDragRow
+                key={index}
+                row={{
+                    velocity: item.mv,
+                    bc: item.bcCd
+                }}
+                setRow={
+                    (mv = null, bc = null) => handleChange(index, mv, bc)
+                }
+                onError={setErr}
+            />)}
         </Surface>
     )
 }

@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { parseA7P } from "@/utils/a7p";
+import { parseA7P } from "@/utils/a7p/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
 
@@ -12,9 +12,10 @@ const useParseFile = (fileHandleState: FileHandleState) => {
         if (fileHandleState.data && !fileHandleState.error && fileHandleState.data instanceof ArrayBuffer) {
 
             try {
-                const profile = parseA7P(fileHandleState.data)
-                setParsedData({ profile: profile, error: null });
-                setBackupData({ profile: profile, error: null });
+                const payload = parseA7P(fileHandleState.data)
+                console.log(payload)
+                setParsedData({ profile: payload.profile, error: null });
+                setBackupData({ profile: payload.profile, error: null });
             } catch (error: any) {
                 setParsedData({ profile: null, error: new Error(`Error parsing A7P file: ${error}`) });
             };

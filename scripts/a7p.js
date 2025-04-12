@@ -3,10 +3,6 @@ import CryptoJS from 'crypto-js';
 import { validateA7P } from './validate.js'
 import { profedit } from './profedit.js'
 
-// const root = await protobuf.load("public/proto/profedit.proto");
-// const Payload = root.lookupType("Payload");
-const Payload = profedit.Payload;
-
 const MD5_LENGTH = 32;
 
 // Utility function to convert array buffer to base64
@@ -74,8 +70,8 @@ export const loads = (arrayBuffer) => {
         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
 
         // Decode and convert the payload
-        const payload = Payload.decode(uint8ArrayData);
-        const payloadObject = Payload.toObject(payload, {
+        const payload = profedit.Payload.decode(uint8ArrayData);
+        const payloadObject = profedit.Payload.toObject(payload, {
             longs: Number,
             enums: String,
             bytes: String,
@@ -104,10 +100,10 @@ export const dumps = (payload) => {
         validateA7P(payload);
 
         // Step 1: Convert profile to payload message
-        const payloadMessage = Payload.fromObject({ payload });
+        const payloadMessage = profedit.Payload.fromObject({ payload });
 
         // Step 2: Encode to Uint8Array (protobuf)
-        const encoded = Payload.encode(payloadMessage).finish(); // Uint8Array
+        const encoded = profedit.Payload.encode(payloadMessage).finish(); // Uint8Array
 
         // Step 3: Convert Uint8Array to binary string
         const binaryData = Array.from(encoded).map(byte => String.fromCharCode(byte)).join('');

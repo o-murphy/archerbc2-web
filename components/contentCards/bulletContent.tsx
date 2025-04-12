@@ -3,7 +3,7 @@ import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
 import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useFileField } from "../fieldsEdit/fieldEditInput";
-import { BcType, ProfileProps } from "@/utils/a7p";
+import { BcType, Profile } from "@/utils/a7p/types";
 
 
 const bcTypeMap: Record<string, React.ReactNode> = {
@@ -36,7 +36,7 @@ const BulletFloatFields: FieldFloatProps = {
 
 
 const DragModel = () => {
-  const [bcType, setBcType] = useFileField<keyof ProfileProps, BcType>({
+  const [bcType, setBcType] = useFileField<keyof Profile, BcType>({
     field: 'bcType',
     defaultValue: BcType.G1,
   });

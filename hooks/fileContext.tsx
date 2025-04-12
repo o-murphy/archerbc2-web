@@ -1,11 +1,12 @@
-import { buildA7P, downloadA7PFile, ProfileProps } from '@/utils/a7p';
+import { Profile } from '@/utils/a7p/types';
+import { buildA7P, downloadA7PFile } from '@/utils/a7p/a7p';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { FileHandleState } from './useFileHandler';
 import { Platform } from 'react-native';
 
 
 interface ParsedData {
-    profile: ProfileProps | null;
+    profile: Profile | null;
     error: Error | null;
 }
 
@@ -69,7 +70,9 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
 
     const saveFile = () => {
         if (parsedData.profile && !parsedData.error) {
-            const buffer = buildA7P(parsedData.profile)
+            const buffer = buildA7P({
+                profile: parsedData.profile
+            })
             if (!fileState.name || fileState.name === "Upload file") {
                 fileState.name = `${parsedData.profile.profileName}_${parsedData.profile.cartridgeName}.a7p`
             }

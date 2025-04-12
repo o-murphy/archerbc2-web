@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fieldsEdit/fieldEditInput";
-import { ProfileProps, TwistDir } from "@/utils/a7p";
+import { Profile, TwistDir } from "@/utils/a7p/types";
 
 
 const RifleTextFields: FieldProps = {
@@ -27,7 +27,7 @@ const RifleFloatFields: FieldFloatProps = {
 };
 
 const TwistField = () => {
-    const [twistDir, setTwistDir] = useFileField<keyof ProfileProps, TwistDir>({
+    const [twistDir, setTwistDir] = useFileField<keyof Profile, TwistDir>({
         field: 'twistDir',
         defaultValue: TwistDir.RIGHT,
     });
