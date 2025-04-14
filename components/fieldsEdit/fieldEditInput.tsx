@@ -2,11 +2,11 @@ import { useFileContext } from "@/hooks/fileContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
 import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
-import { Profile } from "@/utils/a7p/types";
 import { View, ViewStyle } from "react-native";
+import { ProfileProps } from "@/hooks/useFileParsing";
 
 
-export function useFileField<K extends keyof Profile, T = Profile[K]>({
+export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>({
     field,
     defaultValue,
     parse = (v: any) => v,
@@ -61,11 +61,11 @@ export function useFileField<K extends keyof Profile, T = Profile[K]>({
 
 // Extend TextInputProps and constrain 'field' to keys of ProfileProps
 export interface FieldEditProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
-    field: keyof Profile;
+    field: keyof ProfileProps;
 }
 
 export const FieldEdit = ({ field, maxLength, ...props }: FieldEditProps) => {
-    const [value, setValue] = useFileField<keyof Profile, string>({
+    const [value, setValue] = useFileField<keyof ProfileProps, string>({
         field,
         defaultValue: "",
     });
@@ -82,7 +82,7 @@ export const FieldEdit = ({ field, maxLength, ...props }: FieldEditProps) => {
 };
 
 export interface FieldEditFloatProps extends FieldEditProps, SpinBoxProps {
-    field: keyof Profile;
+    field: keyof ProfileProps;
     multiplier?: number;
     fraction?: number;
 }
@@ -94,7 +94,7 @@ export const FieldEditFloat = ({
 }: FieldEditFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue] = useFileField<keyof Profile, string>({
+    const [value, setValue] = useFileField<keyof ProfileProps, string>({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),
@@ -128,9 +128,9 @@ export const FieldEditFloat = ({
 
 
 export type FieldProps = {
-    [K in keyof Profile]?: Partial<FieldEditProps>;
+    [K in keyof ProfileProps]?: Partial<FieldEditProps>;
 }
 
 export type FieldFloatProps = {
-    [K in keyof Profile]?: Partial<FieldEditFloatProps>;
+    [K in keyof ProfileProps]?: Partial<FieldEditFloatProps>;
 } 

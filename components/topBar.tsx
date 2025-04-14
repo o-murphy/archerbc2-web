@@ -1,6 +1,6 @@
 import { useThemeToggle } from "@/app/_layout";
 import { AllowedExtensions, useFileHandler } from "@/hooks/useFileHandler";
-import useParseFile from "@/hooks/useFileParsing";
+import { useParseFile } from "@/hooks/useFileParsing";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { IconButton, Surface, Text, Tooltip } from "react-native-paper"

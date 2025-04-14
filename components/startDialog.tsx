@@ -4,7 +4,7 @@ import { Button, Dialog, Portal, Snackbar, Surface, Text, TouchableRipple, useTh
 import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
-import useParseFile from "@/hooks/useFileParsing";
+import { useParseFile } from "@/hooks/useFileParsing";
 
 
 const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visible: boolean, onDismiss: () => void, message: string, isError?: boolean }) => {

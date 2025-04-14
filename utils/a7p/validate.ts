@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { Payload } from './types';
+import { BcType, Payload } from './types';
 
 // Define the validation schema for each field
 export const schema = yup.object().shape({
@@ -54,7 +54,7 @@ export const schema = yup.object().shape({
         bLength: yup.number().min(1).max(50000).integer().required(),
 
         // drag model
-        bcType: yup.mixed().oneOf(['G1', 'G7', 'CUSTOM']).required(),
+        bcType: yup.mixed().oneOf([BcType.G1, BcType.G7, BcType.CUSTOM]).required(),
         coefRows: yup.array().min(1).max(200).required()
     }),
 });
@@ -62,8 +62,8 @@ export const schema = yup.object().shape({
 // Schema for coefRows when bcType is 'G1' or 'G7'
 const coefRowsStandard = yup.array().of(
     yup.object().shape({
-        bcCd: yup.number().min(0).max(100000).integer(),
-        mv: yup.number().min(0).max(100000).integer(),
+        bcCd: yup.number().min(0).max(10000).integer(),
+        mv: yup.number().min(0).max(10000).integer(),
     })
 ).min(1).max(5).required('For G1 or G7, coefRows must contain between 1 and 5 items')
 .test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
@@ -77,7 +77,7 @@ const coefRowsStandard = yup.array().of(
 const coefRowsCustom = yup.array().of(
     yup.object().shape({
         bcCd: yup.number().min(0).max(100000).integer(),
-        mv: yup.number().min(0).max(100).integer()
+        mv: yup.number().min(0).max(100000).integer()
     })
 ).min(1).max(200).required('For CUSTOM, coefRows must contain between 1 and 200 items')
 .test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
@@ -95,11 +95,11 @@ export const validate = (data: Payload, abortEarly: boolean = false): void => {
         console.log(validData)
         // Validate coefRows based on bcType
         switch (validData.profile.bcType) {
-            case 'G1':
-            case 'G7':
+            case BcType.G1:
+            case BcType.G7:
                 coefRowsStandard.validateSync(data.profile.coefRows, { abortEarly });
                 break;
-            case 'CUSTOM':
+            case BcType.CUSTOM:
                 coefRowsCustom.validateSync(data.profile.coefRows, { abortEarly });
                 break;
             default:

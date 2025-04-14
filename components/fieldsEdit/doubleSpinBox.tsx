@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { NativeSyntheticEvent, TextInputKeyPressEventData } from 'react-native';
 import { TextInput, TextInputProps } from "react-native-paper";
 
@@ -28,7 +28,7 @@ function validateRange(value: number, range?: SpinBoxRange): Error | null {
     return null;
 }
 
-export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
+export const DoubleSpinBox: React.FC<SpinBoxProps> = forwardRef(({
     floatValue = 0,
     onFloatValueChange = undefined,
     fraction = 2, // Default to 2 decimal places
@@ -37,7 +37,7 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
     strict = false,
     onError = undefined,
     ...props
-}) => {
+}, ref) => {
     const [currentValue, setCurrentValue] = useState<string>(floatValue.toFixed(fraction));
     const [error, setError] = useState<Error | null>(null);
 
@@ -101,6 +101,7 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
     return (
         <>
             <TextInput
+                ref={ref}
                 {...props}
                 keyboardType="numbers-and-punctuation"  // NOTE: ios only
                 returnKeyType="done" // Customize return key type
@@ -112,4 +113,4 @@ export const DoubleSpinBox: React.FC<SpinBoxProps> = ({
             />
         </>
     );
-};
+});

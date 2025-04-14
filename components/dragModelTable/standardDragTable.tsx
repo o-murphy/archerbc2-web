@@ -1,21 +1,23 @@
 import { BcType } from "@/utils/a7p/types";
 import { StyleSheet, View } from "react-native"
-import { IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
+import { Button, IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
 import { useFileField } from "../fieldsEdit/fieldEditInput";
-import { CoefRow, Profile } from "@/utils/a7p/types";
+import { CoefRow } from "@/utils/a7p/types";
 import { DoubleSpinBox } from "../fieldsEdit/doubleSpinBox";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ProfileProps } from "@/hooks/useFileParsing";
 
 
 const MAX_ITEM_COUNT = 5
 
 
-const StandardDragHeader = ({ model }: { model: BcType }) => {
+const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress?: () => void }) => {
     return (
         <View style={styles.row}>
             <Text style={styles.input}>{"Velocity, mps"}</Text>
             <Text style={styles.input}>{`BC (${model})`}</Text>
-            <View style={styles.icon}></View>
+            {/* <View style={styles.icon}></View> */}
+            <Button mode="outlined" icon="sort-variant" onPress={onSortPress}>Sort</Button>
         </View>
     )
 }
@@ -77,10 +79,19 @@ const StandardDragRow = ({ row: { velocity = 0, bc = 0 }, setRow, onError }: {
 
 const StandardDragTable = ({ model }: { model: BcType }) => {
 
-    const field = 'coefRows'
+    let field = 'coefRows' as keyof ProfileProps
+
+    switch (model) {
+        case BcType.G1:
+            field = 'coefRowsG1'
+            break
+        case BcType.G7:
+            field = 'coefRowsG7'
+            break
+    }
 
     const [err, setErr] = useState<Error | null>(null);
-    const [value, setValue] = useFileField<keyof Profile, CoefRow[]>({
+    const [value, setValue] = useFileField<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
         validate: useCallback(() => {
@@ -95,7 +106,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         }));
 
         // If there are fewer than 5 rows, fill the rest with { bcCd: 0, mv: 0 }
-        while (filledRows.length < 5) {
+        while (filledRows.length < MAX_ITEM_COUNT) {
             filledRows.push({ bcCd: 0, mv: 0 });
         }
 
@@ -107,7 +118,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
 
         if (!err) {
             const newValue = [...value];  // Create a shallow copy of the value array
-            while (newValue.length < 5) {
+            while (newValue.length < MAX_ITEM_COUNT) {
                 newValue.push({ bcCd: 0, mv: 0 });
             }
             newValue[index] = {
@@ -126,9 +137,15 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         }
     }
 
+    const onSortPress = () => {
+        setValue(
+            value.filter(row => !(row.bcCd === 0 && row.mv === 0)).sort((a, b) => b.mv - a.mv)
+        )
+    }
+
     return (
         <Surface style={styles.surface}>
-            <StandardDragHeader model={model} />
+            <StandardDragHeader model={model} onSortPress={onSortPress}/>
             {rows.map((item, index) => <StandardDragRow
                 key={index}
                 row={{

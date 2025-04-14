@@ -46,16 +46,18 @@ const md5 = (data: string): string => {
 
 
 
-export function buildA7P(payload: Payload): ArrayBuffer {
+export function decode(payload: Payload): ArrayBuffer {
     try {
         validate(payload)
+        console.log("payload", payload)
 
         // Step 1: Convert profile to payload message
-        const payloadMessage = profedit.Payload.fromObject({ payload });
+        const payloadMessage = profedit.Payload.fromObject(payload);
+        console.log("message", payloadMessage)
 
         // Step 2: Encode to Uint8Array (protobuf)
         const encoded = profedit.Payload.encode(payloadMessage).finish(); // Uint8Array
-
+        console.log("encoded", encoded)
         // Step 3: Convert Uint8Array to binary string
         const binaryData = Array.from(encoded).map(byte => String.fromCharCode(byte)).join('');
 
@@ -89,7 +91,7 @@ export function buildA7P(payload: Payload): ArrayBuffer {
     }
 }
 
-export function parseA7P(buffer: ArrayBuffer): Payload {
+export function encode(buffer: ArrayBuffer): Payload {
     try {
 
         const base64 = bufferToBase64(buffer);
@@ -106,8 +108,8 @@ export function parseA7P(buffer: ArrayBuffer): Payload {
 
 
         const uint8ArrayData = new Uint8Array(actualData.split('').map(char => char.charCodeAt(0)));
-        const payload = profedit.Payload.decode(uint8ArrayData);
-        const payloadObject: Payload = profedit.Payload.toObject(payload, {
+        const payloadMessage = profedit.Payload.decode(uint8ArrayData);
+        const payloadObject: Payload = profedit.Payload.toObject(payloadMessage, {
             longs: Number,
             enums: String,
             bytes: String,
@@ -125,26 +127,4 @@ export function parseA7P(buffer: ArrayBuffer): Payload {
             throw new Error("Unknown error occurred while decoding the payload.");
         }
     }
-}
-
-
-export function downloadA7PFile(buffer: ArrayBuffer, filename: string = 'profile.a7p') {
-    if (typeof window === 'undefined') return;
-
-    // Create a Blob from the ArrayBuffer
-    const blob = new Blob([buffer], { type: 'application/octet-stream' });
-
-    // Create a temporary link element
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-
-    // Trigger the download
-    document.body.appendChild(a);
-    a.click();
-
-    // Clean up
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
 }
