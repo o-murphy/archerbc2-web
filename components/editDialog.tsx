@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import { Dialog, Portal, Surface, Text } from "react-native-paper";
+import { Dialog, Portal, Surface, Text, useTheme } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
 import RifleContent from "./contentCards/rifleContent";
@@ -43,7 +43,9 @@ const EditDialog = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRoute, setSelectedRoute] = useState<string>('description');
 
-    const {parsedData} = useFileContext()
+    const { parsedData } = useFileContext()
+
+    const theme = useTheme()
 
     useEffect(() => {
         if (parsedData.profile) {
@@ -86,6 +88,7 @@ const EditDialog = () => {
         <Portal>
             <Dialog
                 visible={visible}
+                dismissable={false}
                 style={[
                     styles.dialog,
                     {
@@ -103,7 +106,7 @@ const EditDialog = () => {
                     <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
                     {/* @ts-expect-error: Web-only style, allowed intentionally */}
                     <Surface style={[styles.surfaceContent, webSurfaceOverflow]}>
-                            {renderContent()}
+                        {renderContent()}
                     </Surface>
 
                 </Dialog.Content>

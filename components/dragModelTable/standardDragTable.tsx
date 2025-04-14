@@ -82,13 +82,9 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
             break
     }
 
-    const [err, setErr] = useState<Error | null>(null);
     const [value, setValue] = useFileField<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
-        validate: useCallback(() => {
-            return !!err
-        }, [err])
     });
 
     const rows = useMemo(() => {
@@ -107,20 +103,17 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
     }, [value, setValue]);
 
     const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
-        console.log('handle', !err)
 
-        if (!err) {
-            const newValue = [...value];  // Create a shallow copy of the value array
-            while (newValue.length < MAX_STANDARD_ITEM_COUNT) {
-                newValue.push({ bcCd: 0, mv: 0 });
-            }
-            newValue[index] = {
-                ...newValue[index],  // Copy the existing row
-                mv: mv !== null && mv >= 0 ? mv * 10 : newValue[index].mv,  // Ensure mv is not 0
-                bcCd: bcCd != null && bcCd >= 0 ? bcCd * 10000 : newValue[index].bcCd
-            };
-            setValue(newValue)
+        const newValue = [...value];  // Create a shallow copy of the value array
+        while (newValue.length < MAX_STANDARD_ITEM_COUNT) {
+            newValue.push({ bcCd: 0, mv: 0 });
         }
+        newValue[index] = {
+            ...newValue[index],  // Copy the existing row
+            mv: mv !== null && mv >= 0 ? mv * 10 : newValue[index].mv,  // Ensure mv is not 0
+            bcCd: bcCd != null && bcCd >= 0 ? bcCd * 10000 : newValue[index].bcCd
+        };
+        setValue(newValue)
     }
 
     const onSortPress = () => {
@@ -157,7 +150,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                contentContainerStyle={{ height: 300 }}
+                contentContainerStyle={{ maxHeight: 300 }}
             />
         </Card>
     )
