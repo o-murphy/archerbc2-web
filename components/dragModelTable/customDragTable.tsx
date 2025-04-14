@@ -1,32 +1,47 @@
 import { ProfileProps } from "@/hooks/useFileParsing"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
-import { Button, Divider, IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
+import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
 import { useFileField } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "@/utils/a7p/types"
-import { DoubleSpinBox } from "../fieldsEdit/doubleSpinBox"
+import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
 
 
 
-const MAX_ITEM_COUNT = 200
+const MAX_CUSTOM_ITEM_COUNT = 200
 
-interface EditProps {
+export interface EditProps {
     value: number;
+    onValueChange: (value: number) => void;
+    range?: SpinBoxRange;
+    fraction?: number;
+    affixText?: string;
+}
+
+export interface CustomDragRowProps {
+    index: number;
+    row: {
+        velocity: number,
+        bc: number,
+    };
     setRow: (
         velocity: number | null,
         bc: number | null
     ) => void;
-    onErr: (err: Error | null) => void;
 }
 
-const MvEdit = ({ value, setRow, onErr }: EditProps) => {
+export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2, affixText = "" }: EditProps) => {
     const [editMode, setEditMode] = useState(false)
     const [localValue, setLocalValue] = useState<number>(value)
+    const [err, onErr] = useState<Error | null>(null)
     const ref = useRef<any>(null)
 
     useEffect(() => {
+        setLocalValue(value)
+    }, [value])
+
+    useEffect(() => {
         if (ref.current && editMode) {
-            console.log("focus")
             ref.current.focus();
         }
     }, [editMode, setEditMode])
@@ -34,99 +49,75 @@ const MvEdit = ({ value, setRow, onErr }: EditProps) => {
     const edit = () => setEditMode(true)
     const editEnd = () => {
         setEditMode(false)
-        setRow(localValue, null)
+        if (!err) {
+            onValueChange(localValue)
+        } else {
+            setLocalValue(value)
+        }
     }
 
     return editMode ? (
-        <DoubleSpinBox
-            ref={ref}
-            floatValue={localValue}
-            onFloatValueChange={setLocalValue}
-            range={{ min: 0, max: 10 }}
-            fraction={2}
-            onError={onErr}
-            onEndEditing={editEnd}
-            onSubmitEditing={editEnd}
-            onBlur={editEnd}
-            mode="outlined"
-            style={styles.input}
-        />
+        <View style={styles.inputBox}>
+            <DoubleSpinBox
+                ref={ref}
+                floatValue={localValue}
+                onFloatValueChange={setLocalValue}
+                range={range}
+                fraction={fraction}
+                onError={onErr}
+                onEndEditing={editEnd}
+                onSubmitEditing={editEnd}
+                onBlur={editEnd}
+                mode="outlined"
+                style={styles.input}
+                // right={<TextInput.Affix text={affixText} />}
+            />
+            <HelperText visible={!!err} type="error" >
+                {err?.message}
+            </HelperText>
+        </View>
     ) : (
-        <Button icon="pencil" style={styles.input} onPress={edit}>{value.toFixed(2)}</Button>
+        <Button style={styles.input} onPress={edit}>{`${localValue.toFixed(fraction)} ${affixText}`}</Button>
     );
 }
 
 
-const CoefEdit = ({ value, setRow, onErr }: EditProps) => {
-    const [editMode, setEditMode] = useState(false)
-    const [localValue, setLocalValue] = useState<number>(value)
-    const ref = useRef<any>(null)
-
-    const edit = () => setEditMode(true)
-    const editEnd = () => {
-        setEditMode(false)
-        setRow(null, localValue)
-    }
-
-    useEffect(() => {
-        if (ref.current && editMode) {
-            console.log("focus")
-            ref.current.focus();
-        }
-    }, [editMode, setEditMode])
-
-    return editMode ? (
-        <DoubleSpinBox
-            ref={ref}
-            floatValue={localValue}
-            onFloatValueChange={setLocalValue}
-            range={{ min: 0, max: 10 }}
-            fraction={3}
-            onError={onErr}
-            onEndEditing={editEnd}
-            onSubmitEditing={editEnd}
-            onBlur={editEnd}
-
-            mode="outlined"
-            style={styles.input}
-        />) : (
-        <Button icon="pencil" style={styles.input} onPress={edit}>{value.toFixed(3)}</Button>
-    );
-}
-
-const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow, onError }: {
-    index: number,
-    row: {
-        velocity: number,
-        bc: number,
+const FieldProps = {
+    mv: {
+        range: { min: 0, max: 10 },
+        fraction: 2,
+        // affixText: "mps"
     },
-    setRow: (
-        velocity: number | null,
-        bc: number | null
-    ) => void,
-    onError: (value: null | Error) => void,
-}) => {
+    cd: {
+        range: { min: 0, max: 10 },
+        fraction: 3,
+        // affixText: ""
+    }
+}
+
+const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomDragRowProps) => {
     const theme = useTheme()
-
-    const [mvErr, setMvErr] = useState<null | Error>(null)
-    const [bcCdErr, setBcCdErr] = useState<null | Error>(null)
-
-    useEffect(() => {
-        onError(mvErr || bcCdErr)
-    }, [mvErr, bcCdErr])
 
     const clearRow = () => {
         setRow(0, 0)
+    }
+
+    const handleMvChange = (value: number) => {
+        setRow(value, null)
+    }
+
+    const handleBcCdChange = (value: number) => {
+        setRow(null, value)
     }
 
     return (
         <View style={styles.row}>
             <Text style={[styles.label, { textAlign: "left" }]}>{`[${index + 1}]`}</Text>
             <Text style={styles.label}>{"Mach"}</Text>
-            <MvEdit value={velocity} setRow={setRow} onErr={setMvErr} />
+            <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <Text style={styles.label}>{"Cd"}</Text>
-            <CoefEdit value={bc} setRow={setRow} onErr={setBcCdErr} />
-            <Tooltip title="Clear row">
+            <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
+            <Tooltip title="Clear row"  leaveTouchDelay={1}>
                 <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} onPress={clearRow} />
             </Tooltip>
         </View>
@@ -138,48 +129,41 @@ const CustomDragTable = () => {
 
     let field = 'coefRowsCustom' as keyof ProfileProps
 
-    const [err, setErr] = useState<Error | null>(null);
     const [value, setValue] = useFileField<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
-        validate: useCallback(() => {
-            return !!err
-        }, [err])
     });
 
-
     const rows = useMemo(() => {
-        let filledRows = value.slice(0, MAX_ITEM_COUNT)
+        let filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT)
 
         // If there are fewer than 5 rows, fill the rest with { bcCd: 0, mv: 0 }
-        while (filledRows.length < MAX_ITEM_COUNT) {
+        while (filledRows.length < MAX_CUSTOM_ITEM_COUNT) {
             filledRows.push({ bcCd: 0, mv: 0 });
         }
 
-        filledRows = filledRows.map((item, index) => ({
-            id: index,
+        return filledRows.map((item, index) => ({
+            id: `${index}`,
             bcCd: item.bcCd / 10000,
             mv: item.mv / 10000
         }));
 
-        return filledRows;
     }, [value, setValue]);
 
     const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
 
-        if (!err) {
-            const newValue = [...value];  // Create a shallow copy of the value array
-            while (newValue.length < MAX_ITEM_COUNT) {
-                newValue.push({ bcCd: 0, mv: 0 });
-            }
-            newValue[index] = {
-                ...newValue[index],  // Copy the existing row
-                mv: mv !== null && mv >= 0 ? mv * 10000 : newValue[index].mv,  // Ensure mv is not 0
-                bcCd: bcCd != null && bcCd >= 0 ? bcCd * 10000 : newValue[index].bcCd
-            };
-
-            setValue(newValue)
+        const newValue = [...value];  // Create a shallow copy of the value array
+        while (newValue.length < MAX_CUSTOM_ITEM_COUNT) {
+            newValue.push({ bcCd: 0, mv: 0 });
         }
+
+        newValue[index] = {
+            ...newValue[index],  // Copy the existing row
+            mv: mv !== null && mv >= 0 ? Math.round(mv * 10000) : newValue[index].mv,  // Ensure mv is not 0
+            bcCd: bcCd != null && bcCd >= 0 ? Math.round(bcCd * 10000) : newValue[index].bcCd
+        };
+
+        setValue(newValue)
     }
 
     const onSortPress = () => {
@@ -190,39 +174,38 @@ const CustomDragTable = () => {
 
     const renderItem = (item: any) => {
         const index = item.index
+
         return (
             <CustomDragRow
                 key={index}
                 index={index}
                 row={{
-                    velocity: item.mv,
-                    bc: item.bcCd
+                    velocity: item.item.mv,
+                    bc: item.item.bcCd
                 }}
                 setRow={
                     (mv = null, bc = null) => handleChange(index, mv, bc)
                 }
-                onError={setErr}
             />
         )
     }
     return (
-        <Surface style={styles.surface}>
+        <Card elevation={3} style={styles.surface}>
             <View style={styles.row}>
                 <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
                 <Divider style={styles.divider} />
-                <Button icon="sort-variant" mode="outlined" compact style={styles.addBtn} onPress={onSortPress}>Sort</Button>
+                <Button icon="sort-variant" mode="outlined" compact style={styles.sortBtn} onPress={onSortPress}>Sort</Button>
             </View>
-
             <FlatList
                 data={rows}
                 renderItem={renderItem}
-                keyExtractor={item => item.id} 
+                keyExtractor={item => item.id}
                 initialNumToRender={10}
                 scrollEnabled={true}
-                style={{flex:1}}
-                contentContainerStyle={{height: 300}}
+                style={{ flex: 1 }}
+                contentContainerStyle={{ height: 300 }}
             />
-        </Surface>
+        </Card>
     )
 }
 
@@ -244,13 +227,16 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     input: {
-        flex: 2,
+        flex: 3,
         height: 24,
+    },
+    inputBox: {
+        flex: 3
     },
     icon: {
         height: 24,
     },
-    addBtn: {
+    sortBtn: {
         flex: 1,
         alignSelf: "flex-end"
     },

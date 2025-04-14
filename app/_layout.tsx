@@ -25,6 +25,7 @@ export const useThemeToggle = () => {
   return context;
 };
 
+
 export default function RootLayout() {
   const [isDark, setIsDark] = useState(true);
   const theme = isDark ? MD3DarkTheme : MD3LightTheme;
