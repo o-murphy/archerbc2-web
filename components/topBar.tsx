@@ -92,7 +92,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     width: "100%",
     paddingRight: 16,
-    justifyContent: "space-between", // This makes the elements spread out
+    // justifyContent: "space-between", // This makes the elements spread out
+    flexWrap: "wrap-reverse"
   },
   topBarTitle: {
     textAlign: "right",
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
     flexGrow: 1, // Ensures it takes available space and pushes content to the right
+    flexWrap: "wrap"
   },
 });
 

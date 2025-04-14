@@ -70,14 +70,20 @@ export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2,
                 onBlur={editEnd}
                 mode="outlined"
                 style={styles.input}
-                // right={<TextInput.Affix text={affixText} />}
+            // right={<TextInput.Affix text={affixText} />}
             />
             <HelperText visible={!!err} type="error" >
                 {err?.message}
             </HelperText>
         </View>
     ) : (
-        <Button style={styles.input} onPress={edit}>{`${localValue.toFixed(fraction)} ${affixText}`}</Button>
+        <Button
+            style={[styles.input, {justifyContent: "center"}]}
+            onPress={edit}
+            labelStyle={{padding: 0, margin: 0, justifyContent: "center", textAlign: "center"}}
+        >
+            {`${localValue.toFixed(fraction)} ${affixText}`}
+        </Button>
     );
 }
 
@@ -117,8 +123,14 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
             <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <Text style={styles.label}>{"Cd"}</Text>
             <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
-            <Tooltip title="Clear row"  leaveTouchDelay={1}>
-                <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} onPress={clearRow} />
+            <Tooltip title="Clear row" leaveTouchDelay={1}>
+                <IconButton
+                    size={16}
+                    icon={"close"}
+                    iconColor={theme.colors.error}
+                    style={styles.icon}
+                    onPress={clearRow}
+                />
             </Tooltip>
         </View>
     )
