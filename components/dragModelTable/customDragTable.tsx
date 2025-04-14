@@ -1,10 +1,11 @@
 import { ProfileProps } from "@/hooks/useFileParsing"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { StyleSheet, View } from "react-native"
+import { FlatList, StyleSheet, View } from "react-native"
 import { Button, Divider, IconButton, Surface, Text, TextInput, Tooltip, useTheme } from "react-native-paper"
 import { useFileField } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "@/utils/a7p/types"
 import { DoubleSpinBox, SpinBoxProps } from "../fieldsEdit/doubleSpinBox"
+
 
 
 const MAX_ITEM_COUNT = 200
@@ -51,7 +52,7 @@ const MvEdit = ({ value, setRow, onErr }: EditProps) => {
             style={styles.input}
         />
     ) : (
-        <Button icon="pencil" onPress={edit}>{value.toFixed(2)}</Button>
+        <Button icon="pencil" style={styles.input} onPress={edit}>{value.toFixed(2)}</Button>
     );
 }
 
@@ -89,7 +90,7 @@ const CoefEdit = ({ value, setRow, onErr }: EditProps) => {
             mode="outlined"
             style={styles.input}
         />) : (
-        <Button icon="pencil" onPress={edit}>{value.toFixed(3)}</Button>
+        <Button icon="pencil" style={styles.input} onPress={edit}>{value.toFixed(3)}</Button>
     );
 }
 
@@ -148,21 +149,23 @@ const CustomDragTable = () => {
 
 
     const rows = useMemo(() => {
-        const filledRows = value.slice(0, MAX_ITEM_COUNT).map(item => ({
-            bcCd: item.bcCd / 10000,
-            mv: item.mv / 10000
-        }));
+        let filledRows = value.slice(0, MAX_ITEM_COUNT)
 
         // If there are fewer than 5 rows, fill the rest with { bcCd: 0, mv: 0 }
         while (filledRows.length < MAX_ITEM_COUNT) {
             filledRows.push({ bcCd: 0, mv: 0 });
         }
 
+        filledRows = filledRows.map((item, index) => ({
+            id: index,
+            bcCd: item.bcCd / 10000,
+            mv: item.mv / 10000
+        }));
+
         return filledRows;
     }, [value, setValue]);
 
     const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
-        console.log('handle', !err)
 
         if (!err) {
             const newValue = [...value];  // Create a shallow copy of the value array
@@ -185,14 +188,10 @@ const CustomDragTable = () => {
         )
     }
 
-    return (
-        <Surface style={styles.surface}>
-            <View style={styles.row}>
-                <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
-                <Divider style={styles.divider} />
-                <Button icon="sort-variant" mode="outlined" compact style={styles.addBtn} onPress={onSortPress}>Sort</Button>
-            </View>
-            {rows.map((item, index) => <CustomDragRow
+    const renderItem = (item) => {
+        const index = item.index
+        return (
+            <CustomDragRow
                 key={index}
                 index={index}
                 row={{
@@ -203,7 +202,39 @@ const CustomDragTable = () => {
                     (mv = null, bc = null) => handleChange(index, mv, bc)
                 }
                 onError={setErr}
-            />)}
+            />
+        )
+    }
+    return (
+        <Surface style={styles.surface}>
+            <View style={styles.row}>
+                <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
+                <Divider style={styles.divider} />
+                <Button icon="sort-variant" mode="outlined" compact style={styles.addBtn} onPress={onSortPress}>Sort</Button>
+            </View>
+
+            <FlatList
+                data={rows}
+                renderItem={renderItem}
+                keyExtractor={item => item.id} 
+                initialNumToRender={10}
+                scrollEnabled={true}
+                style={{flex:1}}
+                contentContainerStyle={{height: 300}}
+            />
+
+            {/* {rows.map((item, index) => <CustomDragRow
+                key={index}
+                index={index}
+                row={{
+                    velocity: item.mv,
+                    bc: item.bcCd
+                }}
+                setRow={
+                    (mv = null, bc = null) => handleChange(index, mv, bc)
+                }
+                onError={setErr}
+            />)} */}
         </Surface>
     )
 }
@@ -226,11 +257,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     input: {
-        flex: 3,
+        flex: 2,
         height: 24,
     },
     icon: {
-        height: 24
+        height: 24,
     },
     addBtn: {
         flex: 1,
