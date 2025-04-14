@@ -1,10 +1,10 @@
 import { ProfileProps } from "@/hooks/useFileParsing"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
-import { Button, Divider, IconButton, Surface, Text, TextInput, Tooltip, useTheme } from "react-native-paper"
+import { Button, Divider, IconButton, Surface, Text, Tooltip, useTheme } from "react-native-paper"
 import { useFileField } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "@/utils/a7p/types"
-import { DoubleSpinBox, SpinBoxProps } from "../fieldsEdit/doubleSpinBox"
+import { DoubleSpinBox } from "../fieldsEdit/doubleSpinBox"
 
 
 
@@ -22,7 +22,7 @@ interface EditProps {
 const MvEdit = ({ value, setRow, onErr }: EditProps) => {
     const [editMode, setEditMode] = useState(false)
     const [localValue, setLocalValue] = useState<number>(value)
-    const ref = useRef<SpinBoxProps>(null)
+    const ref = useRef<any>(null)
 
     useEffect(() => {
         if (ref.current && editMode) {
@@ -60,7 +60,7 @@ const MvEdit = ({ value, setRow, onErr }: EditProps) => {
 const CoefEdit = ({ value, setRow, onErr }: EditProps) => {
     const [editMode, setEditMode] = useState(false)
     const [localValue, setLocalValue] = useState<number>(value)
-    const ref = useRef<SpinBoxProps>(null)
+    const ref = useRef<any>(null)
 
     const edit = () => setEditMode(true)
     const editEnd = () => {
@@ -125,7 +125,7 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow, onError }
             <Text style={styles.label}>{"Mach"}</Text>
             <MvEdit value={velocity} setRow={setRow} onErr={setMvErr} />
             <Text style={styles.label}>{"Cd"}</Text>
-            <CoefEdit value={bc} setRow={setRow} onErr={bcCdErr} />
+            <CoefEdit value={bc} setRow={setRow} onErr={setBcCdErr} />
             <Tooltip title="Clear row">
                 <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} onPress={clearRow} />
             </Tooltip>
@@ -188,7 +188,7 @@ const CustomDragTable = () => {
         )
     }
 
-    const renderItem = (item) => {
+    const renderItem = (item: any) => {
         const index = item.index
         return (
             <CustomDragRow
@@ -222,19 +222,6 @@ const CustomDragTable = () => {
                 style={{flex:1}}
                 contentContainerStyle={{height: 300}}
             />
-
-            {/* {rows.map((item, index) => <CustomDragRow
-                key={index}
-                index={index}
-                row={{
-                    velocity: item.mv,
-                    bc: item.bcCd
-                }}
-                setRow={
-                    (mv = null, bc = null) => handleChange(index, mv, bc)
-                }
-                onError={setErr}
-            />)} */}
         </Surface>
     )
 }
