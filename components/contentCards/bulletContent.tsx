@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useFileField } from "../fieldsEdit/fieldEditInput";
+import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { BcType, Profile } from "@/utils/a7p/types";
 
 
@@ -36,7 +36,7 @@ const BulletFloatFields: FieldFloatProps = {
 
 
 const DragModel = () => {
-  const [bcType, setBcType] = useFileField<keyof Profile, BcType>({
+  const [bcType, setBcType] = useProfileFieldState<keyof Profile, BcType>({
     field: 'bcType',
     defaultValue: BcType.G1,
   });
@@ -66,12 +66,10 @@ const DragModel = () => {
               label: 'CUSTOM',
             },
           ]}
-        />    
-        <View style={styles.label} />
+        />
       </View>
       <View style={styles.row}>
-        <View style={{flex: 4}}>{renderContent()}</View>
-        <View style={styles.label} />
+        <View style={{ flex: 4 }}>{renderContent()}</View>
       </View>
     </>
   )
@@ -89,13 +87,11 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <Text style={styles.label}>{"Diameter"}</Text>
-        {/* <TextInput mode="outlined" dense style={styles.input} /> */}
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bDiameter as FieldEditFloatProps}
           style={styles.input}
           right={<TextInput.Affix text={"inch"} />}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -105,7 +101,6 @@ const BulletContent = () => {
           style={styles.input}
           right={<TextInput.Affix text={"grain"} />}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -115,7 +110,6 @@ const BulletContent = () => {
           style={styles.input}
           right={<TextInput.Affix text={"inch"} />}
         />
-        <View style={styles.label} />
       </View>
 
       <DragModel />
@@ -125,8 +119,10 @@ const BulletContent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
-    width: 600,
+    gap: 8,
+    width: 400,
   },
   header: {
     marginBottom: 8,
@@ -143,22 +139,10 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 3,
-    // height: 24
-  },
-  divider: {
-    flex: 3,
   },
   segmented: {
     flex: 3,
   },
-  sectionTitle: {
-    flex: 1,
-    marginBottom: 4,
-    alignSelf: "center"
-  },
-  scrollContainer: {
-    paddingHorizontal: 24
-  }
 });
 
 export default BulletContent;

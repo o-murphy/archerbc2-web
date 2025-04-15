@@ -20,10 +20,12 @@ type SideBarProps = {
 
 // Function to render the side drawer with navigation options
 const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => (
+    // @ts-expect-error: Web-only style, allowed intentionally
     <Drawer.Section style={styles.sideBar}>
         {drawerItems.map(({ label, icon, route }) => (
             <Drawer.CollapsedItem
                 key={route}
+                // @ts-expect-error: Web-only style, allowed intentionally
                 style={styles.collapsedItem}
                 label={label}
                 focusedIcon={() => <ThemedTabIcon source={icon as ThemedIconName} size={40} />}
@@ -43,8 +45,10 @@ export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
 const styles = StyleSheet.create({
     sideBar: {
         alignItems: "center",
-        width: 64,
+        width: 80,
         borderRadius: 16,
+        // @ts-expect-error: Web-only style, allowed intentionally   
+        overflow: "auto",
     },
     collapsedItem: {
         width: 64,

@@ -2,7 +2,7 @@ import { ProfileProps } from "@/hooks/useFileParsing"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
-import { useFileField } from "../fieldsEdit/fieldEditInput"
+import { useProfileFieldState } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "@/utils/a7p/types"
 import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
 
@@ -141,7 +141,7 @@ const CustomDragTable = () => {
 
     let field = 'coefRowsCustom' as keyof ProfileProps
 
-    const [value, setValue] = useFileField<keyof ProfileProps, CoefRow[]>({
+    const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
     });
@@ -215,7 +215,7 @@ const CustomDragTable = () => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                contentContainerStyle={{ maxHeight: 300 }}
+                contentContainerStyle={{ maxHeight: 200 }}
             />
         </Card>
     )

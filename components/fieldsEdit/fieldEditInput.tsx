@@ -1,12 +1,65 @@
 import { useFileContext } from "@/hooks/fileContext";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
 import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
 import { View, ViewStyle } from "react-native";
 import { ProfileProps } from "@/hooks/useFileParsing";
 
 
-export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>({
+export function useProfileFields<K extends keyof ProfileProps>(
+    fields: K[]
+): [Pick<ProfileProps, K>, (updates: Partial<Pick<ProfileProps, K>>) => void] {
+    const { currentData, setCurrentData } = useFileContext();
+
+    const currentValues = useMemo(() => {
+        const profile = (currentData.profile ?? {}) as Partial<ProfileProps>;
+        const result = {} as Pick<ProfileProps, K>;
+        for (const key of fields) {
+            result[key] = profile[key] as ProfileProps[K];
+        }
+        return result;
+    }, [currentData.profile, ...fields]);
+
+    const setValues = (updates: Partial<Pick<ProfileProps, K>>) => {
+        setCurrentData(prev => ({
+            ...prev,
+            profile: {
+                ...(prev.profile ?? {}),
+                ...updates,
+            } as ProfileProps,
+        }));
+    };
+
+    return [currentValues, setValues];
+}
+// export function useProfileFields<K extends keyof ProfileProps>(
+//     fields: K[]
+// ): [Pick<ProfileProps, K>, (updates: Partial<Pick<ProfileProps, K>>) => void] {
+//     const { currentData, setCurrentData } = useFileContext();
+
+//     const currentValues = useMemo(() => {
+//         const profile = currentData.profile ?? {};
+//         const result = {} as Pick<ProfileProps, K>;
+//         for (const key of fields) {
+//             result[key] = profile[key];
+//         }
+//         return result;
+//     }, [currentData.profile, ...fields]);
+
+//     const setValues = (updates: Partial<Pick<ProfileProps, K>>) => {
+//         setCurrentData(prev => ({
+//             ...prev,
+//             profile: {
+//                 ...prev.profile,
+//                 ...updates,
+//             },
+//         }));
+//     };
+
+//     return [currentValues, setValues];
+// }
+
+export function useProfileFieldState<K extends keyof ProfileProps, T = ProfileProps[K]>({
     field,
     defaultValue,
     parse = (v: any) => v,
@@ -19,36 +72,36 @@ export function useFileField<K extends keyof ProfileProps, T = ProfileProps[K]>(
     format?: (v: T) => any;
     validate?: (v: T) => boolean;
 }) {
-    const { parsedData, setParsedData, dummyState } = useFileContext();
+    const { currentData, setCurrentData, dummyState } = useFileContext();
     const isLocalChange = useRef(false);
 
     const [value, setValue] = useState<T>(
-        parsedData.profile?.[field] !== undefined
-            ? parse(parsedData.profile?.[field])
+        currentData.profile?.[field] !== undefined
+            ? parse(currentData.profile?.[field])
             : defaultValue
     );
 
     useEffect(() => {
-        if (parsedData.profile) {
-            const newVal = parse(parsedData.profile?.[field]);
+        if (currentData.profile) {
+            const newVal = parse(currentData.profile?.[field]);
             setValue(newVal ?? defaultValue);
         }
-    }, [parsedData.profile, field, dummyState]);
+    }, [currentData.profile, field, dummyState]);
 
     useEffect(() => {
-        if (!parsedData.profile || !isLocalChange.current) return;
+        if (!currentData.profile || !isLocalChange.current) return;
         if (validate && validate(value)) return;
 
-        setParsedData({
-            ...parsedData,
+        setCurrentData({
+            ...currentData,
             profile: {
-                ...parsedData.profile,
+                ...currentData.profile,
                 [field]: format(value),
             },
         });
 
         isLocalChange.current = false;
-    }, [value, parsedData, field, setParsedData]);
+    }, [value, currentData, field, setCurrentData]);
 
     const handleChange = (val: T) => {
         isLocalChange.current = true;
@@ -65,7 +118,7 @@ export interface FieldEditProps extends Omit<TextInputProps, 'value' | 'onChange
 }
 
 export const FieldEdit = ({ field, maxLength, ...props }: FieldEditProps) => {
-    const [value, setValue] = useFileField<keyof ProfileProps, string>({
+    const [value, setValue] = useProfileFieldState<keyof ProfileProps, string>({
         field,
         defaultValue: "",
     });
@@ -94,7 +147,7 @@ export const FieldEditFloat = ({
 }: FieldEditFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue] = useFileField<keyof ProfileProps, string>({
+    const [value, setValue] = useProfileFieldState<keyof ProfileProps, string>({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),

@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 16,
     width: "100%",
-    paddingRight: 16,
-    // justifyContent: "space-between", // This makes the elements spread out
     flexWrap: "wrap-reverse"
   },
   topBarTitle: {
@@ -104,15 +102,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#666",
     width: 1,
     height: 24,
-    marginHorizontal: 4, // This gives space between the separator and the other elements
   },
   rightSide: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    flexGrow: 1, // Ensures it takes available space and pushes content to the right
+    flexGrow: 1,
+    gap: 4,
     flexWrap: "wrap"
-  },
+  }
 });
 
 export default TopBar;

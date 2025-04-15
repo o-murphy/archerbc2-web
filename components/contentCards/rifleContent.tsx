@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
-import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useFileField } from "../fieldsEdit/fieldEditInput";
+import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { Profile, TwistDir } from "@/utils/a7p/types";
 
 
@@ -27,7 +27,7 @@ const RifleFloatFields: FieldFloatProps = {
 };
 
 const TwistField = () => {
-    const [twistDir, setTwistDir] = useFileField<keyof Profile, TwistDir>({
+    const [twistDir, setTwistDir] = useProfileFieldState<keyof Profile, TwistDir>({
         field: 'twistDir',
         defaultValue: TwistDir.RIGHT,
     });
@@ -68,7 +68,6 @@ const RifleContent = () => {
                     style={styles.input}
                     right={<TextInput.Affix text={"inch"} />}
                 />
-                <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
@@ -78,13 +77,11 @@ const RifleContent = () => {
                     style={styles.input}
                     right={<TextInput.Affix text={"inch/turn"} />}
                 />
-                <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
                 <Text style={styles.label}>Twist Direction</Text>
                 <TwistField />
-                <View style={styles.label} />
             </View>
 
             <View style={styles.row}>
@@ -94,7 +91,6 @@ const RifleContent = () => {
                     style={styles.input}
                     right={<TextInput.Affix text={"mm"} />}
                 />
-                <View style={styles.label} />
             </View>
         </View>
     );
@@ -102,8 +98,10 @@ const RifleContent = () => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         padding: 16,
-        width: 600,
+        gap: 8,
+        width: 400,
     },
     header: {
         marginBottom: 8,

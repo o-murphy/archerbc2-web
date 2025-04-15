@@ -1,7 +1,7 @@
 import { BcType } from "@/utils/a7p/types";
 import { FlatList, StyleSheet, View } from "react-native"
 import { Card, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
-import { useFileField } from "../fieldsEdit/fieldEditInput";
+import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { CoefRow } from "@/utils/a7p/types";
 import { useCallback, useMemo, useState } from "react";
 import { ProfileProps } from "@/hooks/useFileParsing";
@@ -82,7 +82,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
             break
     }
 
-    const [value, setValue] = useFileField<keyof ProfileProps, CoefRow[]>({
+    const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
     });
@@ -150,7 +150,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                contentContainerStyle={{ maxHeight: 300 }}
+                // contentContainerStyle={{ maxHeight: 300 }}
             />
         </Card>
     )

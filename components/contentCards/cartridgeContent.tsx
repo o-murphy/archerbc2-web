@@ -39,7 +39,6 @@ const CartridgeContent = () => {
           style={styles.input}
           right={<TextInput.Affix text={"mps"} />}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -49,7 +48,6 @@ const CartridgeContent = () => {
           style={styles.input}
           right={<TextInput.Affix text={"°C"} />}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -60,7 +58,6 @@ const CartridgeContent = () => {
           left={<TextInput.Icon icon={"calculator"} />}
           right={<TextInput.Affix text={"%/15°C"} />}
         />
-        <View style={styles.label} />
       </View>
 
     </View>
@@ -69,8 +66,10 @@ const CartridgeContent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
-    width: 600,
+    gap: 8,
+    width: 400,
   },
   header: {
     marginBottom: 8,

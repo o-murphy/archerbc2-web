@@ -33,7 +33,7 @@ const StartDialog = () => {
 
     const [visible, setVisible] = useState(true)
     const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
-    const { fileState, parsedData } = useFileContext()
+    const { fileState, currentData: parsedData } = useFileContext()
 
     const [visibleSnack, setVisibleSnack] = useState(false)
 

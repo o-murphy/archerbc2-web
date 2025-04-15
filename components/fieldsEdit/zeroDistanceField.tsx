@@ -14,7 +14,7 @@ const renderInputIcon = () => {
 };
 
 const ZeroDistanceField = ({ ...props }) => {
-    const { parsedData, setParsedData, dummyState } = useFileContext();
+    const { currentData: parsedData, setCurrentData: setParsedData, dummyState } = useFileContext();
 
     const distances: DistanceOption[] = useMemo(() => {
         if (parsedData.profile?.distances) {

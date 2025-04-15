@@ -1,98 +1,179 @@
-import { useFileContext } from "@/hooks/fileContext";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Text, List, FAB, Chip } from "react-native-paper";
-import { useTheme } from "react-native-paper";
+import { Text, Chip, Surface, Icon } from "react-native-paper";
+import { useMemo, useRef } from "react";
+import { useProfileFields, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
+import { nanoid } from 'nanoid';
+
+import {
+  DndContext,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  closestCenter,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { ThemedIcon } from "../tabIcons";
+import { distancesTemplates, ProfileProps } from "@/hooks/useFileParsing";
 
-const renderItems = () => {
-  const theme = useTheme();
-  const { parsedData } = useFileContext();
 
-  // Function to render the zero icon for the selected distance
-  const renderZeroIcon = (index: number) => {
-    if (index === parsedData.profile?.cZeroDistanceIdx) {
-      return (
-        <List.Icon
-          icon={(props) => (
-            <ThemedIcon {...props} source="zeroing-distance" />
-          )}
-        />
-      );
-    }
-    return null;  // Return null when it's not the zeroing distance
-  };
+type DistanceItem = { id: string; value: number, zero: boolean };
 
-  // Check if parsedData is valid and ensure profile and distances exist
-  if (!parsedData.profile?.distances) return null;  // If no distances, return nothing
+// Function to render the zero icon for the selected distance
+const renderZeroIcon = (visible: boolean) => {
 
-  return parsedData.profile.distances.map((item, index) => (
-    <List.Item
-      key={index}  // Use the index as the key, assuming distances are unique
-      title={`${item / 100} m`}  // Convert distance to meters (divide by 100)
-      style={itemStyle.listItem}  // Apply custom styles
-      left={() => renderZeroIcon(index)}  // Render zeroing icon if applicable
-      right={(props) => (
-        <>
-          <List.Icon {...props} icon="arrow-up" />
-          <List.Icon {...props} icon="arrow-down" />
-          <List.Icon {...props} icon="close" color={theme.colors.error} />
-        </>
-      )}
-    />
-  ));
+  return (
+    visible ? <ThemedIcon size={24} source="zeroing-distance" /> : null
+  );  // Return null when it's not the zeroing distance
 };
 
-const itemStyle = StyleSheet.create({
-  listItem: {
-    borderBottomColor: "#666",
-    borderBottomWidth: 1,
-  },
-});
+const SortableItem = ({ item }: { item: DistanceItem }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: item.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <Surface elevation={2} ref={setNodeRef} style={[styles.sortableItem, style]} {...attributes} {...listeners}>
+      <Icon source={"arrow-up-down"} size={24} />
+      <Text style={{ textAlign: "center", alignSelf: "center" }} >{item.value} m</Text>
+      {renderZeroIcon(item.zero)}
+    </Surface>
+  );
+};
 
 const DistancesList = () => {
+  const [profileFields, setProfileFields] = useProfileFields([
+    'cZeroDistanceIdx',
+    'distances',
+  ]);
+
+  const value = profileFields.distances ?? [];
+  const zeroIdx = profileFields.cZeroDistanceIdx ?? 0;
+
+  const idMapRef = useRef<Map<number, string>>(new Map());
+
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const items = useMemo(() => {
+    console.log("ze", zeroIdx);
+    return value.map((val, index) => {
+      if (!idMapRef.current.has(val)) {
+        idMapRef.current.set(val, nanoid());
+      }
+
+      return {
+        id: idMapRef.current.get(val)!,
+        value: val / 100,
+        zero: zeroIdx === index,
+      };
+    });
+  }, [value, zeroIdx]);
+
+  const setItems = (items: DistanceItem[]) => {
+    const newZeroIndex = items.findIndex(item => item.zero);
+    const newValues = items.map(item => Math.round(item.value * 100));
+
+    setProfileFields({
+      cZeroDistanceIdx: newZeroIndex,
+      distances: newValues,
+    });
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = items.findIndex(item => item.id === active.id);
+    const newIndex = items.findIndex(item => item.id === over.id);
+    const reorderedItems = arrayMove(items, oldIndex, newIndex);
+    setItems(reorderedItems);
+  };
+
   return (
-    <View style={styles.scrollWrapper}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <List.Section>{renderItems()}</List.Section>
-      </ScrollView>
-    </View>
+
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={items.map(item => item.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {items.map(item => (
+          <SortableItem key={item.id} item={item} />
+        ))}
+      </SortableContext>
+
+    </DndContext>
+
+  );
+};
+
+
+
+const DistancesTemplateChip = ({ name, distances }: { name: string, distances: number[] }) => {
+
+  const [, setValue] = useProfileFieldState<keyof ProfileProps, number[]>({
+    field: 'distances',
+    defaultValue: [],
+  })
+
+  const onPress = () => {
+    setValue(distances.map(item => Math.round(item * 100)))
+  }
+
+  return (
+    <Chip mode="flat" onPress={onPress}>{name}</Chip>
   )
 }
 
 const DistancesContent = () => {
-
-  const onAddPress = () => {
-    console.log("Add distance")
-  }
 
   return (
     <View style={styles.container}>
       <Text variant="titleLarge" style={styles.header}>
         Distances
       </Text>
+      
+      <Text style={{ alignSelf: "center" }} variant="titleMedium">Quick range set</Text>
 
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        <Text style={{ alignSelf: "center" }} variant="titleMedium">Quick range set:</Text>
-        <Chip mode="flat">Subsonic</Chip>
-        <Chip mode="flat">Low</Chip>
-        <Chip mode="flat">Medium</Chip>
-        <Chip mode="flat">Long</Chip>
-        <Chip mode="flat">Ultra long</Chip>
+      <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
+        {Object.entries(distancesTemplates).map(([key, distances]) => (
+          <DistancesTemplateChip key={key} name={key} distances={distances} />
+        ))}
       </View>
 
-      <DistancesList />
-      <FAB icon="plus" label="Add" mode="flat" variant="secondary" onPress={onAddPress} />
-
+      <ScrollView contentContainerStyle={{ gap: 8, padding: 8 }}>
+        <DistancesList />
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  sortableItem: {
+    flexDirection: "row",
+    padding: 16,
+    borderRadius: 8,
+    gap: 16,
+  },
   container: {
     flex: 1,
     padding: 16,
-    gap: 8
-  },
+    gap: 8,
+    width: 400,
+},
   header: {
     marginBottom: 8,
   },
@@ -106,13 +187,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     gap: 16,
     marginBottom: 8,
-  },
-  scrollWrapper: {
-    flex: 1,
-    minHeight: 0, // ensures proper shrinking in flex layout
-  },
-  scrollContent: {
-    paddingBottom: 16,
   },
 });
 

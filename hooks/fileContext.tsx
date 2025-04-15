@@ -8,8 +8,8 @@ import { ParsedData, saveParsedData } from './useFileParsing';
 interface FileContextType {
     fileState: FileHandleState;
     setFileState: React.Dispatch<React.SetStateAction<FileHandleState>>;
-    parsedData: ParsedData;
-    setParsedData: React.Dispatch<React.SetStateAction<ParsedData>>;
+    currentData: ParsedData;
+    setCurrentData: React.Dispatch<React.SetStateAction<ParsedData>>;
     backupData: ParsedData;
     setBackupData: React.Dispatch<React.SetStateAction<ParsedData>>;
     syncBackup: () => void;
@@ -99,7 +99,7 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     return (
         <FileContext.Provider value={{
             fileState, setFileState,
-            parsedData: currentData, setParsedData: setCurrentData,
+            currentData, setCurrentData,
             backupData, setBackupData,
             syncBackup, restoreBackup,
             dummyState, setDummyState,

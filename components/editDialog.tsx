@@ -43,7 +43,7 @@ const EditDialog = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRoute, setSelectedRoute] = useState<string>('description');
 
-    const { parsedData } = useFileContext()
+    const { currentData: parsedData } = useFileContext()
 
     const theme = useTheme()
 
