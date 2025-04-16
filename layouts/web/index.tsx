@@ -1,8 +1,7 @@
 import EditDialog from "@/components/editDialog";
+import { FileOpenError } from "@/components/fileOpenError";
 import StartDialog from "@/components/startDialog";
-import { useFileContext } from "@/hooks/fileContext";
-import { useFileHandler } from "@/hooks/useFileHandler";
-import { useParseFile, useParseString } from "@/hooks/useFileParsing";
+import { useParseUrl } from "@/hooks/useFileParsing";
 import { useEffect, useState } from "react";
 import { Linking, Platform, StyleSheet } from "react-native";
 import { Surface, useTheme } from "react-native-paper";
@@ -92,7 +91,7 @@ const UrlProfileLoader = () => {
     };
   }, []);
 
-  useParseString(urlPayload)
+  useParseUrl(urlPayload)
 
   return <></>
 }
@@ -102,6 +101,7 @@ const WebLayout = () => {
 
   return (
     <Surface style={styles.view}>
+      <FileOpenError />
       <UrlProfileLoader />
       <EditDialog />
       <StartDialog />

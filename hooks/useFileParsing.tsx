@@ -4,8 +4,9 @@ import { encode, decode } from "@/utils/a7p/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
 import { BcType, CoefRow, Profile } from "@/utils/a7p/types"
-import { savefileBackup, useSaveBackup } from "./useFileStorege";
+import { savefileBackup } from "./useFileStorege";
 import { toByteArray, fromByteArray } from 'base64-js';
+import { Platform } from "react-native";
 
 
 export type DistanceTemplateType = Record<string, number[]>
@@ -113,18 +114,20 @@ export const prepareProfile = (profileProps: ProfileProps): Profile => {
     return profile
 }
 
-export const useParseString = (data: string | null) => {
+export const useParseUrl = (data: string | null) => {
     const { setCurrentData: setParsedData, setBackupData, setFileState } = useFileContext();
     useEffect(() => {
         if (data) {
             try {
-                const payload = encode(toByteArray(data).slice(0).buffer)
+                const buffer = toByteArray(decodeURIComponent(data)).slice(0).buffer
+                const payload = encode(buffer)
                 const profileProps = prepareProfileProps(payload.profile)
                 setParsedData({ profile: profileProps, error: null });
                 setBackupData({ profile: profileProps, error: null });
+                setFileState({ name: null, data: buffer, error: null })
             } catch (error: any) {
                 setParsedData({ profile: null, error: new Error(`Error parsing A7P file: ${error}`) });
-                setFileState(error)
+                setFileState({ name: null, data: null, error: error })
             };
         }
     }, [data, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
@@ -153,13 +156,34 @@ export const useParseFile = (fileHandleState: FileHandleState) => {
     }, [fileHandleState, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
 };
 
+export const encodeAsUrl = (data: ParsedData): string | undefined => {
+
+    if (Platform.OS != "web") return;
+
+
+    if (data.profile && !data.error) {
+        try {
+            const origin = window.location.origin
+
+            const buffer = decode({
+                profile: prepareProfile(data.profile)
+            })
+            const payload = encodeURIComponent(fromByteArray(new Uint8Array(buffer)));
+            const url = `${origin}?payload=${payload}`;
+            console.log("Payload URL:", url);
+            return url
+        } catch (error) {
+            throw new Error(`Error on file download, ${error}`)
+        }
+    }
+}
+
 export const saveParsedData = (data: ParsedData, filename: string | null) => {
     if (data.profile && !data.error) {
         try {
             const buffer = decode({
                 profile: prepareProfile(data.profile)
             })
-            console.log("S", fromByteArray(new Uint8Array(buffer)))
             if (!filename || filename === "Upload file") {
                 filename = `${data.profile.profileName}_${data.profile.cartridgeName}.a7p`
             }

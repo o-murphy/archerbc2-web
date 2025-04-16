@@ -1,7 +1,7 @@
 import { useFileContext } from "@/hooks/fileContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PressableProps, StyleSheet } from "react-native";
-import { Button, IconButton, Dialog, Portal, Surface, Text, Tooltip, useTheme, DialogProps, FAB, Icon } from "react-native-paper"
+import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB } from "react-native-paper"
 import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
 
 
@@ -13,7 +13,12 @@ export const CloseDialogButton = ({ icon = "close-circle-outline", ...props }) =
     )
 }
 
-export const CloseDialog: React.FC<any> = (
+interface CloseDialogProps {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CloseDialog: React.FC<CloseDialogProps> = (
     { visible, setVisible }:
         { visible: boolean, setVisible: React.Dispatch<React.SetStateAction<boolean>> }
 ) => {
@@ -85,7 +90,7 @@ export const CloseDialogWidget = ({
     Dialog = CloseDialog,
 }: {
     Button?: React.FC<PressableProps>,
-    Dialog?: React.FC<DialogProps>
+    Dialog?: React.FC<CloseDialogProps>
 }) => {
     const [visible, setVisible] = useState(false)
 

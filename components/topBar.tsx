@@ -9,6 +9,7 @@ import { CloseDialogWidget } from "./closeDialog";
 import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
 import { useThemeToggle } from "@/hooks/useThemeToggle";
 import { md3PaperIconSource } from "@/theme/md3PaperIcons";
+import { ShareDialogWidget } from "./shareDialog";
 
 
 
@@ -18,7 +19,7 @@ const TopBar = () => {
   const theme = useTheme()
 
   const { fileHandleState, handleFileChange } = useFileHandler();
-  const { syncBackup, restoreBackup, saveFile } = useFileContext();
+  const { syncBackup, restoreBackup, saveFile, currentData } = useFileContext();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useParseFile(fileHandleState);
@@ -50,6 +51,8 @@ const TopBar = () => {
       <IconButtonWithToolTip tooltip="Download" icon="file-download" onPress={onSavePress} />
       <IconButtonWithToolTip tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
       <IconButtonWithToolTip tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
+      {/* <IconButtonWithToolTip tooltip="Share" icon="share" onPress={onSharePress} /> */}
+      <ShareDialogWidget />
 
       <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
 

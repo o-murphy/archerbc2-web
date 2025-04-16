@@ -34,7 +34,7 @@ const renderZeroIcon = (visible: boolean) => {
 };
 
 const SortableItem = ({ item }: { item: DistanceItem }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition }: any =
     useSortable({ id: item.id });
 
   const style = {

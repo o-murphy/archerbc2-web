@@ -1,59 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Dialog, Portal, Snackbar, Surface, Text, TouchableRipple, useTheme } from "react-native-paper"
+import { Button, Dialog, Portal, Surface, Text, TouchableRipple } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
 import { useParseFile } from "@/hooks/useFileParsing";
 import { DropZoneWeb } from "./dropZone";
-
-
-const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visible: boolean, onDismiss: () => void, message: string, isError?: boolean }) => {
-    const theme = useTheme()
-
-    return (
-        <Snackbar
-            visible={visible}
-            onDismiss={onDismiss}
-            duration={3000}
-            style={{
-                alignSelf: "center",
-                maxWidth: 400,
-                marginBottom: 100,
-                ...(isError ? { backgroundColor: theme.colors.error } : {}),
-            }}
-            icon={isError ? "alert-circle" : undefined}
-        >
-            {message}
-        </Snackbar>
-    );
-}
-
-const FileOpenError = () => {
-
-    const { fileState } = useFileContext()
-    const [visible, setVisible] = useState<boolean>(false)
-
-    useEffect(() => {
-        if (fileState.error) {
-            setVisible(true)
-        }
-
-    }, [fileState])
-
-    const onDismiss = () => setVisible(false)
-
-    const props = {
-        visible: visible,
-        onDismiss: onDismiss,
-        message: `File open error: ${fileState.error?.message}`,
-        isError: true
-    }
-
-    return (
-        <RenderSnackBar {...props} />
-    )
-}
 
 
 const StartDialog = () => {
@@ -123,7 +75,6 @@ const StartDialog = () => {
                 </DropZoneWeb>
             </Dialog>
             <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
-            <FileOpenError />
         </Portal>
     )
 }
