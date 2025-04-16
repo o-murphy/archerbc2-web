@@ -5,6 +5,7 @@ import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
 import { useParseFile } from "@/hooks/useFileParsing";
+import { DropZoneWeb } from "./dropZone";
 
 
 const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visible: boolean, onDismiss: () => void, message: string, isError?: boolean }) => {
@@ -50,7 +51,7 @@ const FileOpenError = () => {
     }
 
     return (
-        <RenderSnackBar {...props } />
+        <RenderSnackBar {...props} />
     )
 }
 
@@ -58,7 +59,7 @@ const FileOpenError = () => {
 const StartDialog = () => {
 
     const [visible, setVisible] = useState(true)
-    const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
+    const { fileHandleState, handleFileChange, processFile } = useFileHandler();  // Use the custom hook
     const { fileState, currentData: parsedData } = useFileContext()
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,30 +93,34 @@ const StartDialog = () => {
     return (
         <Portal>
             <Dialog visible={visible} style={styles.dialog} onDismiss={closeDialog}>
-                <TouchableRipple style={styles.touchable} onPress={onOpenPress}>
-                    <Surface elevation={0}>
-                        <Dialog.Title style={styles.dialogTitle}>
-                            ArcherBC2
-                        </Dialog.Title>
+                <DropZoneWeb onDropFile={processFile}>
 
-                        <Dialog.Content style={styles.dialogContent}>
-                            <Text variant="headlineMedium">
-                                Start menu
-                            </Text>
-                            <Text variant="bodyLarge">
-                                {/* <Dialog.Icon icon="file" /> */}
-                                Open or create new profile
-                            </Text>
-                            <Text variant="bodyMedium">
-                                (or drag'n'drop file here)
-                            </Text>
-                        </Dialog.Content>
-                        <Dialog.Actions style={styles.dialogActions}>
-                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress} disabled>Create new</Button>
-                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onOpenPress}>Open</Button>
-                        </Dialog.Actions>
-                    </Surface>
-                </TouchableRipple>
+                    <TouchableRipple style={styles.touchable} onPress={onOpenPress}>
+                        <Surface elevation={0}>
+                            <Dialog.Title style={styles.dialogTitle}>
+                                ArcherBC2
+                            </Dialog.Title>
+
+                            <Dialog.Content style={styles.dialogContent}>
+                                <Text variant="headlineMedium">
+                                    Start menu
+                                </Text>
+                                <Text variant="bodyLarge">
+                                    {/* <Dialog.Icon icon="file" /> */}
+                                    Open or create new profile
+                                </Text>
+                                <Text variant="bodyMedium">
+                                    (or drag'n'drop file here)
+                                </Text>
+                            </Dialog.Content>
+                            <Dialog.Actions style={styles.dialogActions}>
+                                <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress} disabled>Create new</Button>
+                                <Button mode="contained-tonal" style={styles.actionButton} onPress={onOpenPress}>Open</Button>
+                            </Dialog.Actions>
+                        </Surface>
+                    </TouchableRipple>
+
+                </DropZoneWeb>
             </Dialog>
             <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
             <FileOpenError />
@@ -142,11 +147,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     touchable: {
-        margin: 8,
-        marginTop: 8,
-        borderWidth: 2,
-        borderStyle: "dashed",
-        borderColor: "#555",
+        // margin: 8,
+        // marginTop: 8,
+        // borderWidth: 2,
+        // borderStyle: "dashed",
+        // borderColor: "#555",
         borderRadius: 24,
     }
 })

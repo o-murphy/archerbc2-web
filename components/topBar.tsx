@@ -1,19 +1,21 @@
-import { useThemeToggle } from "@/app/_layout";
 import { AllowedExtensions, useFileHandler } from "@/hooks/useFileHandler";
 import { useParseFile } from "@/hooks/useFileParsing";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { Surface, Text } from "react-native-paper"
+import { Surface, Text, useTheme } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileContext } from "@/hooks/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
 import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
+import { useThemeToggle } from "@/hooks/useThemeToggle";
+import { md3PaperIconSource } from "@/theme/md3PaperIcons";
 
 
 
 const TopBar = () => {
 
-  const { theme, toggleTheme } = useThemeToggle();
+  const { toggleTheme: toggleThemeMode } = useThemeToggle();
+  const theme = useTheme()
 
   const { fileHandleState, handleFileChange } = useFileHandler();
   const { syncBackup, restoreBackup, saveFile } = useFileContext();
@@ -21,7 +23,7 @@ const TopBar = () => {
 
   useParseFile(fileHandleState);
 
-  const themeIcon = theme.dark ? "weather-sunny" : "weather-night";
+  const themeIcon = md3PaperIconSource({ name: theme.dark ? "dark-mode" : "light-mode" })
 
   const onOpenPress = () => {
     console.log("Open pressed");
@@ -43,8 +45,8 @@ const TopBar = () => {
 
   return (
     <Surface elevation={1} style={styles.topBar}>
-      <IconButtonWithToolTip tooltip="Create new file" icon="file-plus" onPress={() => { }} disabled />
-      <IconButtonWithToolTip tooltip="Open file" icon="folder-open" onPress={onOpenPress} />
+      <IconButtonWithToolTip tooltip="Create new file" icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
+      <IconButtonWithToolTip tooltip="Open file" icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
       <IconButtonWithToolTip tooltip="Download" icon="file-download" onPress={onSavePress} />
       <IconButtonWithToolTip tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
       <IconButtonWithToolTip tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
@@ -56,8 +58,8 @@ const TopBar = () => {
 
         <View style={styles.separator} />
 
-        <IconButtonWithToolTip tooltip="Toggle theme" icon={themeIcon} onPress={toggleTheme} />
-        <IconButtonWithToolTip tooltip="Language" icon="translate" onPress={() => { }} disabled />
+        <IconButtonWithToolTip tooltip="Toggle theme" icon={themeIcon} onPress={toggleThemeMode} />
+        <IconButtonWithToolTip tooltip="Language" icon={md3PaperIconSource({ name: "translate" })} onPress={() => { }} disabled />
 
         <View style={styles.separator} />
 

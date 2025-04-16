@@ -33,6 +33,33 @@ const FileContext = createContext<FileContextType | undefined>(undefined);
 const defaultState = { name: null, data: null, error: null }
 const defaultData = { profile: null, error: null }
 
+// const useFileBackup = () => {
+//     const [isReady, setIsReady] = useState(false);
+
+//     const { fileHandleState, handleFileChange } = useFileHandler(); // Keeping the file handler as it is
+  
+//     // Function to load the backup and pass it to the file handler without changing useFileHandler
+//     const loadBackupToFileHandler = (backupData: ArrayBuffer | null) => {
+//         if (backupData) {
+//             // Simulate file processing with the loaded backup data
+//             const fakeFile = new Blob([backupData]);
+//             const file = new File([fakeFile], "backup.a7p", { type: "application/octet-stream" });
+  
+//             // Process the file like it was a user-uploaded file
+//             handleFileChange({ target: { files: [file] } } as any); // Trigger the file handling logic
+//         }
+//     };
+  
+//     // Load the backup from storage and process it
+//     useLoadBackup((data) => {
+//         if (data) {
+//             loadBackupToFileHandler(data); // Process the loaded backup data
+//         }
+//     }, setIsReady);
+  
+//     useParseFile(fileHandleState);
+// }
+
 // Provider component to wrap around your app
 export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     const [fileState, setFileState] = useState<FileHandleState>(defaultState);

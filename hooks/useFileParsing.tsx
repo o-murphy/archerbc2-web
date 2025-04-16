@@ -4,6 +4,8 @@ import { encode, decode } from "@/utils/a7p/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
 import { BcType, CoefRow, Profile } from "@/utils/a7p/types"
+import { savefileBackup, useSaveBackup } from "./useFileStorege";
+import { toByteArray, fromByteArray } from 'base64-js';
 
 
 export type DistanceTemplateType = Record<string, number[]>
@@ -111,6 +113,23 @@ export const prepareProfile = (profileProps: ProfileProps): Profile => {
     return profile
 }
 
+export const useParseString = (data: string | null) => {
+    const { setCurrentData: setParsedData, setBackupData, setFileState } = useFileContext();
+    useEffect(() => {
+        if (data) {
+            try {
+                const payload = encode(toByteArray(data).slice(0).buffer)
+                const profileProps = prepareProfileProps(payload.profile)
+                setParsedData({ profile: profileProps, error: null });
+                setBackupData({ profile: profileProps, error: null });
+            } catch (error: any) {
+                setParsedData({ profile: null, error: new Error(`Error parsing A7P file: ${error}`) });
+                setFileState(error)
+            };
+        }
+    }, [data, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
+}
+
 
 // The custom hook to handle file parsing
 export const useParseFile = (fileHandleState: FileHandleState) => {
@@ -121,7 +140,6 @@ export const useParseFile = (fileHandleState: FileHandleState) => {
 
             try {
                 const payload = encode(fileHandleState.data)
-                console.log(payload)
                 const profileProps = prepareProfileProps(payload.profile)
                 setParsedData({ profile: profileProps, error: null });
                 setBackupData({ profile: profileProps, error: null });
@@ -141,11 +159,12 @@ export const saveParsedData = (data: ParsedData, filename: string | null) => {
             const buffer = decode({
                 profile: prepareProfile(data.profile)
             })
-
+            console.log("S", fromByteArray(new Uint8Array(buffer)))
             if (!filename || filename === "Upload file") {
                 filename = `${data.profile.profileName}_${data.profile.cartridgeName}.a7p`
             }
             downloadA7PFile(buffer, filename)
+            savefileBackup(buffer)
         } catch (error) {
             throw new Error(`Error on file download, ${error}`)
         }

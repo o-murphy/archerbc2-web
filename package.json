@@ -21,9 +21,11 @@
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
-    "@expo/vector-icons": "^14.0.2",
+    "@expo-google-fonts/inter": "^0.3.0",
+    "@expo/vector-icons": "^14.1.0",
+    "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-navigation/bottom-tabs": "^7.2.0",
-    "@react-navigation/native": "^7.0.14",
+    "base64-js": "^1.5.1",
     "crypto-js": "^4.2.0",
     "expo": "^52.0.44",
     "expo-blur": "~14.0.3",
