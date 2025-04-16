@@ -3,10 +3,12 @@ import { AllowedExtensions, useFileHandler } from "@/hooks/useFileHandler";
 import { useParseFile } from "@/hooks/useFileParsing";
 import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { IconButton, Surface, Text, Tooltip } from "react-native-paper"
+import { Surface, Text } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileContext } from "@/hooks/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
+import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
+
 
 
 const TopBar = () => {
@@ -41,25 +43,11 @@ const TopBar = () => {
 
   return (
     <Surface elevation={1} style={styles.topBar}>
-      <Tooltip title="Create new file" leaveTouchDelay={0.2}>
-        <IconButton icon="file-plus" onPress={() => { }} />
-      </Tooltip>
-
-      <Tooltip title="Open file" leaveTouchDelay={0.2}>
-        <IconButton icon="folder-open" onPress={onOpenPress} />
-      </Tooltip>
-
-      <Tooltip title="Download" leaveTouchDelay={0.2}>
-        <IconButton icon="file-download" onPress={onSavePress} />
-      </Tooltip>
-
-      <Tooltip title="Reject changes" leaveTouchDelay={0.2}>
-        <IconButton icon="file-refresh" onPress={onReloadPress} />
-      </Tooltip>
-
-      <Tooltip title="Load zeroing" leaveTouchDelay={0.2}>
-        <IconButton icon="crosshairs" onPress={() => { }} />
-      </Tooltip>
+      <IconButtonWithToolTip tooltip="Create new file" icon="file-plus" onPress={() => { }} disabled />
+      <IconButtonWithToolTip tooltip="Open file" icon="folder-open" onPress={onOpenPress} />
+      <IconButtonWithToolTip tooltip="Download" icon="file-download" onPress={onSavePress} />
+      <IconButtonWithToolTip tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
+      <IconButtonWithToolTip tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
 
       <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
 
@@ -68,13 +56,9 @@ const TopBar = () => {
 
         <View style={styles.separator} />
 
-        <Tooltip title="Toggle theme" leaveTouchDelay={0.2}>
-          <IconButton icon={themeIcon} onPress={toggleTheme} />
-        </Tooltip>
+        <IconButtonWithToolTip tooltip="Toggle theme" icon={themeIcon} onPress={toggleTheme} />
+        <IconButtonWithToolTip tooltip="Language" icon="translate" onPress={() => { }} disabled />
 
-        <Tooltip title="Language" leaveTouchDelay={0.2}>
-          <IconButton icon="translate" onPress={() => { }} />
-        </Tooltip>
         <View style={styles.separator} />
 
         <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>

@@ -44,7 +44,6 @@ export const useFileHandler = () => {
         const reader = new FileReader();
     
         reader.onload = () => {
-            console.log("FNAME", file.name);
             setFileHandleState({
                 name: file.name,
                 data: reader.result,

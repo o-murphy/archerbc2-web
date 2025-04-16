@@ -28,14 +28,38 @@ const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visi
     );
 }
 
+const FileOpenError = () => {
+
+    const { fileState } = useFileContext()
+    const [visible, setVisible] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (fileState.error) {
+            setVisible(true)
+        }
+
+    }, [fileState])
+
+    const onDismiss = () => setVisible(false)
+
+    const props = {
+        visible: visible,
+        onDismiss: onDismiss,
+        message: `File open error: ${fileState.error?.message}`,
+        isError: true
+    }
+
+    return (
+        <RenderSnackBar {...props } />
+    )
+}
+
 
 const StartDialog = () => {
 
     const [visible, setVisible] = useState(true)
     const { fileHandleState, handleFileChange } = useFileHandler();  // Use the custom hook
     const { fileState, currentData: parsedData } = useFileContext()
-
-    const [visibleSnack, setVisibleSnack] = useState(false)
 
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -52,7 +76,6 @@ const StartDialog = () => {
 
     const onCreatePress = () => {
         console.log("Create pressed")
-        onToggleSnackBar()
     }
 
     const onOpenPress = () => {
@@ -65,9 +88,6 @@ const StartDialog = () => {
     const closeDialog = () => {
         // setVisible(false)
     }
-
-    const onToggleSnackBar = () => setVisibleSnack(!visibleSnack);
-    const onDismissSnackBar = () => setVisibleSnack(false);
 
     return (
         <Portal>
@@ -91,19 +111,14 @@ const StartDialog = () => {
                             </Text>
                         </Dialog.Content>
                         <Dialog.Actions style={styles.dialogActions}>
-                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress}>Create new</Button>
+                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress} disabled>Create new</Button>
                             <Button mode="contained-tonal" style={styles.actionButton} onPress={onOpenPress}>Open</Button>
                         </Dialog.Actions>
                     </Surface>
                 </TouchableRipple>
             </Dialog>
             <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
-            {RenderSnackBar({
-                visible: visibleSnack,
-                onDismiss: onDismissSnackBar,
-                message: "Not implemented yet",
-                isError: true
-            })}
+            <FileOpenError />
         </Portal>
     )
 }

@@ -108,7 +108,6 @@ export const prepareProfile = (profileProps: ProfileProps): Profile => {
         ...rest,
         coefRows,
     }
-    console.log("save", profile)
     return profile
 }
 

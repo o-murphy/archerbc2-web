@@ -2,15 +2,14 @@ import { useFileContext } from "@/hooks/fileContext";
 import { useState } from "react";
 import { PressableProps, StyleSheet } from "react-native";
 import { Button, IconButton, Dialog, Portal, Surface, Text, Tooltip, useTheme, DialogProps, FAB, Icon } from "react-native-paper"
+import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
 
 
 export const CloseDialogButton = ({ icon = "close-circle-outline", ...props }) => {
     const theme = useTheme();
 
     return (
-        <Tooltip title="Close" leaveTouchDelay={0.2}>
-            <IconButton icon={icon} iconColor={theme.colors.error} {...props} />
-        </Tooltip>
+        <IconButtonWithToolTip tooltip="Close" icon={icon} iconColor={theme.colors.error} {...props} />
     )
 }
 
@@ -42,7 +41,7 @@ export const CloseDialog: React.FC<any> = (
                     ⚠️ Close File ⚠️
                 </Dialog.Title>
                 <Dialog.Content style={styles.dialogContent}>
-                    <Text variant="bodyLarge" style={{textAlign: "center"}}>
+                    <Text variant="bodyLarge" style={{ textAlign: "center" }}>
                         Do you want to save the changes before closing?
                     </Text>
                     <Text variant="bodyLarge" style={[styles.warning, { color: theme.colors.error }]}>
@@ -96,7 +95,7 @@ export const CloseDialogWidget = ({
                 <Button onPress={() => setVisible(true)} />
             </Tooltip>
             <Portal>
-                <Dialog visible={visible} setVisible={setVisible} />
+                <Dialog visible={visible} setVisible={() => setVisible(false)} />
             </Portal>
         </>
     )
