@@ -1,12 +1,12 @@
+import MainBackground from "@/components/backgroundImage";
 import EditDialog from "@/components/editDialog";
 import { FileOpenError } from "@/components/fileOpenError";
 import StartDialog from "@/components/startDialog";
 import { Toast } from "@/components/toast/toastService";
 import { UrlProfileLoader } from "@/hooks/useFileHandler";
 import { useEffect } from "react";
-import { Platform, StyleSheet } from "react-native";
-import { Surface, useTheme } from "react-native-paper";
-
+import { ImageBackground, Platform, StyleSheet } from "react-native";
+import { useTheme } from "react-native-paper";
 
 export const useApplyScrollbarTheme = () => {
   const { colors } = useTheme();
@@ -57,13 +57,18 @@ const WebLayout = () => {
 
   return (
     <>
-      <Surface style={styles.view}>
+      <ImageBackground
+        source={MainBackground}
+        style={styles.view}
+      >
+        {/* <Surface style={styles.view}> */}
         <FileOpenError />
         <UrlProfileLoader />
         <EditDialog />
         <StartDialog />
-      </Surface>
-      <Toast />
+        {/* </Surface> */}
+        <Toast />
+      </ImageBackground>
     </>
   )
 }
