@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { FileHandleState } from './useFileHandler';
 import { Platform } from 'react-native';
 import { ParsedData, saveParsedData } from './useFileParsing';
+import { SnackbarService } from './snackBarService';
 
 
 // Define the context value type
@@ -92,8 +93,9 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     const saveFile = () => {
         try {
             saveParsedData(currentData, fileState.name)
-        } catch (error) {
+        } catch (error: any) {
             console.log(`Error on file download, ${error}`)
+            SnackbarService.error(error)
         }
     }
 

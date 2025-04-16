@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Dialog, Portal, Surface, Text, useTheme } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
@@ -85,7 +85,7 @@ const EditDialog = () => {
     };
 
     return (
-        <Portal>
+        // <View style={}>
             <Dialog
                 visible={visible}
                 dismissable={false}
@@ -111,7 +111,7 @@ const EditDialog = () => {
 
                 </Dialog.Content>
             </Dialog>
-        </Portal>
+        // </View>
     );
 };
 

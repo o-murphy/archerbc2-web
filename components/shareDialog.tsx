@@ -1,12 +1,12 @@
 import { useFileContext } from "@/hooks/fileContext";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { PressableProps, StyleSheet } from "react-native";
-import { Dialog, Portal, Surface, Tooltip, useTheme, DialogProps, TextInput, Button } from "react-native-paper"
+import { Dialog, Portal, Surface, TextInput, Button } from "react-native-paper"
 import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
 import { encodeAsUrl } from "@/hooks/useFileParsing";
 import { md3PaperIconSource } from "@/theme/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
-import { RenderSnackBar } from "./fileOpenError";
+import { SnackbarService } from "@/hooks/snackBarService";
 
 
 export const ShareDialogButton = ({ icon = "share", ...props }) => {
@@ -21,43 +21,38 @@ interface ShareDialogProps {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CopiedSnackBar = ({ visible, setVisible }: { visible: boolean, setVisible: (visible: boolean) => void }) => {
-
-    const onDismiss = () => setVisible(false)
-
-    const props = {
-        visible: visible,
-        onDismiss: onDismiss,
-        message: `Link copied to clipboard`,
-        isError: false
-    }
-
-    return (
-        <RenderSnackBar {...props} />
-    )
-}
-
 export const ShareDialog: React.FC<ShareDialogProps> = (
     { visible, setVisible }:
         { visible: boolean, setVisible: React.Dispatch<React.SetStateAction<boolean>> }
 ) => {
 
-    const { currentData } = useFileContext()
-    const [snackVisible, setSnackVisible] = useState(false)
-
-    const urlEncoded = useMemo(() => {
+    const { currentData } = useFileContext();
+    const [isError, setIsError] = useState<Error | null>(null);
+    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+    
+    // Compute URL when currentData changes
+    useEffect(() => {
         try {
-            return encodeAsUrl(currentData)
-        } catch (error) {
-            console.error("Error encode url")
-            return ""
+            const url = encodeAsUrl(currentData);
+            setUrlEncoded(url);
+            setIsError(null);
+        } catch (error: any) {
+            console.error(error);
+            setUrlEncoded(undefined);
+            setIsError(error);
         }
-    }, [snackVisible])
+    }, [currentData]);
 
     const onCopyPress = () => {
-        copyToClipboard(urlEncoded)
-        setSnackVisible(true)
-    }
+        if (isError) {
+            SnackbarService.error(isError);
+            return;
+        }
+        if (urlEncoded) {
+            copyToClipboard(urlEncoded);
+            SnackbarService.show("Link copied to clipboard");
+        }
+    };
 
     const closeDialog = () => {
         setVisible(false)
@@ -83,7 +78,6 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
                     <Button onPress={closeDialog}>Close</Button>
                 </Dialog.Actions>
             </Surface>
-            <CopiedSnackBar visible={snackVisible} setVisible={setSnackVisible} />
         </Dialog>
     )
 }

@@ -46,7 +46,7 @@ const md5 = (data: string): string => {
 
 
 
-export function decode(payload: Payload): ArrayBuffer {
+export function encode(payload: Payload): ArrayBuffer {
     try {
         validate(payload)
         console.log("payload", payload)
@@ -91,7 +91,7 @@ export function decode(payload: Payload): ArrayBuffer {
     }
 }
 
-export function encode(buffer: ArrayBuffer): Payload {
+export function decode(buffer: ArrayBuffer): Payload {
     try {
 
         const base64 = bufferToBase64(buffer);

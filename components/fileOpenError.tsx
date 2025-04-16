@@ -1,27 +1,7 @@
 import { useFileContext } from "@/hooks/fileContext";
+import { SnackbarService } from "@/hooks/snackBarService";
 import { useEffect, useState } from "react";
-import { Snackbar, useTheme } from "react-native-paper";
 
-export const RenderSnackBar = ({ visible, onDismiss, message, isError = false }: { visible: boolean, onDismiss: () => void, message: string, isError?: boolean }) => {
-    const theme = useTheme()
-
-    return (
-        <Snackbar
-            visible={visible}
-            onDismiss={onDismiss}
-            duration={3000}
-            style={{
-                alignSelf: "center",
-                maxWidth: 400,
-                marginBottom: 100,
-                ...(isError ? { backgroundColor: theme.colors.error } : {}),
-            }}
-            icon={isError ? "alert-circle" : undefined}
-        >
-            {message}
-        </Snackbar>
-    );
-}
 
 export const FileOpenError = () => {
 
@@ -31,6 +11,7 @@ export const FileOpenError = () => {
     useEffect(() => {
         if (fileState.error) {
             setVisible(true)
+            SnackbarService.error(fileState.error.message)
         }
 
     }, [fileState])
@@ -44,7 +25,5 @@ export const FileOpenError = () => {
         isError: true
     }
 
-    return (
-        <RenderSnackBar {...props} />
-    )
+    return null
 }

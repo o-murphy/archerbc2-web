@@ -1,6 +1,6 @@
 
 import { useEffect } from "react";
-import { encode, decode } from "@/utils/a7p/a7p";
+import { decode, encode } from "@/utils/a7p/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
 import { BcType, CoefRow, Profile } from "@/utils/a7p/types"
@@ -120,13 +120,13 @@ export const useParseUrl = (data: string | null) => {
         if (data) {
             try {
                 const buffer = toByteArray(decodeURIComponent(data)).slice(0).buffer
-                const payload = encode(buffer)
+                const payload = decode(buffer)
                 const profileProps = prepareProfileProps(payload.profile)
                 setParsedData({ profile: profileProps, error: null });
                 setBackupData({ profile: profileProps, error: null });
                 setFileState({ name: null, data: buffer, error: null })
             } catch (error: any) {
-                setParsedData({ profile: null, error: new Error(`Error parsing A7P file: ${error}`) });
+                setParsedData({ profile: null, error: error });
                 setFileState({ name: null, data: null, error: error })
             };
         }
@@ -142,7 +142,7 @@ export const useParseFile = (fileHandleState: FileHandleState) => {
         if (fileHandleState.data && !fileHandleState.error && fileHandleState.data instanceof ArrayBuffer) {
 
             try {
-                const payload = encode(fileHandleState.data)
+                const payload = decode(fileHandleState.data)
                 const profileProps = prepareProfileProps(payload.profile)
                 setParsedData({ profile: profileProps, error: null });
                 setBackupData({ profile: profileProps, error: null });
@@ -163,7 +163,7 @@ export const encodeAsUrl = (data: ParsedData): string | undefined => {
 
     if (data.profile && !data.error) {
         try {
-            const buffer = decode({
+            const buffer = encode({
                 profile: prepareProfile(data.profile)
             })
             const payload = encodeURIComponent(fromByteArray(new Uint8Array(buffer)));
@@ -179,7 +179,7 @@ export const encodeAsUrl = (data: ParsedData): string | undefined => {
 export const saveParsedData = (data: ParsedData, filename: string | null) => {
     if (data.profile && !data.error) {
         try {
-            const buffer = decode({
+            const buffer = encode({
                 profile: prepareProfile(data.profile)
             })
             if (!filename || filename === "Upload file") {

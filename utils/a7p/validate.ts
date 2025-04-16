@@ -109,6 +109,6 @@ export const validate = (data: Payload, abortEarly: boolean = false): void => {
     } catch (error: any) {
         // Validation failed
         console.log("Validation error", error.errors)
-        throw new Error(`Vaidation error: ${error}`);
+        throw error;
     }
 };

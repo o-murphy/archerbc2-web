@@ -1,6 +1,7 @@
 import EditDialog from "@/components/editDialog";
 import { FileOpenError } from "@/components/fileOpenError";
 import StartDialog from "@/components/startDialog";
+import { SnackMessage } from "@/hooks/snackBarService";
 import { useParseUrl } from "@/hooks/useFileParsing";
 import { useEffect, useState } from "react";
 import { Linking, Platform, StyleSheet } from "react-native";
@@ -100,12 +101,16 @@ const WebLayout = () => {
   useApplyScrollbarTheme()
 
   return (
-    <Surface style={styles.view}>
-      <FileOpenError />
-      <UrlProfileLoader />
-      <EditDialog />
-      <StartDialog />
-    </Surface>
+    <>
+      <Surface style={styles.view}>
+        <FileOpenError />
+        <UrlProfileLoader />
+        <EditDialog />
+        <StartDialog />
+      </Surface>
+      <SnackMessage />
+    </>
+
   )
 }
 
