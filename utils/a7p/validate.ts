@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 import { BcType, Payload } from './types';
+import { InvalidBcTypeError } from './errors';
+
 
 // Define the validation schema for each field
 export const schema = yup.object().shape({
@@ -66,12 +68,12 @@ const coefRowsStandard = yup.array().of(
         mv: yup.number().min(0).max(10000).integer(),
     })
 ).min(1).max(5).required('For G1 or G7, coefRows must contain between 1 and 5 items')
-.test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
-    const mvValues = value.map((row) => row.mv);
-    const filteredMvValues = mvValues.filter(mv => mv !== 0); // Exclude zeros for uniqueness check
-    const uniqueMvValues = new Set(filteredMvValues);
-    return filteredMvValues.length === uniqueMvValues.size;
-});
+    .test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
+        const mvValues = value.map((row) => row.mv);
+        const filteredMvValues = mvValues.filter(mv => mv !== 0); // Exclude zeros for uniqueness check
+        const uniqueMvValues = new Set(filteredMvValues);
+        return filteredMvValues.length === uniqueMvValues.size;
+    });
 
 // Schema for coefRows when bcType is 'CUSTOM'
 const coefRowsCustom = yup.array().of(
@@ -80,20 +82,18 @@ const coefRowsCustom = yup.array().of(
         mv: yup.number().min(0).max(100000).integer()
     })
 ).min(1).max(200).required('For CUSTOM, coefRows must contain between 1 and 200 items')
-.test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
-    const mvValues = value.map((row) => row.mv);
-    const filteredMvValues = mvValues.filter(mv => mv !== 0); // Exclude zeros for uniqueness check
-    const uniqueMvValues = new Set(filteredMvValues);
-    return filteredMvValues.length === uniqueMvValues.size;
-});
+    .test('unique-mv', 'mv values must be unique, except for mv == 0', (value) => {
+        const mvValues = value.map((row) => row.mv);
+        const filteredMvValues = mvValues.filter(mv => mv !== 0); // Exclude zeros for uniqueness check
+        const uniqueMvValues = new Set(filteredMvValues);
+        return filteredMvValues.length === uniqueMvValues.size;
+    });
 
-// Validate the data
+
 export const validate = (data: Payload, abortEarly: boolean = false): void => {
     try {
-        // Validate the main schema
         const validData = schema.validateSync(data, { abortEarly });
-        console.log(validData)
-        // Validate coefRows based on bcType
+
         switch (validData.profile.bcType) {
             case BcType.G1:
             case BcType.G7:
@@ -103,12 +103,14 @@ export const validate = (data: Payload, abortEarly: boolean = false): void => {
                 coefRowsCustom.validateSync(data.profile.coefRows, { abortEarly });
                 break;
             default:
-                throw new Error(`Invalid bcType: ${data.profile.bcType}`);
+                throw new InvalidBcTypeError(data.profile.bcType);
         }
-
     } catch (error: any) {
-        // Validation failed
-        console.log("Validation error", error.errors)
-        throw error;
+        if (error.name === "ValidationError") {
+            const yupErrors = error.errors ?? [error.message];
+            throw new yup.ValidationError(yupErrors);
+        } else {
+            throw error;
+        }
     }
 };

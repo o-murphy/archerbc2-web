@@ -1,71 +1,6 @@
-// import { ChangeEvent, useState } from "react";
-
-// export const AllowedExtensions = [".a7p"];
-
-
-// export type FileDataType = string | ArrayBuffer | null | undefined
-
-
-// // Define the types for file state and parsed data
-// export interface FileHandleState {
-//     name: string | null;
-//     data: string | ArrayBuffer | null;
-//     error: Error | null;
-// }
-
-// export const useFileHandler = () => {
-//     const [fileHandleState, setFileHandleState] = useState<FileHandleState>({
-//         // name: "Upload file",
-//         name: null,
-//         data: null,
-//         error: null,
-//     });
-
-//     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-//         const input = event.target;
-//         const file = input.files?.[0];
-//         if (!file) return;
-    
-//         // Reset value to allow same file selection
-//         input.value = '';
-    
-//         const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
-//         console.log("Selected file extension:", extension);
-    
-//         if (!AllowedExtensions.includes(extension)) {
-//             setFileHandleState({
-//                 name: null,
-//                 data: null,
-//                 error: new Error("Invalid file type, .a7p expected."),
-//             });
-//             return;
-//         }
-    
-//         const reader = new FileReader();
-    
-//         reader.onload = () => {
-//             setFileHandleState({
-//                 name: file.name,
-//                 data: reader.result,
-//                 error: null,
-//             });
-//         };
-    
-//         reader.onerror = () => {
-//             setFileHandleState({
-//                 name: file.name,
-//                 data: null,
-//                 error: new Error("Failed to read file"),
-//             });
-//         };
-    
-//         reader.readAsArrayBuffer(file);
-//     };
-
-//     return { fileHandleState, handleFileChange };
-// };
-
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Linking } from "react-native";
+import { useParseUrl } from "./useFileParsing";
 
 export const AllowedExtensions = [".a7p"];
 
@@ -130,3 +65,48 @@ export const useFileHandler = () => {
 
     return { fileHandleState, handleFileChange, processFile };
 };
+
+export const UrlProfileLoader = () => {
+    // const [urlParams, setUrlParams] = useState<string | null>(null);
+    const [urlPayload, setUrlPayload] = useState<string | null>(null);
+
+
+    useEffect(() => {
+        const getInitialURLParams = async () => {
+            // Get the initial URL that the app was opened with
+            const url = await Linking.getInitialURL();
+
+            if (url) {
+                // If a URL exists, parse it and extract parameters
+                const urlParams = new URLSearchParams(url.split('?')[1]);
+                const myParam = urlParams.get('payload');  // Replace 'payload' with the name of your query param
+                // setUrlParams(myParam);
+                setUrlPayload(myParam);
+            }
+        };
+
+        // Check if the app was opened from a URL
+        getInitialURLParams();
+
+        // Handle URL changes while the app is in the background or opened via a deep link
+        const handleUrlChange = (event: any) => {
+            const { url } = event;
+            const urlParams = new URLSearchParams(url.split('?')[1]);
+            const myParam = urlParams.get('payload');
+            // setUrlParams(myParam);
+            setUrlPayload(myParam);
+        };
+
+        // Add event listener for URL changes
+        const urlListener = Linking.addEventListener('url', handleUrlChange);
+
+        // Clean up the event listener when the component unmounts or the effect is cleaned up
+        return () => {
+            urlListener.remove(); // Remove the event listener when cleaning up
+        };
+    }, []);
+
+    useParseUrl(urlPayload)
+
+    return null
+}

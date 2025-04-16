@@ -5,7 +5,7 @@ import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
 import { useParseFile } from "@/hooks/useFileParsing";
-import { DropZoneWeb } from "./dropZone";
+import { DropZoneWeb } from "./dropZone/dropZone";
 
 
 const StartDialog = () => {
@@ -17,7 +17,7 @@ const StartDialog = () => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (!fileHandleState.error && fileHandleState.data && parsedData.profile) {
+        if (!fileState.error && parsedData.profile) {
             setVisible(false)
         } else {
             setVisible(true)
@@ -38,13 +38,9 @@ const StartDialog = () => {
         }
     };
 
-    const closeDialog = () => {
-        // setVisible(false)
-    }
-
     return (
         <Portal>
-            <Dialog visible={visible} style={styles.dialog} onDismiss={closeDialog}>
+            <Dialog visible={visible} style={styles.dialog}>
                 <DropZoneWeb onDropFile={processFile}>
 
                     <TouchableRipple style={styles.touchable} onPress={onOpenPress}>

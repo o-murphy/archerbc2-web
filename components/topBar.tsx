@@ -6,9 +6,9 @@ import { Surface, Text, useTheme } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileContext } from "@/hooks/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
-import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
+import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useThemeToggle } from "@/hooks/useThemeToggle";
-import { md3PaperIconSource } from "@/theme/md3PaperIcons";
+import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { ShareDialogWidget } from "./shareDialog";
 
 
@@ -46,11 +46,11 @@ const TopBar = () => {
 
   return (
     <Surface elevation={1} style={styles.topBar}>
-      <IconButtonWithToolTip tooltip="Create new file" icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
-      <IconButtonWithToolTip tooltip="Open file" icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
-      <IconButtonWithToolTip tooltip="Download" icon="file-download" onPress={onSavePress} />
-      <IconButtonWithToolTip tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
-      <IconButtonWithToolTip tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
+      <ToolTipIconButton tooltip="Create new file" icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
+      <ToolTipIconButton tooltip="Open file" icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
+      <ToolTipIconButton tooltip="Download" icon="file-download" onPress={onSavePress} />
+      <ToolTipIconButton tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
+      <ToolTipIconButton tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
       {/* <IconButtonWithToolTip tooltip="Share" icon="share" onPress={onSharePress} /> */}
       <ShareDialogWidget />
 
@@ -61,8 +61,8 @@ const TopBar = () => {
 
         <View style={styles.separator} />
 
-        <IconButtonWithToolTip tooltip="Toggle theme" icon={themeIcon} onPress={toggleThemeMode} />
-        <IconButtonWithToolTip tooltip="Language" icon={md3PaperIconSource({ name: "translate" })} onPress={() => { }} disabled />
+        <ToolTipIconButton tooltip="Toggle theme" icon={themeIcon} onPress={toggleThemeMode} />
+        <ToolTipIconButton tooltip="Language" icon={md3PaperIconSource({ name: "translate" })} onPress={() => { }} disabled />
 
         <View style={styles.separator} />
 

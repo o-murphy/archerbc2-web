@@ -1,9 +1,9 @@
 
 import { useEffect } from "react";
-import { decode, encode } from "@/utils/a7p/a7p";
+import { decode, encode } from "@/utils/a7p";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
-import { BcType, CoefRow, Profile } from "@/utils/a7p/types"
+import { BcType, CoefRow, Payload, Profile } from "@/utils/a7p/types"
 import { savefileBackup } from "./useFileStorege";
 import { toByteArray, fromByteArray } from 'base64-js';
 import { Platform } from "react-native";
@@ -114,12 +114,14 @@ export const prepareProfile = (profileProps: ProfileProps): Profile => {
     return profile
 }
 
+
 export const useParseUrl = (data: string | null) => {
     const { setCurrentData: setParsedData, setBackupData, setFileState } = useFileContext();
     useEffect(() => {
         if (data) {
             try {
-                const buffer = toByteArray(decodeURIComponent(data)).slice(0).buffer
+                const base64 = decodeURIComponent(data)
+                const buffer = toByteArray(base64).slice(0).buffer
                 const payload = decode(buffer)
                 const profileProps = prepareProfileProps(payload.profile)
                 setParsedData({ profile: profileProps, error: null });
@@ -156,10 +158,9 @@ export const useParseFile = (fileHandleState: FileHandleState) => {
     }, [fileHandleState, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
 };
 
-export const encodeAsUrl = (data: ParsedData): string | undefined => {
+export const encodeToUrl = (data: ParsedData): string | undefined => {
 
     if (Platform.OS != "web") return;
-
 
     if (data.profile && !data.error) {
         try {
@@ -168,10 +169,9 @@ export const encodeAsUrl = (data: ParsedData): string | undefined => {
             })
             const payload = encodeURIComponent(fromByteArray(new Uint8Array(buffer)));
             const url = `${window.location.origin}${window.location.pathname}?payload=${payload}`;
-            console.log("Payload URL:", url);
             return url
         } catch (error) {
-            throw new Error(`Error on file download, ${error}`)
+            throw new Error(`Error on file encode: ${error}`)
         }
     }
 }

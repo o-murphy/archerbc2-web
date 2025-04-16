@@ -9,7 +9,7 @@ type SnackbarOptions = {
     duration?: number;
 };
 
-export class SnackbarService {
+export class ToastService {
     private static showCallback: ((options: SnackbarOptions) => void) | null = null;
 
     static register(callback: (options: SnackbarOptions) => void) {
@@ -33,7 +33,7 @@ export class SnackbarService {
     }
 }
 
-export const SnackMessage = () => {
+export const Toast = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const [message, setMessage] = useState<Msg>(null);
     const [duration, setDuration] = useState<number>(3000);
@@ -41,7 +41,7 @@ export const SnackMessage = () => {
     const theme = useTheme()
 
     useEffect(() => {
-        SnackbarService.register(({ message, isError, duration }) => {
+        ToastService.register(({ message, isError, duration }) => {
             setMessage(message);
             setDuration(duration ?? 3000);
             setVisible(true);
@@ -50,25 +50,25 @@ export const SnackMessage = () => {
     }, []);
 
     return (
-        <Portal>
-            <Snackbar
-                visible={visible}
-                onDismiss={() => setVisible(false)}
-                duration={duration}
-                style={{
-                    // position: 'absolute',
-                    bottom: 100,
-                    // left: '50%',
-                    // transform: [{ translateX: -200 }], // half of maxWidth
-                    alignSelf: "center",
-                    // zIndex: 9999,
-                    width: 400,
-                    ...(isError ? { backgroundColor: theme.colors.error } : {}),
-                }}
-                icon={isError ? "alert-circle" : undefined}
-            >
-                {`${message}`}
-            </Snackbar>
-        </Portal>
+        <Snackbar
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            duration={duration}
+            style={{
+                // position: 'absolute',
+                bottom: 100,
+                // left: '50%',
+                // transform: [{ translateX: -200 }], // half of maxWidth
+                alignSelf: "center",
+                // zIndex: 9999,
+                width: 400,
+                ...(isError ? { backgroundColor: theme.colors.error } : {}),
+            }}
+            icon={isError ? "alert-circle" : undefined}
+        >
+            {`${message}`}
+        </Snackbar>
     )
 }
+
+export {ToastService as toast}

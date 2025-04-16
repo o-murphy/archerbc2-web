@@ -1,32 +1,32 @@
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabRifleD from '../assets/icons/dark/tab-icon-rifle.png';
+import TabRifleD from '@/assets/icons/dark/tab-icon-rifle.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabCartridgeD from '../assets/icons/dark/tab-icon-cartridge.png';
+import TabCartridgeD from '@/assets/icons/dark/tab-icon-cartridge.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabBulletD from '../assets/icons/dark/tab-icon-bullet.png';
+import TabBulletD from '@/assets/icons/dark/tab-icon-bullet.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabDescriptionD from '../assets/icons/dark/tab-icon-description.png';
+import TabDescriptionD from '@/assets/icons/dark/tab-icon-description.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabZeroingD from '../assets/icons/dark/tab-icon-zeroing.png';
+import TabZeroingD from '@/assets/icons/dark/tab-icon-zeroing.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabDistancesD from '../assets/icons/dark/tab-icon-distances.png';
+import TabDistancesD from '@/assets/icons/dark/tab-icon-distances.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import ZeroDistanceD from '../assets/icons/dark/zeroing-dist-icon.png';
+import ZeroDistanceD from '@/assets/icons/dark/zeroing-dist-icon.png';
 //
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabRifleL from '../assets/icons/light/tab-icon-rifle.png';
+import TabRifleL from '@/assets/icons/light/tab-icon-rifle.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabCartridgeL from '../assets/icons/light/tab-icon-cartridge.png';
+import TabCartridgeL from '@/assets/icons/light/tab-icon-cartridge.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabBulletL from '../assets/icons/light/tab-icon-bullet.png';
+import TabBulletL from '@/assets/icons/light/tab-icon-bullet.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabDescriptionL from '../assets/icons/light/tab-icon-description.png';
+import TabDescriptionL from '@/assets/icons/light/tab-icon-description.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabZeroingL from '../assets/icons/light/tab-icon-zeroing.png';
+import TabZeroingL from '@/assets/icons/light/tab-icon-zeroing.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import TabDistancesL from '../assets/icons/light/tab-icon-distances.png';
+import TabDistancesL from '@/assets/icons/light/tab-icon-distances.png';
 // @ts-expect-error: Web-only style, allowed intentionally
-import ZeroDistanceL from '../assets/icons/light/zeroing-dist-icon.png';
+import ZeroDistanceL from '@/assets/icons/light/zeroing-dist-icon.png';
 //
 import { Icon, useTheme } from 'react-native-paper';
 import { View, ImageSourcePropType } from 'react-native';
@@ -56,13 +56,13 @@ export const LightThemeIcon: Record<ThemedIconName, ImageSourcePropType> = {
 };
 
 // Props for the ThemedTabIcon component
-export interface ThemedTabIconProps {
+export interface ThemedCustomIconProps {
   source: ThemedIconName;
   size: number;
   [key: string]: any; // Allow other props from Icon component, like `color`
 }
 
-export const ThemedIcon =({ source, size, ...props }: ThemedTabIconProps) => {
+export const ThemedIcon =({ source, size, ...props }: ThemedCustomIconProps) => {
     const theme = useTheme();
     const iconsSet = theme.dark ? DarkThemeIcon : LightThemeIcon;
     const iconSource = iconsSet[source];
@@ -70,7 +70,7 @@ export const ThemedIcon =({ source, size, ...props }: ThemedTabIconProps) => {
     return <Icon source={iconSource} size={size} {...props} />
 }
 
-export const ThemedTabIcon = ({ source, size, ...props }: ThemedTabIconProps) => {
+export const ThemedTabIcon = ({ source, size, ...props }: ThemedCustomIconProps) => {
 
   const containerStyle = {
     borderRadius: size,

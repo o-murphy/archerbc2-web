@@ -1,58 +1,29 @@
 import { useFileContext } from "@/hooks/fileContext";
 import { useEffect, useState } from "react";
-import { PressableProps, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Dialog, Portal, Surface, TextInput, Button } from "react-native-paper"
-import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
-import { encodeAsUrl } from "@/hooks/useFileParsing";
-import { md3PaperIconSource } from "@/theme/md3PaperIcons";
+import { ToolTipIconButton } from "./iconButtonWithTooltip";
+import { encodeToUrl } from "@/hooks/useFileParsing";
+import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
-import { SnackbarService } from "@/hooks/snackBarService";
+import { toast } from "@/components/toast/toastService";
 
 
-export const ShareDialogButton = ({ icon = "share", ...props }) => {
+export const ShareDialogButton = ({ icon = "share", ...props }) => (
+    <ToolTipIconButton tooltip="Share" icon={icon} {...props} />
+)
 
-    return (
-        <IconButtonWithToolTip tooltip="Share" icon={icon} {...props} />
-    )
-}
 
 interface ShareDialogProps {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    urlEncoded: string | undefined;
+    onCopyPress: () => void;
 }
 
+
 export const ShareDialog: React.FC<ShareDialogProps> = (
-    { visible, setVisible }:
-        { visible: boolean, setVisible: React.Dispatch<React.SetStateAction<boolean>> }
-) => {
-
-    const { currentData } = useFileContext();
-    const [isError, setIsError] = useState<Error | null>(null);
-    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
-    
-    // Compute URL when currentData changes
-    useEffect(() => {
-        try {
-            const url = encodeAsUrl(currentData);
-            setUrlEncoded(url);
-            setIsError(null);
-        } catch (error: any) {
-            console.error(error);
-            setUrlEncoded(undefined);
-            setIsError(error);
-        }
-    }, [currentData]);
-
-    const onCopyPress = () => {
-        if (isError) {
-            SnackbarService.error(isError);
-            return;
-        }
-        if (urlEncoded) {
-            copyToClipboard(urlEncoded);
-            SnackbarService.show("Link copied to clipboard");
-        }
-    };
+    { visible, setVisible, urlEncoded, onCopyPress }) => {
 
     const closeDialog = () => {
         setVisible(false)
@@ -83,20 +54,51 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
 }
 
 
-export const ShareDialogWidget = ({
-    Button = ShareDialogButton,
-    Dialog = ShareDialog,
-}: {
-    Button?: React.FC<PressableProps>,
-    Dialog?: React.FC<ShareDialogProps>
-}) => {
+export const ShareDialogWidget = () => {
     const [visible, setVisible] = useState(false)
+
+    const { currentData } = useFileContext();
+    const [isError, setIsError] = useState<Error | null>(null);
+    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+
+    // Compute URL when currentData changes
+    useEffect(() => {
+        try {
+            const url = encodeToUrl(currentData);
+            setUrlEncoded(url);
+            setIsError(null);
+        } catch (error: any) {
+            setUrlEncoded(undefined);
+            setIsError(error);
+        }
+    }, [currentData]);
+
+    const onCopyPress = () => {
+        if (urlEncoded) {
+            copyToClipboard(urlEncoded);
+            toast.show("Link copied to clipboard");
+        }
+    };
+
+    const showDialog = () => {
+        if (isError) {
+            toast.error(isError);
+            return;
+        } else {
+            setVisible(true)
+        }
+    }
 
     return (
         <>
-            <Button onPress={() => setVisible(true)} />
+            <ShareDialogButton onPress={showDialog} />
             <Portal>
-                <Dialog visible={visible} setVisible={() => setVisible(false)} />
+                <ShareDialog
+                    visible={visible}
+                    setVisible={setVisible}
+                    urlEncoded={urlEncoded}
+                    onCopyPress={onCopyPress}
+                />
             </Portal>
         </>
     )
@@ -110,22 +112,9 @@ const styles = StyleSheet.create({
     dialogTitle: {
         textAlign: "center"
     },
-    dialogActions: {
-        justifyContent: "space-around"
-    },
     dialogContent: {
         alignItems: "center"
     },
-    actionButton: {
-        flex: 1,
-    },
-    fab: {
-        flex: 1,
-        marginTop: 16
-    },
-    warning: {
-
-    }
 })
 
 

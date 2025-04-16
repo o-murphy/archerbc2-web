@@ -2,14 +2,14 @@ import { useFileContext } from "@/hooks/fileContext";
 import { useEffect, useState } from "react";
 import { PressableProps, StyleSheet } from "react-native";
 import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB } from "react-native-paper"
-import { IconButtonWithToolTip } from "./iconButtonWithTooltip";
+import { ToolTipIconButton } from "./iconButtonWithTooltip";
 
 
 export const CloseDialogButton = ({ icon = "close-circle-outline", ...props }) => {
     const theme = useTheme();
 
     return (
-        <IconButtonWithToolTip tooltip="Close" icon={icon} iconColor={theme.colors.error} {...props} />
+        <ToolTipIconButton tooltip="Close" icon={icon} iconColor={theme.colors.error} {...props} />
     )
 }
 
@@ -85,22 +85,16 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
 }
 
 
-export const CloseDialogWidget = ({
-    Button = CloseDialogButton,
-    Dialog = CloseDialog,
-}: {
-    Button?: React.FC<PressableProps>,
-    Dialog?: React.FC<CloseDialogProps>
-}) => {
+export const CloseDialogWidget = () => {
     const [visible, setVisible] = useState(false)
 
     return (
         <>
             <Tooltip title="Close" leaveTouchDelay={0.2}>
-                <Button onPress={() => setVisible(true)} />
+                <CloseDialogButton onPress={() => setVisible(true)} />
             </Tooltip>
             <Portal>
-                <Dialog visible={visible} setVisible={() => setVisible(false)} />
+                <CloseDialog visible={visible} setVisible={() => setVisible(false)} />
             </Portal>
         </>
     )

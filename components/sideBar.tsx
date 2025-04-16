@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Drawer } from "react-native-paper";
-import { ThemedIconName, ThemedTabIcon } from "./tabIcons";
+import { ThemedIconName, ThemedTabIcon } from "./icons/customIcons";
 
 
 const drawerItems = [

@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 export const copyToClipboard = async (text: string | undefined) => {
     if (!text) return;
@@ -11,7 +12,6 @@ export const copyToClipboard = async (text: string | undefined) => {
         }
     } else {
         // For native platforms
-        const { default: Clipboard } = await import('@react-native-clipboard/clipboard');
         Clipboard.setString(text);
         console.log('Copied to clipboard (native):', text);
     }

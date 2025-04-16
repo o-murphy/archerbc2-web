@@ -1,12 +1,11 @@
 import EditDialog from "@/components/editDialog";
 import { FileOpenError } from "@/components/fileOpenError";
 import StartDialog from "@/components/startDialog";
-import { SnackMessage } from "@/hooks/snackBarService";
-import { useParseUrl } from "@/hooks/useFileParsing";
-import { useEffect, useState } from "react";
-import { Linking, Platform, StyleSheet } from "react-native";
+import { Toast } from "@/components/toast/toastService";
+import { UrlProfileLoader } from "@/hooks/useFileHandler";
+import { useEffect } from "react";
+import { Platform, StyleSheet } from "react-native";
 import { Surface, useTheme } from "react-native-paper";
-
 
 
 export const useApplyScrollbarTheme = () => {
@@ -52,50 +51,6 @@ export const useApplyScrollbarTheme = () => {
   }, [colors]);
 };
 
-const UrlProfileLoader = () => {
-  // const [urlParams, setUrlParams] = useState<string | null>(null);
-  const [urlPayload, setUrlPayload] = useState<string | null>(null);
-
-
-  useEffect(() => {
-    const getInitialURLParams = async () => {
-      // Get the initial URL that the app was opened with
-      const url = await Linking.getInitialURL();
-
-      if (url) {
-        // If a URL exists, parse it and extract parameters
-        const urlParams = new URLSearchParams(url.split('?')[1]);
-        const myParam = urlParams.get('payload');  // Replace 'payload' with the name of your query param
-        // setUrlParams(myParam);
-        setUrlPayload(myParam);
-      }
-    };
-
-    // Check if the app was opened from a URL
-    getInitialURLParams();
-
-    // Handle URL changes while the app is in the background or opened via a deep link
-    const handleUrlChange = (event: any) => {
-      const { url } = event;
-      const urlParams = new URLSearchParams(url.split('?')[1]);
-      const myParam = urlParams.get('payload');
-      // setUrlParams(myParam);
-      setUrlPayload(myParam);
-    };
-
-    // Add event listener for URL changes
-    const urlListener = Linking.addEventListener('url', handleUrlChange);
-
-    // Clean up the event listener when the component unmounts or the effect is cleaned up
-    return () => {
-      urlListener.remove(); // Remove the event listener when cleaning up
-    };
-  }, []);
-
-  useParseUrl(urlPayload)
-
-  return <></>
-}
 
 const WebLayout = () => {
   useApplyScrollbarTheme()
@@ -108,9 +63,8 @@ const WebLayout = () => {
         <EditDialog />
         <StartDialog />
       </Surface>
-      <SnackMessage />
+      <Toast />
     </>
-
   )
 }
 

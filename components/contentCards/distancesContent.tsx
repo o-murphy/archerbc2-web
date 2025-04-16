@@ -19,7 +19,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ThemedIcon } from "../tabIcons";
+import { ThemedIcon } from "../icons/customIcons";
 import { distancesTemplates, ProfileProps } from "@/hooks/useFileParsing";
 
 
