@@ -163,13 +163,11 @@ export const encodeAsUrl = (data: ParsedData): string | undefined => {
 
     if (data.profile && !data.error) {
         try {
-            const origin = window.location.origin
-
             const buffer = decode({
                 profile: prepareProfile(data.profile)
             })
             const payload = encodeURIComponent(fromByteArray(new Uint8Array(buffer)));
-            const url = `${origin}?payload=${payload}`;
+            const url = `${window.location.origin}${window.location.pathname}?payload=${payload}`;
             console.log("Payload URL:", url);
             return url
         } catch (error) {
