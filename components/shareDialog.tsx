@@ -12,7 +12,7 @@ import { RenderSnackBar } from "./fileOpenError";
 export const ShareDialogButton = ({ icon = "share", ...props }) => {
 
     return (
-        <IconButtonWithToolTip tooltip="Close" icon={icon} {...props} />
+        <IconButtonWithToolTip tooltip="Share" icon={icon} {...props} />
     )
 }
 
@@ -46,8 +46,13 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
     const [snackVisible, setSnackVisible] = useState(false)
 
     const urlEncoded = useMemo(() => {
-        return encodeAsUrl(currentData)
-    }, [currentData])
+        try {
+            return encodeAsUrl(currentData)
+        } catch (error) {
+            console.error("Error encode url")
+            return ""
+        }
+    }, [snackVisible])
 
     const onCopyPress = () => {
         copyToClipboard(urlEncoded)
@@ -65,12 +70,12 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
                     Share
                 </Dialog.Title>
                 <Dialog.Content style={styles.dialogContent}>
-                    <TextInput 
-                        style={{width: "100%"}}
+                    <TextInput
+                        style={{ width: "100%" }}
                         readOnly={true}
                         value={urlEncoded}
                         right={
-                            <TextInput.Icon icon={md3PaperIconSource({name: "content-copy"})} size={24} onPress={onCopyPress}/>
+                            <TextInput.Icon icon={md3PaperIconSource({ name: "content-copy" })} size={24} onPress={onCopyPress} />
                         }
                     />
                 </Dialog.Content>
@@ -95,9 +100,7 @@ export const ShareDialogWidget = ({
 
     return (
         <>
-            <Tooltip title="Close" leaveTouchDelay={0.2}>
-                <Button onPress={() => setVisible(true)} />
-            </Tooltip>
+            <Button onPress={() => setVisible(true)} />
             <Portal>
                 <Dialog visible={visible} setVisible={() => setVisible(false)} />
             </Portal>
