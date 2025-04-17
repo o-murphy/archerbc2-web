@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, View } from "react-native"
-import { Card, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
+import { Card, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { CoefRow, BcType } from "a7p-js/dist/types"
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProfileProps } from "@/hooks/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 
@@ -86,6 +86,8 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         defaultValue: [],
     });
 
+    const [err, setErr] = useState<string | null>(null)
+
     const rows = useMemo(() => {
         let filledRows = value.slice(0, MAX_STANDARD_ITEM_COUNT)
 
@@ -101,6 +103,19 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         }));
     }, [value, setValue]);
 
+    useEffect(() => {
+        const validRows = value.filter(row => row.bcCd > 0);
+        const mvSet = new Set(validRows.map(row => row.mv));
+    
+        if (validRows.length < 1) {
+            setErr("Should have at least 1 row with BC > 0");
+        } else if (mvSet.size < validRows.length) {
+            setErr("Velocity values must be unique among rows with BC > 0");
+        } else {
+            setErr(null);
+        }
+    }, [value, setValue]);
+
     const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
 
         const newValue = [...value];  // Create a shallow copy of the value array
@@ -109,8 +124,8 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         }
         newValue[index] = {
             ...newValue[index],  // Copy the existing row
-            mv: mv !== null && mv >= 0 ? mv * 10 : newValue[index].mv,  // Ensure mv is not 0
-            bcCd: bcCd != null && bcCd >= 0 ? bcCd * 10000 : newValue[index].bcCd
+            mv: mv !== null && mv >= 0 ? Math.round(mv * 10) : newValue[index].mv,  // Ensure mv is not 0
+            bcCd: bcCd != null && bcCd >= 0 ? Math.round(bcCd * 10000) : newValue[index].bcCd
         };
         setValue(newValue)
     }
@@ -141,6 +156,9 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
 
     return (
         <Card elevation={3} style={styles.surface}>
+            <HelperText visible={!!err} type="error" style={{alignSelf: "center"}}>
+                {err}
+            </HelperText>
             <StandardDragHeader model={model} onSortPress={onSortPress} />
             <FlatList
                 data={rows}
@@ -149,7 +167,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                // contentContainerStyle={{ maxHeight: 300 }}
+            // contentContainerStyle={{ maxHeight: 300 }}
             />
         </Card>
     )

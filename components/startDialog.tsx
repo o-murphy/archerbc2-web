@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Dialog, Portal, Surface, Text, TouchableRipple } from "react-native-paper"
+import { Button, Dialog, Surface, Text, TouchableRipple } from "react-native-paper"
 import { FileInput } from "./fileInput";
 import { useFileHandler, AllowedExtensions } from "@/hooks/useFileHandler";
 import { useFileContext } from "@/hooks/fileContext";
@@ -39,8 +39,8 @@ const StartDialog = () => {
     };
 
     return (
-        <Portal>
-            <Dialog visible={visible} style={styles.dialog}>
+        <>
+            <Dialog visible={visible} style={styles.dialog} dismissable={false}>
                 <DropZoneWeb onDropFile={processFile}>
 
                     <TouchableRipple style={styles.touchable} onPress={onOpenPress}>
@@ -71,7 +71,7 @@ const StartDialog = () => {
                 </DropZoneWeb>
             </Dialog>
             <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
-        </Portal>
+        </>
     )
 }
 

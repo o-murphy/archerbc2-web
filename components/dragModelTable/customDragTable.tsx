@@ -78,9 +78,9 @@ export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2,
         </View>
     ) : (
         <Button
-            style={[styles.input, {justifyContent: "center"}]}
+            style={[styles.input, { justifyContent: "center" }]}
             onPress={edit}
-            labelStyle={{padding: 0, margin: 0, justifyContent: "center", textAlign: "center"}}
+            labelStyle={{ padding: 0, margin: 0, justifyContent: "center", textAlign: "center" }}
         >
             {`${localValue.toFixed(fraction)} ${affixText}`}
         </Button>
@@ -139,12 +139,14 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
 
 const CustomDragTable = () => {
 
-    let field = 'coefRowsCustom' as keyof ProfileProps
+    const field = 'coefRowsCustom' as keyof ProfileProps
 
     const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
         field,
         defaultValue: [],
     });
+
+    const [err, setErr] = useState<string | null>(null)
 
     const rows = useMemo(() => {
         let filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT)
@@ -160,6 +162,20 @@ const CustomDragTable = () => {
             mv: item.mv / 10000
         }));
 
+    }, [value, setValue]);
+
+    useEffect(() => {
+        const filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT).filter(row =>
+            row.bcCd > 0 && row.mv > 0
+        );
+    
+        const uniqueMvs = new Set(filledRows.map(row => row.mv));
+    
+        if (filledRows.length < 4 || uniqueMvs.size < filledRows.length) {
+            setErr("Should have at least 4 valid rows with unique Mach values and Cd > 0");
+        } else {
+            setErr(null);
+        }
     }, [value, setValue]);
 
     const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
@@ -203,6 +219,9 @@ const CustomDragTable = () => {
     }
     return (
         <Card elevation={3} style={styles.surface}>
+            <HelperText visible={!!err} type="error" style={{ alignSelf: "center" }}>
+                {err}
+            </HelperText>
             <View style={styles.row}>
                 <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
                 <Divider style={styles.divider} />

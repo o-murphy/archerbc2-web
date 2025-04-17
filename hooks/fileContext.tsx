@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { FileHandleState } from './useFileHandler';
 import { Platform } from 'react-native';
 import { ParsedData, saveParsedData } from './useFileParsing';
-import { ToastService } from '../components/toast/toastService';
+import { toast } from '../components/toast/toastService';
 
 
 // Define the context value type
@@ -69,7 +69,7 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
             saveParsedData(currentData, fileState.name)
         } catch (error: any) {
             console.log(`Error on file download, ${error}`)
-            ToastService.error(error)
+            toast.error(error)
         }
     }
 

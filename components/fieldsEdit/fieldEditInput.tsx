@@ -32,32 +32,7 @@ export function useProfileFields<K extends keyof ProfileProps>(
 
     return [currentValues, setValues];
 }
-// export function useProfileFields<K extends keyof ProfileProps>(
-//     fields: K[]
-// ): [Pick<ProfileProps, K>, (updates: Partial<Pick<ProfileProps, K>>) => void] {
-//     const { currentData, setCurrentData } = useFileContext();
 
-//     const currentValues = useMemo(() => {
-//         const profile = currentData.profile ?? {};
-//         const result = {} as Pick<ProfileProps, K>;
-//         for (const key of fields) {
-//             result[key] = profile[key];
-//         }
-//         return result;
-//     }, [currentData.profile, ...fields]);
-
-//     const setValues = (updates: Partial<Pick<ProfileProps, K>>) => {
-//         setCurrentData(prev => ({
-//             ...prev,
-//             profile: {
-//                 ...prev.profile,
-//                 ...updates,
-//             },
-//         }));
-//     };
-
-//     return [currentValues, setValues];
-// }
 
 export function useProfileFieldState<K extends keyof ProfileProps, T = ProfileProps[K]>({
     field,
@@ -108,7 +83,17 @@ export function useProfileFieldState<K extends keyof ProfileProps, T = ProfilePr
         setValue(val);
     };
 
-    return [value, handleChange] as const;
+    const reset = () => {
+        if (currentData.profile) {
+            setValue(
+                currentData.profile?.[field] !== undefined
+                    ? parse(currentData.profile?.[field])
+                    : defaultValue
+            )
+        }
+    }
+
+    return [value, handleChange, reset] as const;
 }
 
 
@@ -117,7 +102,7 @@ export interface FieldEditProps extends Omit<TextInputProps, 'value' | 'onChange
     field: keyof ProfileProps;
 }
 
-export const FieldEdit = ({ field, maxLength, ...props }: FieldEditProps) => {
+export const FieldEdit = ({ field, ...props }: FieldEditProps) => {
     const [value, setValue] = useProfileFieldState<keyof ProfileProps, string>({
         field,
         defaultValue: "",
@@ -147,11 +132,11 @@ export const FieldEditFloat = ({
 }: FieldEditFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue] = useProfileFieldState<keyof ProfileProps, string>({
+    const [value, setValue, reset] = useProfileFieldState<keyof ProfileProps, string>({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),
-        format: (v) => parseFloat(v) * multiplier,
+        format: (v) => Math.round(parseFloat(v) * multiplier),
         validate: useCallback(() => {
             return !!err
         }, [err])
@@ -170,6 +155,7 @@ export const FieldEditFloat = ({
                 mode="outlined"
                 keyboardType="decimal-pad"
                 dense
+                onBlur={reset}
                 {...props}
             />
             <HelperText type="error" visible={!!err}>
