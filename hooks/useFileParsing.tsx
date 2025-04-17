@@ -1,12 +1,13 @@
 
 import { useEffect } from "react";
-import { decode, encode } from "@/utils/a7p";
+import { decode, encode } from "a7p-js";
 import { useFileContext } from "@/hooks/fileContext";
 import { FileHandleState } from "@/hooks/useFileHandler"; // Assuming this type is imported correctly
-import { BcType, CoefRow, Payload, Profile } from "@/utils/a7p/types"
+// import { BcType, CoefRow, Payload, Profile } from "a7p-js/types"
 import { savefileBackup } from "./useFileStorege";
 import { toByteArray, fromByteArray } from 'base64-js';
 import { Platform } from "react-native";
+import { BcType, CoefRow, Profile } from "a7p-js/dist/types.js";
 
 
 export type DistanceTemplateType = Record<string, number[]>

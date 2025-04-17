@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import * as A7P from './a7p.js';
+import * as A7P from 'a7p-js';
 
 async function readFileAsBytes(path) {
     try {

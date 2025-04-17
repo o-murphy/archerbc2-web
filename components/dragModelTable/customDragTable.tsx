@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput"
-import { CoefRow } from "@/utils/a7p/types"
+import { CoefRow } from "a7p-js/dist/types"
 import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
 
 

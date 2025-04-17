@@ -3,7 +3,7 @@ import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
 import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
-import { BcType, Profile } from "@/utils/a7p/types";
+import { BcType, Profile } from "a7p-js/dist/types";
 
 
 const bcTypeMap: Record<string, React.ReactNode> = {

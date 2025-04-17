@@ -1,9 +1,8 @@
-import { BcType } from "@/utils/a7p/types";
 import { FlatList, StyleSheet, View } from "react-native"
 import { Card, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
-import { CoefRow } from "@/utils/a7p/types";
-import { useCallback, useMemo, useState } from "react";
+import { CoefRow, BcType } from "a7p-js/dist/types"
+import { useMemo } from "react";
 import { ProfileProps } from "@/hooks/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 

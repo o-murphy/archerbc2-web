@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
-import { Profile, TwistDir } from "@/utils/a7p/types";
+import { Profile, TwistDir } from "a7p-js/dist/types";
 
 
 const RifleTextFields: FieldProps = {
