@@ -14,10 +14,10 @@ async function readFileAsBytes(path) {
 
 // Example usage:
 const bytes = await readFileAsBytes('./scripts/example.a7p').catch(err => console.log(err));
-const payload = A7P.loads(bytes)
+const payload = A7P.decode(bytes)
 
 console.log(payload.profile)
 console.log(payload.profile.switches)
 
-const buf = A7P.dumps(payload)
+const buf = A7P.encode(payload)
 console.log(buf)

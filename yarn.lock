@@ -2075,9 +2075,9 @@
   integrity sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==
 
 a7p-js@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/a7p-js/-/a7p-js-1.0.1.tgz#5993772d27f8da838c0bd688e4e3e6a3c1703417"
-  integrity sha512-h/Yj6fYynNXv0GVY4NjvzFXqXiNIbnVwlmn2mVX7fqL+MfJ41si1tJo4mKyKYC6sxpWWjtkXBpY9jvMxXYYBEA==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/a7p-js/-/a7p-js-1.0.2.tgz#60b63b92ed10cdc14038dd04f2d8b51e0feec399"
+  integrity sha512-tcQeroD0C7W6U4BdyzMUvK+TgwL+ob5Ygv913pIePguHGJoeSVRvJ0MI5ArVJWmrlAU9jcoHmu/MZ8yn2iZXrg==
   dependencies:
     base64-js "^1.5.1"
     crypto-js "^4.2.0"
