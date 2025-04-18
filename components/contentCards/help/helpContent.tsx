@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 import { Text } from "react-native-paper";
 import CartridgeHelpContent from "./cartridgeHelp";
 import DescriptionHelpContent from "./descriptionHelp";
-import { TwistDir } from "a7p-js/dist/types";
 
 export const FieldHelp: Partial<Record<keyof ProfileProps | string, ReactNode>> = {
 

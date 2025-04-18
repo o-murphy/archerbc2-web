@@ -101,7 +101,6 @@ const useUrlPayloadLoader = () => {
         const searchParams = new URLSearchParams(window.location.search);
         const payload = searchParams.get('payload');
         setUrlPayload(payload);
-        console.log("PLD", payload)
     }, []);
 
     useParseUrl(urlPayload);

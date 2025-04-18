@@ -7,11 +7,16 @@ import { encodeToUrl } from "@/hooks/fileService/useFileParsing";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
 import { toast } from "@/components/services/toastService/toastService";
+import { useTranslation } from "react-i18next";
 
 
-export const ShareDialogButton = ({ icon = "share", ...props }) => (
-    <ToolTipIconButton tooltip="Share" icon={icon} {...props} />
-)
+export const ShareDialogButton = ({ icon = "share", ...props }) => {
+    const { t } = useTranslation();
+
+    return (
+        <ToolTipIconButton tooltip={t("shareDialog.Tooltip")} icon={icon} {...props} />
+    )
+}
 
 
 interface ShareDialogProps {
@@ -29,11 +34,13 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
         setVisible(false)
     }
 
+    const { t } = useTranslation();
+
     return (
         <Dialog visible={visible} style={styles.dialog} onDismiss={closeDialog}>
             <Surface elevation={0}>
                 <Dialog.Title style={styles.dialogTitle}>
-                    Share
+                    {t("shareDialog.Share")}
                 </Dialog.Title>
                 <Dialog.Content style={styles.dialogContent}>
                     <TextInput
@@ -46,7 +53,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
                     />
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button onPress={closeDialog}>Close</Button>
+                    <Button onPress={closeDialog}>{t("shareDialog.Close")}</Button>
                 </Dialog.Actions>
             </Surface>
         </Dialog>
@@ -55,6 +62,7 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
 
 
 export const ShareDialogWidget = () => {
+    const { t } = useTranslation();
     const [visible, setVisible] = useState(false)
 
     const { currentData } = useFileContext();
@@ -76,7 +84,7 @@ export const ShareDialogWidget = () => {
     const onCopyPress = () => {
         if (urlEncoded) {
             copyToClipboard(urlEncoded);
-            toast.show("Link copied to clipboard");
+            toast.show(t("shareDialog.Copied"));
         }
     };
 

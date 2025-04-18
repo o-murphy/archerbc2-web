@@ -7,7 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { FileProvider } from "@/hooks/fileService/fileContext";
 import { ThemeContext, useThemePreference } from "@/hooks/useThemeToggle";
 
-
+import "@/i18n/i18n";
 
 
 export default function RootLayout() {

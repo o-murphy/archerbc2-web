@@ -4,16 +4,19 @@ import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInpu
 import { CartridgeFields } from "./fiedProps";
 import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
-import CartridgeHelpContent from "./help/cartridgeHelp";
+import { useTranslation } from "react-i18next";
 
 
 const CartridgeContent = () => {
+  const { t } = useTranslation()
+
+
   return (
     <View style={styles.container}>
 
       <HelpButton helpContent={FieldHelp.CartridgeCard}>
         <Text variant="titleLarge" style={styles.header}>
-          Cartridge
+          {t("cartridgeContent.Cartridge")}
         </Text>
       </HelpButton>
 
@@ -22,12 +25,12 @@ const CartridgeContent = () => {
           helpContent={FieldHelp.cMuzzleVelocity}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>{"Muzzle velocity"}</Text>
+          <Text>{t("cartridgeContent.MuzzleVelocity")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cMuzzleVelocity as FieldEditFloatProps}
           style={styles.input}
-          right={<TextInput.Affix text={"mps"} />}
+          right={<TextInput.Affix text={t("measure.mps")} />}
         />
       </View>
 
@@ -36,12 +39,12 @@ const CartridgeContent = () => {
           helpContent={FieldHelp.cZeroTemperature}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>{"Powder temperature"}</Text>
+          <Text>{t("cartridgeContent.PowderTemperature")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cZeroTemperature as FieldEditFloatProps}
           style={styles.input}
-          right={<TextInput.Affix text={"°C"} />}
+          right={<TextInput.Affix text={t("measure.°C")} />}
         />
       </View>
 
@@ -51,13 +54,13 @@ const CartridgeContent = () => {
           helpContent={FieldHelp.cMuzzleVelocity}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>{"Temperature sensitivity"}</Text>
+          <Text>{t("cartridgeContent.TemperatureSensitivity")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cTCoeff as FieldEditFloatProps}
           style={styles.input}
           left={<TextInput.Icon icon={"calculator"} />}
-          right={<TextInput.Affix text={"%/15°C"} />}
+          right={<TextInput.Affix text={t("measure.%/15°C")} />}
         />
       </View>
 

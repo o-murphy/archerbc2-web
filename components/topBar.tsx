@@ -1,22 +1,19 @@
 import { StyleSheet, View } from "react-native";
-import { Surface, Text, useTheme } from "react-native-paper"
+import { Surface, Text } from "react-native-paper"
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
-import { useThemeToggle } from "@/hooks/useThemeToggle";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { ShareDialogWidget } from "./shareDialog";
 import { FileOpenerService } from "../hooks/fileService/fileOpener";
+import { ThemeToggle } from "./themeToggle";
+import { LanguageToggle } from "./languageToggle";
+import { useTranslation } from "react-i18next";
 
 
 const TopBar = () => {
-
-  const theme = useTheme()
-
-  const { toggleTheme } = useThemeToggle();
+  const { t } = useTranslation();
   const { syncBackup, restoreBackup, saveFile } = useFileContext();
-
-  const themeIcon = md3PaperIconSource({ name: theme.dark ? "dark-mode" : "light-mode" })
 
   const onOpenPress = () => {
     console.log("Open pressed");
@@ -36,17 +33,17 @@ const TopBar = () => {
 
   return (
     <Surface elevation={1} style={styles.topBar}>
-      <ToolTipIconButton tooltip="Create new file" icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
-      <ToolTipIconButton tooltip="Open file" icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
-      <ToolTipIconButton tooltip="Download" icon="file-download" onPress={onSavePress} />
-      <ToolTipIconButton tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
-      <ToolTipIconButton tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
+      <ToolTipIconButton tooltip={t("topBar.Create new file")} icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
+      <ToolTipIconButton tooltip={t("topBar.OpenFile")} icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
+      <ToolTipIconButton tooltip={t("topBar.Download")} icon="file-download" onPress={onSavePress} />
+      <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon="file-refresh" onPress={onReloadPress} />
+      <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon="crosshairs" onPress={() => { }} disabled />
       <ShareDialogWidget />
 
       <View style={styles.rightSide}>
         <View style={styles.separator} />
-        <ToolTipIconButton tooltip="Toggle theme" icon={themeIcon} onPress={toggleTheme} />
-        <ToolTipIconButton tooltip="Language" icon={md3PaperIconSource({ name: "translate" })} onPress={() => { }} disabled />
+        <ThemeToggle />
+        <LanguageToggle />
         <View style={styles.separator} />
         <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
         <CloseDialogWidget />

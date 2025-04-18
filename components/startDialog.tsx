@@ -6,6 +6,8 @@ import { useFileContext } from "@/hooks/fileService/fileContext";
 import { DropZoneWeb } from "./dropZone/dropZone";
 import { FileOpenerService } from "../hooks/fileService/fileOpener";
 import { useParseFile } from "@/hooks/fileService/useFileParsing";
+import { useTranslation } from "react-i18next";
+import { LanguageToggle } from "./languageToggle";
 
 const StartDialogDropZone = ({ children }: { children: ReactNode }) => {
     const { fileHandleState, processFile } = useFileHandler();  // Use the custom hook
@@ -18,6 +20,7 @@ const StartDialogDropZone = ({ children }: { children: ReactNode }) => {
 }
 
 const StartDialog = () => {
+    const { t } = useTranslation();
 
     const [visible, setVisible] = useState(true)
     const { fileState, currentData } = useFileContext()
@@ -46,23 +49,28 @@ const StartDialog = () => {
                     <Surface elevation={0}>
                         <Dialog.Title style={styles.dialogTitle}>
                             ArcherBC2
+                            <LanguageToggle />
                         </Dialog.Title>
 
                         <Dialog.Content style={styles.dialogContent}>
                             <Text variant="headlineMedium">
-                                Start menu
+                                {t("startDialog.StartMenu")}
                             </Text>
                             <Text variant="bodyLarge">
                                 {/* <Dialog.Icon icon="file" /> */}
-                                Open or create new profile
+                                {t("startDialog.OpenOrCreateNewProfile")}
                             </Text>
                             <Text variant="bodyMedium">
-                                (or drag'n'drop file here)
+                                {t("startDialog.dndHere")}
                             </Text>
                         </Dialog.Content>
                         <Dialog.Actions style={styles.dialogActions}>
-                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress} disabled>Create new</Button>
-                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onOpenPress}>Open</Button>
+                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onCreatePress} disabled>
+                                {t("startDialog.CreateNew")}
+                            </Button>
+                            <Button mode="contained-tonal" style={styles.actionButton} onPress={onOpenPress}>
+                                {t("startDialog.Open")}
+                            </Button>
                         </Dialog.Actions>
                     </Surface>
                 </TouchableRipple>

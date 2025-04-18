@@ -5,9 +5,12 @@ import { Profile, TwistDir } from "a7p-js/dist/types";
 import { RifleFloatFields, RifleTextFields } from "./fiedProps";
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
+import { useTranslation } from "react-i18next";
 
 
 const TwistField = () => {
+    const { t } = useTranslation()
+
     const [twistDir, setTwistDir] = useProfileFieldState<keyof Profile, TwistDir>({
         field: 'twistDir',
         defaultValue: TwistDir.RIGHT,
@@ -21,12 +24,12 @@ const TwistField = () => {
             buttons={[
                 {
                     value: TwistDir.LEFT,
-                    label: 'Left',
+                    label: t('rifleContent.Left'),
                     icon: 'rotate-left',
                 },
                 {
                     value: TwistDir.RIGHT,
-                    label: 'Right',
+                    label: t('rifleContent.Right'),
                     icon: 'rotate-right',
                 },
             ]}
@@ -36,12 +39,14 @@ const TwistField = () => {
 
 const RifleContent = () => {
 
+    const { t } = useTranslation()
+
     return (
         <View style={styles.container}>
 
             <HelpButton helpContent={FieldHelp.RifleCard}>
                 <Text variant="titleLarge" style={styles.header}>
-                    Rifle
+                    {t("rifleContent.Rifle")}
                 </Text>
             </HelpButton>
 
@@ -50,12 +55,12 @@ const RifleContent = () => {
                     helpContent={FieldHelp.caliber}
                     style={[styles.label, { alignContent: "center" }]}
                 >
-                    <Text>{"Caliber"}</Text>
+                    <Text>{t("rifleContent.Caliber")}</Text>
                 </HelpButton>
                 <FieldEdit  //FIXME float
                     {...RifleTextFields.caliber as FieldEditProps}
                     style={styles.input}
-                    right={<TextInput.Affix text={"inch"} />}
+                    right={<TextInput.Affix text={t("measure.inch")} />}
                 />
             </View>
 
@@ -64,12 +69,12 @@ const RifleContent = () => {
                     helpContent={FieldHelp.rTwist}
                     style={[styles.label, { alignContent: "center" }]}
                 >
-                    <Text>{"Twist Rate"}</Text>
+                    <Text>{t("rifleContent.TwistRate")}</Text>
                 </HelpButton>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.rTwist as FieldEditFloatProps}
                     style={styles.input}
-                    right={<TextInput.Affix text={"inch/turn"} />}
+                    right={<TextInput.Affix text={t("measure.inch_turn")} />}
                 />
             </View>
 
@@ -78,7 +83,7 @@ const RifleContent = () => {
                     helpContent={FieldHelp.twistDir}
                     style={[styles.label, { alignContent: "center" }]}
                 >
-                    <Text>{"Twist Direction"}</Text>
+                    <Text>{t("rifleContent.TwistDirection")}</Text>
                 </HelpButton>
                 <TwistField />
             </View>
@@ -88,12 +93,12 @@ const RifleContent = () => {
                     helpContent={FieldHelp.scHeight}
                     style={[styles.label, { alignContent: "center" }]}
                 >
-                    <Text>{"Sight Height"}</Text>
+                    <Text>{t("rifleContent.SightHeight")}</Text>
                 </HelpButton>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.scHeight as FieldEditFloatProps}
                     style={styles.input}
-                    right={<TextInput.Affix text={"mm"} />}
+                    right={<TextInput.Affix text={t("measure.mm")} />}
                 />
             </View>
         </View>

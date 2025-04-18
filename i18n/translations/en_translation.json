@@ -1,0 +1,80 @@
+{
+    "startDialog": {
+        "StartMenu": "Start menu",
+        "OpenOrCreateNewProfile": "Open or create new profile",
+        "dndHere": "(or drag'n'drop file here)",
+        "CreateNew": "Create new",
+        "Open": "Open"
+    },
+    "topBar": {
+        "Create new file": "Create new file",
+        "OpenFile": "Open file",
+        "Download": "Download",
+        "RejectChanges": "Reject changes",
+        "LoadZeroing": "Load zeroing"
+    },
+    "themeToggle": {
+        "ToggleTheme": "Toggle theme"
+    },
+    "closeDialog": {
+        "Close": "Close",
+        "Title": "Close File",
+        "Question": "Do you want to save the changes before closing?",
+        "Warning": "If you don’t, your data will be lost.",
+        "DownloadAndClose": "Download and Close",
+        "CloseWithoutSaving": "Close Without Saving",
+        "Cancel": "Cancel"
+    },
+    "shareDialog": {
+        "Share": "Share",
+        "Close": "Close",
+        "Tooltip": "Share",
+        "Copied": "Link copied to clipboard",
+        "Error": "Could not generate link"
+    },
+    "languageToggle": {
+        "SwitchTo_ua": "Перемкнути на українську",
+        "SwitchTo_en": "Switch to English"
+    },
+    "sideBar": {
+        "Description": "Description",
+        "Rifle": "Rifle",
+        "Cartridge": "Cartridge",
+        "Bullet": "Bullet",
+        "Zeroing": "Zeroing",
+        "Distances": "Distances"
+    },
+    "descriptionContent": {
+        "Description": "Description",
+        "Name": "Name",
+        "Hints": "Hints",
+        "Projectile": "Projectile",
+        "Cartridge": "Cartridge",
+        "Bullet": "Bullet",
+        "UserNote": "User Note",
+        "AddYourProfileSpecificNotesHere": "Add your profile-specific notes here"
+    },
+    "rifleContent": {
+        "Rifle": "Rifle",
+        "Caliber": "Caliber",
+        "TwistRate": "Twist rate",
+        "TwistDirection": "Twist direction",
+        "Left": "Left",
+        "Right": "Right",
+        "SightHeight": "Sight height"
+    },
+    "cartridgeContent": {
+        "Cartridge": "Cartridge",
+        "MuzzleVelocity": "Muzzle velocity",
+        "PowderTemperature": "Powder temperature",
+        "TemperatureSensitivity": "Temperature sensitivity"
+    },
+    "measure": {
+        "inch": "in",
+        "inch_turn": "in/turn",
+        "mm": "mm",
+        "mps": "m/s",
+        "°C": "°C",
+        "%/15°C": "% / 15°C"
+    }
+}

@@ -67,7 +67,6 @@ const DistancesList = () => {
   const sensors = useSensors(useSensor(PointerSensor));
 
   const items = useMemo(() => {
-    console.log("ze", zeroIdx);
     return value.map((val, index) => {
       if (!idMapRef.current.has(val)) {
         idMapRef.current.set(val, nanoid());

@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Drawer } from "react-native-paper";
 import { ThemedIconName, ThemedTabIcon } from "./icons/customIcons";
+import { useTranslation } from "react-i18next";
 
 
 const drawerItems = [
@@ -18,27 +19,27 @@ type SideBarProps = {
     selectedRoute: string;
 };
 
-// Function to render the side drawer with navigation options
-const renderSideDrawer = ({ onNavigate, selectedRoute }: SideBarProps) => (
-    // @ts-expect-error: Web-only style, allowed intentionally
-    <Drawer.Section style={styles.sideBar}>
-        {drawerItems.map(({ label, icon, route }) => (
-            <Drawer.CollapsedItem
-                key={route}
-                // @ts-expect-error: Web-only style, allowed intentionally
-                style={styles.collapsedItem}
-                label={label}
-                focusedIcon={() => <ThemedTabIcon source={icon as ThemedIconName} size={40} />}
-                unfocusedIcon={() => <ThemedTabIcon source={icon as ThemedIconName} size={40} />}
-                onPress={() => onNavigate?.(route)}
-                active={selectedRoute === route}
-            />
-        ))}
-    </Drawer.Section>
-);
 
 export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
-    return renderSideDrawer({ onNavigate, selectedRoute });
+    const { t } = useTranslation();
+
+    return (
+        // @ts-expect-error: Web-only style, allowed intentionally
+        <Drawer.Section style={styles.sideBar}>
+            {drawerItems.map(({ label, icon, route }) => (
+                <Drawer.CollapsedItem
+                    key={route}
+                    // @ts-expect-error: Web-only style, allowed intentionally
+                    style={styles.collapsedItem}
+                    label={t(`sideBar.${label}`)}
+                    focusedIcon={() => <ThemedTabIcon source={icon as ThemedIconName} size={40} />}
+                    unfocusedIcon={() => <ThemedTabIcon source={icon as ThemedIconName} size={40} />}
+                    onPress={() => onNavigate?.(route)}
+                    active={selectedRoute === route}
+                />
+            ))}
+        </Drawer.Section>
+    )
 }
 
 

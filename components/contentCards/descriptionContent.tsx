@@ -4,16 +4,19 @@ import { FieldEdit, FieldEditProps } from "../fieldsEdit/fieldEditInput";
 import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
 import { DescriptionFields } from "./fiedProps";
+import { useTranslation } from "react-i18next";
 
 
 const DescriptionContent = () => {
+
+  const { t } = useTranslation()
 
   return (
     <View style={styles.container}>
       <HelpButton helpContent={FieldHelp.DescriptionCard}>
 
         <Text variant="titleLarge" style={styles.header}>
-          Description
+          {t("descriptionContent.Description")}
         </Text>
       </HelpButton>
 
@@ -22,7 +25,7 @@ const DescriptionContent = () => {
           helpContent={FieldHelp.profileName}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>Name</Text>
+          <Text>{t("descriptionContent.Name")}</Text>
         </HelpButton>
         <FieldEdit
           {...DescriptionFields.profileName as FieldEditProps}
@@ -35,7 +38,7 @@ const DescriptionContent = () => {
           helpContent={FieldHelp.ShortHints}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>Hints</Text>
+          <Text>{t("descriptionContent.Hints")}</Text>
         </HelpButton>
         <View style={[styles.row, styles.input]}>
           <FieldEdit
@@ -50,7 +53,7 @@ const DescriptionContent = () => {
       </View>
 
       <View style={styles.row}>
-        <Text variant="titleMedium" style={styles.sectionTitle}>{"Projectile"}</Text>
+        <Text variant="titleMedium" style={styles.sectionTitle}>{t("descriptionContent.Projectile")}</Text>
         <Divider style={styles.divider} />
       </View>
 
@@ -59,7 +62,7 @@ const DescriptionContent = () => {
           helpContent={FieldHelp.cartridgeName}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>Cartridge</Text>
+          <Text>{t("descriptionContent.Cartridge")}</Text>
         </HelpButton>
         <FieldEdit
           {...DescriptionFields.cartridgeName as FieldEditProps}
@@ -72,7 +75,7 @@ const DescriptionContent = () => {
           helpContent={FieldHelp.bulletName}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text>Bullet</Text>
+          <Text>{t("descriptionContent.Bullet")}</Text>
         </HelpButton>
         <FieldEdit
           {...DescriptionFields.bulletName as FieldEditProps}
@@ -86,7 +89,7 @@ const DescriptionContent = () => {
           helpContent={FieldHelp.userNote}
           style={styles.sectionTitle}
         >
-          <Text variant="titleMedium">User Note</Text>
+          <Text variant="titleMedium">{t("descriptionContent.UserNote")}</Text>
         </HelpButton>
         <Divider style={styles.divider} />
       </View>
@@ -95,7 +98,7 @@ const DescriptionContent = () => {
         <FieldEdit
           {...DescriptionFields.userNote as FieldEditProps}
           style={styles.input}
-          placeholder="Add your profile specific notes here"
+          placeholder={t("descriptionContent.AddYourProfileSpecificNotesHere")}
         />
       </View>
     </View>

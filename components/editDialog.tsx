@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
-import { Dialog, Portal, Surface, Text, useTheme } from "react-native-paper";
+import { Dimensions, StyleSheet } from "react-native";
+import { Dialog, Surface, Text, useTheme } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
 import RifleContent from "./contentCards/rifleContent";
@@ -38,22 +38,21 @@ const routeContentMap: Record<string, React.FC> = {
 };
 
 const EditDialog = () => {
+
     // State with TypeScript annotations
     const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(calculateDialogDimensions());
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRoute, setSelectedRoute] = useState<string>('description');
 
-    const { currentData: parsedData } = useFileContext()
-
-    const theme = useTheme()
+    const { currentData } = useFileContext()
 
     useEffect(() => {
-        if (parsedData.profile) {
+        if (currentData.profile) {
             setVisible(true)
         } else {
             setVisible(false)
         }
-    }, [parsedData])
+    }, [currentData])
 
     useEffect(() => {
         const handleResize = () => {

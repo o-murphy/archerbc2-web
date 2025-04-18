@@ -1,0 +1,80 @@
+{
+    "startDialog": {
+        "StartMenu": "Головне меню",
+        "OpenOrCreateNewProfile": "Відкрити або створити новий профіль",
+        "dndHere": "(або перетягніть файл сюди)",
+        "CreateNew": "Створити новий",
+        "Open": "Відкрити"
+    },
+    "topBar": {
+        "Create new file": "Створити новий файл",
+        "OpenFile": "Відкрити файл",
+        "Download": "Завантажити",
+        "RejectChanges": "Скасувати зміни",
+        "LoadZeroing": "Завантажити пристрілку"
+    },
+    "themeToggle": {
+        "ToggleTheme": "Перемкнути тему"
+    },
+    "closeDialog": {
+        "Close": "Закрити",
+        "Title": "Закрити файл",
+        "Question": "Зберегти зміни перед закриттям?",
+        "Warning": "Якщо ні — дані буде втрачено.",
+        "DownloadAndClose": "Завантажити та закрити",
+        "CloseWithoutSaving": "Закрити без збереження",
+        "Cancel": "Скасувати"
+    },
+    "shareDialog": {
+        "Share": "Поділитися",
+        "Close": "Закрити",
+        "Tooltip": "Поділитися",
+        "Copied": "Посилання скопійовано в буфер",
+        "Error": "Не вдалося створити посилання"
+    },
+    "languageToggle": {
+        "SwitchTo_ua": "Switch to Ukrainian",
+        "SwitchTo_en": "Перемкнути на англійську"
+    },
+    "sideBar": {
+        "Description": "Опис",
+        "Rifle": "Гвинтівка",
+        "Cartridge": "Патрон",
+        "Bullet": "Куля",
+        "Zeroing": "Пристрілка",
+        "Distances": "Дистанції"
+    },
+    "descriptionContent": {
+        "Description": "Опис",
+        "Name": "Назва",
+        "Hints": "Підказки",
+        "Projectile": "Снаряд",
+        "Cartridge": "Патрон",
+        "Bullet": "Куля",
+        "UserNote": "Нотатка користувача",
+        "AddYourProfileSpecificNotesHere": "Додайте примітки, пов’язані з цим профілем"
+    },
+    "rifleContent": {
+        "Rifle": "Гвинтівка",
+        "Caliber": "Калібр",
+        "TwistRate": "Крок нарізів",
+        "TwistDirection": "Напрямок нарізів",
+        "Left": "Лівий",
+        "Right": "Правий",
+        "SightHeight": "Висота прицілу"
+    },
+    "cartridgeContent": {
+        "Cartridge": "Набій",
+        "MuzzleVelocity": "Початкова швидкість",
+        "PowderTemperature": "Температура пороху",
+        "TemperatureSensitivity": "Чутливість до температури"
+    },
+    "measure": {
+        "inch": "дюйм",
+        "inch_turn": "дюйм/оберт",
+        "mm": "мм",
+        "mps": "м/с",
+        "°C": "°C",
+        "%/15°C": "% / 15°C"
+    }
+}
