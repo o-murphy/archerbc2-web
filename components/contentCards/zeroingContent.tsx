@@ -1,20 +1,24 @@
 import { StyleSheet, View } from "react-native";
-import { IconButton, Text, TextInput } from "react-native-paper";
+import { Text, TextInput } from "react-native-paper";
 import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInput";
 import ZeroDistanceField from "../fieldsEdit/zeroDistanceField";
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { ZeroingFloatFields } from "./fiedProps";
 import { ThemedIcon } from "../icons/customIcons";
+import { useTranslation } from "react-i18next";
+import { ToolTipIconButton } from "../iconButtonWithTooltip";
 
 
 const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => void }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={[styles.container]}>
 
       <HelpButton helpContent={FieldHelp.ZeroingCard}>
         <Text variant="titleLarge" style={styles.header}>
-          Zeroing
+          {t("zeroingContent.Zeroing")}
         </Text>
       </HelpButton>
 
@@ -25,13 +29,13 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.zeroX}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Zero X"}</Text>
+            <Text>{t("zeroingContent.ZeroX")}</Text>
           </HelpButton>
 
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.zeroX as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"click"} />}
+            right={<TextInput.Affix text={t("measure.click")} />}
           />
         </View>
 
@@ -40,12 +44,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.zeroY}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Zero Y"}</Text>
+            <Text>{t("zeroingContent.ZeroY")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"click"} />}
+            right={<TextInput.Affix text={t("measure.click")} />}
           />
         </View>
 
@@ -54,12 +58,18 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroDistanceIdx}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Zero distance"}</Text>
+            <Text>{t("zeroingContent.ZeroDistance")}</Text>
             <ThemedIcon source="zeroing-distance" size={24} />
           </HelpButton>
           <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
             <ZeroDistanceField style={styles.select} />
-            <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={onDistancesBtnPress} />
+            <ToolTipIconButton
+              tooltip={t("zeroingContent.EditDistances")}
+              style={styles.distancesEditBtn}
+              mode="outlined"
+              icon={"playlist-edit"}
+              onPress={onDistancesBtnPress}
+            />
           </View>
         </View>
 
@@ -68,12 +78,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroAirTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Air"}</Text>
+            <Text>{t("zeroingContent.AirTemperature")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.cZeroAirTemperature as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"°C"} />}
+            right={<TextInput.Affix text={t("measure.°C")} />}
           />
         </View>
 
@@ -82,12 +92,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroAirPressure}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Pressure"}</Text>
+            <Text>{t("zeroingContent.AirPressure")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.cZeroAirPressure as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"hPa"} />}
+            right={<TextInput.Affix text={t("measure.hPa")} />}
           />
         </View>
 
@@ -97,12 +107,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroWPitch}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Pitch"}</Text>
+            <Text>{t("zeroingContent.Pitch")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.cZeroWPitch as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"degree"} />}
+            right={<TextInput.Affix text={t("measure.degree")} />}
           />
         </View>
         <View style={styles.row}>
@@ -110,12 +120,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroPTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Powder temperature"}</Text>
+            <Text>{t("zeroingContent.PowderTemperature")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.cZeroPTemperature as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"°C"} />}
+            right={<TextInput.Affix text={t("measure.degree")} />}
           />
         </View>
         <View style={styles.row}>
@@ -123,12 +133,12 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
             helpContent={FieldHelp.cZeroAirHumidity}
             style={[styles.label, { alignContent: "center" }]}
           >
-            <Text>{"Humidity"}</Text>
+            <Text>{t("zeroingContent.Humidity")}</Text>
           </HelpButton>
           <FieldEditFloat  //FIXME float
             {...ZeroingFloatFields.cZeroAirHumidity as FieldEditFloatProps}
             style={styles.input}
-            right={<TextInput.Affix text={"%"} />}
+            right={<TextInput.Affix text={t("measure.%")} />}
           />
         </View>
       </View>

@@ -35,9 +35,9 @@ const TopBar = () => {
     <Surface elevation={1} style={styles.topBar}>
       <ToolTipIconButton tooltip={t("topBar.Create new file")} icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
       <ToolTipIconButton tooltip={t("topBar.OpenFile")} icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
-      <ToolTipIconButton tooltip={t("topBar.Download")} icon="file-download" onPress={onSavePress} />
-      <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon="file-refresh" onPress={onReloadPress} />
-      <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon="crosshairs" onPress={() => { }} disabled />
+      <ToolTipIconButton tooltip={t("topBar.Download")} icon={md3PaperIconSource({name: "file-download"})} onPress={onSavePress} />
+      <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon={md3PaperIconSource({name: "refresh"})} onPress={onReloadPress} />
+      <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon={md3PaperIconSource({name: "my-location"})} onPress={() => { }} disabled />
       <ShareDialogWidget />
 
       <View style={styles.rightSide}>

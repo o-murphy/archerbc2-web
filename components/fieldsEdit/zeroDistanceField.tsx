@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { View } from "react-native";
-import { TextInput} from "react-native-paper";
+import { TextInput } from "react-native-paper";
 import { Dropdown } from "react-native-paper-dropdown";
 import { useFileContext } from "@/hooks/fileService/fileContext";
+import { useTranslation } from "react-i18next";
 
 interface DistanceOption {
     label: string;
@@ -14,12 +15,14 @@ const renderInputIcon = () => {
 };
 
 const ZeroDistanceField = ({ ...props }) => {
+    const { t } = useTranslation()
+
     const { currentData: parsedData, setCurrentData: setParsedData, dummyState } = useFileContext();
 
     const distances: DistanceOption[] = useMemo(() => {
         if (parsedData.profile?.distances) {
             return parsedData.profile.distances.map((item: number, index: number) => ({
-                label: `${item / 100} m`,
+                label: `${item / 100} ${t("measure.m")}`,
                 value: index.toString(),
             }));
         }
@@ -34,10 +37,10 @@ const ZeroDistanceField = ({ ...props }) => {
     const handleZeroDistanceChange = (value?: string | undefined) => {
         if (value === undefined) return; // Skip if value is missing
         if (!parsedData.profile) return; // Ensure profile exists before updating
-    
+
         const intValue = parseInt(value, 10);
         if (parsedData.profile.cZeroDistanceIdx === intValue) return; // No need to update if value is unchanged
-    
+
         setParsedData({
             ...parsedData,
             profile: {
@@ -52,7 +55,7 @@ const ZeroDistanceField = ({ ...props }) => {
     return (
         <View style={props.style}>
             <Dropdown
-                placeholder="Select zero distance"
+                placeholder={t("zeroDistanceField.SelectZeroingDistance")}
                 options={distances}
                 value={zeroDistanceIdx}
                 onSelect={handleZeroDistanceChange}

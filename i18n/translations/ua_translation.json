@@ -20,15 +20,16 @@
         "Close": "Закрити",
         "Title": "Закрити файл",
         "Question": "Зберегти зміни перед закриттям?",
-        "Warning": "Якщо ні — дані буде втрачено.",
-        "DownloadAndClose": "Завантажити та закрити",
+        "Warning": "Інакше дані буде втрачено.",
+        "Download": "Завантажити",
         "CloseWithoutSaving": "Закрити без збереження",
         "Cancel": "Скасувати"
     },
     "shareDialog": {
-        "Share": "Поділитися",
+        "Share": "Поширити",
         "Close": "Закрити",
-        "Tooltip": "Поділитися",
+        "Tooltip": "Поширити",
+        "CopyLink": "Копіювати посилання",
         "Copied": "Посилання скопійовано в буфер",
         "Error": "Не вдалося створити посилання"
     },
@@ -48,6 +49,8 @@
         "Description": "Опис",
         "Name": "Назва",
         "Hints": "Підказки",
+        "Top": "Верх",
+        "Bot": "Низ",
         "Projectile": "Снаряд",
         "Cartridge": "Патрон",
         "Bullet": "Куля",
@@ -69,12 +72,70 @@
         "PowderTemperature": "Температура пороху",
         "TemperatureSensitivity": "Чутливість до температури"
     },
+    "bulletContent": {
+        "Bullet": "Куля",
+        "Diameter": "Діаметр",
+        "Weight": "Вага",
+        "Length": "Довжина",
+        "DragModel": "Аеродинамічна модель",
+        "G1": "G1",
+        "G7": "G7",
+        "CUSTOM": "Спеціальна",
+        "Unknown": "Невідома модель"
+    },
+    "zeroingContent": {
+        "Zeroing": "Обнулення",
+        "ZeroX": "Поправка X",
+        "ZeroY": "Поправка Y",
+        "ZeroDistance": "Відстань пристрілки",
+        "AirTemperature": "Температура повітря",
+        "AirPressure": "Тиск повітря",
+        "Pitch": "Кут нахилу",
+        "PowderTemperature": "Температура пороху",
+        "Humidity": "Вологість повітря",
+        "EditDistances": "Редагувати відстані"
+    },
+    "distancesContent": {
+        "Distances": "Відстані",
+        "QuickRangeSet": "Швидкий вібір дистанцій"
+    },
+    "zeroDistanceField": {
+        "SelectZeroingDistance": "Вибір дистанції пристрілки"
+    },
     "measure": {
         "inch": "дюйм",
         "inch_turn": "дюйм/оберт",
         "mm": "мм",
         "mps": "м/с",
         "°C": "°C",
-        "%/15°C": "% / 15°C"
+        "%/15°C": "% / 15°C",
+        "grain": "грейн",
+        "click": "клік",
+        "hPa": "гПа",
+        "degree": "°",
+        "%": "%",
+        "m": "м"
+    },
+    "distancesTemplates": {
+        "Subsonic": "",
+        "Low": "",
+        "Medium": "",
+        "Long": "",
+        "UltraLong": ""
+    },
+    "customDragTable": {
+        "Should have at least 4 valid rows with unique Mach values and Cd > 0": "Таблиця повинна містити хоча б 4 дійсні рядки з унікальними значеннями Mach та Cd > 0.",
+        "Sort": "Сортувати",
+        "ClearRow": "Очистити рядок"
+    },
+    "standardDragTable": {
+        "Should have at least 1 row with BC > 0": "Таблиця повинна містити хоча б 1 рядок з BC > 0",
+        "Velocity values must be unique among rows with BC > 0": "Значення швидкості повинні бути унікальними серед рядків з BC > 0",
+        "Sort": "Сортувати",
+        "ClearRow": "Очистити рядок"
+    },
+    "help": {
+        "Help": "Допомога",
+        "Close": "Закрити"
     }
 }

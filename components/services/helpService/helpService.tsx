@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Portal, Dialog, Button, useTheme, Text } from "react-native-paper";
 import { ToolTipIconButton } from "../../iconButtonWithTooltip";
+import { useTranslation } from "react-i18next";
+import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 
 
 export class HelpDialogService {
@@ -22,6 +24,7 @@ export class HelpDialogService {
 
 export const HelpDialogHost = () => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const [visible, setVisible] = useState(false);
     const [dialogContent, setDialogContent] = useState<React.ReactNode>(null);
@@ -39,25 +42,29 @@ export const HelpDialogHost = () => {
         <Portal>
             <Dialog visible={visible} style={styles.dialog} onDismiss={closeDialog}>
                 <Dialog.Title style={{ textAlign: "center" }}>
-                    <Dialog.Icon icon={"help-circle-outline"} color={theme.colors.tertiary} />
-                    <Text variant="headlineSmall" style={{ marginHorizontal: 8 }}>Help</Text>
+                    <Dialog.Icon icon={md3PaperIconSource({name: "help-outline", mode: "outline"})} color={theme.colors.tertiary} />
+                    <Text variant="headlineSmall" style={{ marginHorizontal: 8 }}>{t("help.Help")}</Text>
                 </Dialog.Title>
                 <Dialog.ScrollArea>
-                    <ScrollView contentContainerStyle={{marginVertical: 8}}>
+                    <ScrollView contentContainerStyle={{ marginVertical: 8 }}>
                         {dialogContent}
                     </ScrollView>
                 </Dialog.ScrollArea>
                 <Dialog.Actions>
-                    <Button onPress={closeDialog}>Close</Button>
+                    <Button onPress={closeDialog}>{t("help.Close")}</Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>
     );
 };
 
-export const HelpDialogButton = ({ icon = "help-circle-outline", ...props }) => (
-    <ToolTipIconButton tooltip="Help" icon={icon} {...props} />
-)
+export const HelpDialogButton = ({ icon = md3PaperIconSource({name: "help-outline", mode: "outline"}), ...props }) => {
+    const { t } = useTranslation()
+
+    return (
+        <ToolTipIconButton tooltip={t("help.Help")} icon={icon} {...props} />
+    )
+}
 
 const styles = StyleSheet.create({
     dialog: {

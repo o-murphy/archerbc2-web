@@ -4,9 +4,10 @@ import { StyleSheet } from "react-native";
 import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB } from "react-native-paper"
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
+import { md3PaperIconSource } from "./icons/md3PaperIcons";
 
 
-export const CloseDialogButton = ({ icon = "close-circle-outline", ...props }) => {
+export const CloseDialogButton = ({ icon = md3PaperIconSource({ name: "close" }), ...props }) => {
     const theme = useTheme();
     const { t } = useTranslation();
 
@@ -59,16 +60,16 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
                         mode="flat"
                         variant="primary"
                         style={styles.fab}
-                        icon="file-download"
+                        icon={md3PaperIconSource({ name: "file-download" })}
                         onPress={savePress}
-                        label={t("closeDialog.DownloadAndClose")}
+                        label={t("closeDialog.Download")}
                     />
                 </Dialog.Content>
                 <Dialog.Actions style={styles.dialogActions}>
                     <Button
                         mode="outlined"
                         style={styles.actionButton}
-                        icon="delete-forever"
+                        icon={md3PaperIconSource({ name: "delete-forever" })}
                         onPress={notSavePress}
                     >
                         {t("closeDialog.CloseWithoutSaving")}
@@ -76,7 +77,7 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
                     <Button
                         mode="outlined"
                         style={styles.actionButton}
-                        icon="cancel"
+                        icon={md3PaperIconSource({ name: "cancel" })}
                         onPress={closeDialog}
                     >
                         {t("closeDialog.Cancel")}

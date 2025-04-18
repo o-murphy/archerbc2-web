@@ -10,7 +10,7 @@ import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
 
 
-export const ShareDialogButton = ({ icon = "share", ...props }) => {
+export const ShareDialogButton = ({ icon = md3PaperIconSource({name: "share", mode: "outline"}), ...props }) => {
     const { t } = useTranslation();
 
     return (

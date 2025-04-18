@@ -6,6 +6,7 @@ import { RifleFloatFields, RifleTextFields } from "./fiedProps";
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
+import { md3PaperIconSource } from "../icons/md3PaperIcons";
 
 
 const TwistField = () => {
@@ -25,12 +26,12 @@ const TwistField = () => {
                 {
                     value: TwistDir.LEFT,
                     label: t('rifleContent.Left'),
-                    icon: 'rotate-left',
+                    icon: md3PaperIconSource({name: "rotate-left", mode: "outline"}),
                 },
                 {
                     value: TwistDir.RIGHT,
                     label: t('rifleContent.Right'),
-                    icon: 'rotate-right',
+                    icon: md3PaperIconSource({name: "rotate-right", mode: "outline"}),
                 },
             ]}
         />
@@ -60,7 +61,6 @@ const RifleContent = () => {
                 <FieldEdit  //FIXME float
                     {...RifleTextFields.caliber as FieldEditProps}
                     style={styles.input}
-                    right={<TextInput.Affix text={t("measure.inch")} />}
                 />
             </View>
 

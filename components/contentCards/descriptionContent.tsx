@@ -43,10 +43,12 @@ const DescriptionContent = () => {
         <View style={[styles.row, styles.input]}>
           <FieldEdit
             {...DescriptionFields.shortNameTop as FieldEditProps}
+            label={t("descriptionContent.Top")}
             style={styles.input}
           />
           <FieldEdit
             {...DescriptionFields.shortNameBot as FieldEditProps}
+            label={t("descriptionContent.Bot")}
             style={styles.input}
           />
         </View>

@@ -1,8 +1,9 @@
+import { md3PaperIconSource } from "@/components/icons/md3PaperIcons"
 import { help } from "@/components/services/helpService/helpService"
 import { ReactNode } from "react"
 import { StyleSheet } from "react-native"
-import { Pressable, TouchableOpacity, TouchableOpacityProps, View } from "react-native"
-import { Button, ButtonProps, Icon, IconButton, Text, TextInput, TextProps, useTheme } from "react-native-paper"
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native"
+import { Icon, IconButton, TextInput, useTheme } from "react-native-paper"
 
 export const getHelpInputIcon = (helpText: ReactNode) => {
     const theme = useTheme()
@@ -10,8 +11,8 @@ export const getHelpInputIcon = (helpText: ReactNode) => {
         <TextInput.Icon
             size={16}
             style={{ width: 24, height: 24, padding: 0, margin: 0 }}
-            icon="help-circle-outline"
-            color={theme.colors.tertiaryContainer}
+            icon={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+            color={theme.colors.onTertiaryContainer}
             onPress={() => help.show(helpText)}
         />
     )
@@ -23,8 +24,8 @@ export const getHelpIcon = (helpText: ReactNode) => {
         <IconButton
             size={16}
             style={{ width: 24, height: 24, padding: 0, marginHorizontal: 8 }}
-            icon="help-circle-outline"
-            iconColor={theme.colors.tertiaryContainer}
+            icon={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+            iconColor={theme.colors.onTertiaryContainer}
             onPress={() => help.show(helpText)}
         />
     )
@@ -42,8 +43,8 @@ export const HelpButton: React.FC<HelpButtonProps> = ({ helpContent, children, .
             <View style={[styles.container, props.style]}>
                 <Icon
                     {...props}
-                    source="help-circle-outline"
-                    color={theme.colors.tertiaryContainer}
+                    source={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+                    color={theme.colors.onTertiaryContainer}
                     size={16}
                 />
                 {children}

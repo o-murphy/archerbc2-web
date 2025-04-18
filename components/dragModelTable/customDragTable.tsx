@@ -7,6 +7,9 @@ import { CoefRow } from "a7p-js/dist/types"
 import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
 import { HelpButton } from "../contentCards/help/helpIcons"
 import { FieldHelp } from "../contentCards/help/helpContent"
+import { useTranslation } from "react-i18next"
+import { ToolTipIconButton } from "../iconButtonWithTooltip"
+import { md3PaperIconSource } from "../icons/md3PaperIcons"
 
 
 
@@ -105,6 +108,7 @@ const FieldProps = {
 
 const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomDragRowProps) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const clearRow = () => {
         setRow(0, 0)
@@ -125,15 +129,14 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
             <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <Text style={styles.label}>{"Cd"}</Text>
             <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
-            <Tooltip title="Clear row" leaveTouchDelay={1}>
-                <IconButton
-                    size={16}
-                    icon={"close"}
-                    iconColor={theme.colors.error}
-                    style={styles.icon}
-                    onPress={clearRow}
-                />
-            </Tooltip>
+            <ToolTipIconButton
+                tooltip={t("customDragTable.ClearRow")}
+                size={16}
+                icon={md3PaperIconSource({name: "close"})}
+                iconColor={theme.colors.error}
+                style={styles.icon}
+                onPress={clearRow}
+            />
         </View>
     )
 }
@@ -142,6 +145,7 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
 const CustomDragTable = () => {
 
     const field = 'coefRowsCustom' as keyof ProfileProps
+    const { t } = useTranslation()
 
     const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
         field,
@@ -174,7 +178,7 @@ const CustomDragTable = () => {
         const uniqueMvs = new Set(filledRows.map(row => row.mv));
 
         if (filledRows.length < 4 || uniqueMvs.size < filledRows.length) {
-            setErr("Should have at least 4 valid rows with unique Mach values and Cd > 0");
+            setErr(t("customDragTable.Should have at least 4 valid rows with unique Mach values and Cd > 0"));
         } else {
             setErr(null);
         }
@@ -232,9 +236,11 @@ const CustomDragTable = () => {
                     <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
                 </HelpButton>
                 <Divider style={styles.divider} />
-                <Tooltip title="Sort" leaveTouchDelay={1}>
-                    <IconButton style={styles.icon} mode="outlined" icon="sort-variant" onPress={onSortPress} />
-                </Tooltip>
+                <ToolTipIconButton
+                    tooltip={t("customDragTable.Sort")}
+                    icon={md3PaperIconSource({ name: "sort" })}
+                    style={styles.icon} mode="outlined" onPress={onSortPress}
+                />
             </View>
             <FlatList
                 data={rows}

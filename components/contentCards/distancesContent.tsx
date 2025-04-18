@@ -23,6 +23,7 @@ import { ThemedIcon } from "../icons/customIcons";
 import { distancesTemplates, ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
+import { useTranslation } from "react-i18next";
 
 
 type DistanceItem = { id: string; value: number, zero: boolean };
@@ -36,6 +37,8 @@ const renderZeroIcon = (visible: boolean) => {
 };
 
 const SortableItem = ({ item }: { item: DistanceItem }) => {
+  const { t } = useTranslation()
+  
   const { attributes, listeners, setNodeRef, transform, transition }: any =
     useSortable({ id: item.id });
 
@@ -47,13 +50,14 @@ const SortableItem = ({ item }: { item: DistanceItem }) => {
   return (
     <Surface elevation={2} ref={setNodeRef} style={[styles.sortableItem, style]} {...attributes} {...listeners}>
       <Icon source={"arrow-up-down"} size={24} />
-      <Text style={{ textAlign: "center", alignSelf: "center" }} >{item.value} m</Text>
+      <Text style={{ textAlign: "center", alignSelf: "center" }} >{item.value} {t("measure.m")}</Text>
       {renderZeroIcon(item.zero)}
     </Surface>
   );
 };
 
 const DistancesList = () => {
+
   const [profileFields, setProfileFields] = useProfileFields([
     'cZeroDistanceIdx',
     'distances',
@@ -124,6 +128,7 @@ const DistancesList = () => {
 
 
 const DistancesTemplateChip = ({ name, distances }: { name: string, distances: number[] }) => {
+  const { t } = useTranslation()
 
   const [, setValue] = useProfileFieldState<keyof ProfileProps, number[]>({
     field: 'distances',
@@ -135,26 +140,30 @@ const DistancesTemplateChip = ({ name, distances }: { name: string, distances: n
   }
 
   return (
+    // <Chip mode="flat" onPress={onPress}>{t("distanceTemplate." + name)}</Chip>
     <Chip mode="flat" onPress={onPress}>{name}</Chip>
   )
 }
 
 const DistancesContent = () => {
+  const { t } = useTranslation()
 
   return (
     <View style={styles.container}>
 
       <HelpButton helpContent={FieldHelp.DistancesCard}>
         <Text variant="titleLarge" style={styles.header}>
-          Distances
+          {t("distancesContent.Distances")}
         </Text>
       </HelpButton>
 
       <HelpButton
         helpContent={FieldHelp.caliber}
-        // style={[styles.label, { alignContent: "center" }]}
+      // style={[styles.label, { alignContent: "center" }]}
       >
-        <Text style={{ alignSelf: "center" }} variant="titleMedium">Quick range set</Text>
+        <Text style={{ alignSelf: "center" }} variant="titleMedium">
+          {t("distancesContent.QuickRangeSet")}
+        </Text>
       </HelpButton>
 
       <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>

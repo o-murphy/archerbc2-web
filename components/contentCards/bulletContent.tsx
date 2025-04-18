@@ -7,6 +7,7 @@ import { BcType, Profile } from "a7p-js/dist/types";
 import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
 import { BulletFloatFields } from "./fiedProps";
+import { useTranslation } from "react-i18next";
 
 
 const bcTypeMap: Record<string, React.ReactNode> = {
@@ -17,6 +18,8 @@ const bcTypeMap: Record<string, React.ReactNode> = {
 
 
 const DragModel = () => {
+  const { t } = useTranslation()
+
   const [bcType, setBcType] = useProfileFieldState<keyof Profile, BcType>({
     field: 'bcType',
     defaultValue: BcType.G1,
@@ -26,7 +29,7 @@ const DragModel = () => {
     setBcType(value as BcType); // value is safely typed as ModelType
   }
 
-  const renderContent = () => bcTypeMap[bcType] ?? <Text>Unknown</Text>;
+  const renderContent = () => bcTypeMap[bcType] ?? <Text>{t("bulletContent.Unknown")}</Text>;
 
   return (
     <>
@@ -35,21 +38,21 @@ const DragModel = () => {
           helpContent={FieldHelp.dragModel}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text style={styles.label}>{"Drag model"}</Text>
+          <Text style={styles.label}>{t("bulletContent.DragModel")}</Text>
         </HelpButton>
         <SegmentedButtons style={styles.segmented} onValueChange={handleBcTypeChange} value={bcType}
           buttons={[
             {
               value: BcType.G1,
-              label: 'G1',
+              label: t('bulletContent.G1'),
             },
             {
               value: BcType.G7,
-              label: 'G7',
+              label: t('bulletContent.G7'),
             },
             {
               value: BcType.CUSTOM,
-              label: 'CUSTOM',
+              label: t('bulletContent.CUSTOM'),
             },
           ]}
         />
@@ -63,13 +66,14 @@ const DragModel = () => {
 
 
 const BulletContent = () => {
+  const { t } = useTranslation()
 
   return (
     <View style={styles.container}>
 
       <HelpButton helpContent={FieldHelp.BulletCard}>
         <Text variant="titleLarge" style={styles.header}>
-        Bullet
+          {t("bulletContent.Bullet")}
         </Text>
       </HelpButton>
 
@@ -78,12 +82,12 @@ const BulletContent = () => {
           helpContent={FieldHelp.bDiameter}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text style={styles.label}>{"Diameter"}</Text>
+          <Text style={styles.label}>{t("bulletContent.Diameter")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bDiameter as FieldEditFloatProps}
           style={styles.input}
-          right={<TextInput.Affix text={"inch"} />}
+          right={<TextInput.Affix text={t("measure.inch")} />}
         />
       </View>
 
@@ -92,12 +96,12 @@ const BulletContent = () => {
           helpContent={FieldHelp.bWeight}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text style={styles.label}>{"Weight"}</Text>
+          <Text style={styles.label}>{t("bulletContent.Weight")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bWeight as FieldEditFloatProps}
           style={styles.input}
-          right={<TextInput.Affix text={"grain"} />}
+          right={<TextInput.Affix text={t("measure.grain")} />}
         />
       </View>
 
@@ -106,12 +110,12 @@ const BulletContent = () => {
           helpContent={FieldHelp.bLength}
           style={[styles.label, { alignContent: "center" }]}
         >
-          <Text style={styles.label}>{"Length"}</Text>
+          <Text style={styles.label}>{t("bulletContent.Length")}</Text>
         </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bLength as FieldEditFloatProps}
           style={styles.input}
-          right={<TextInput.Affix text={"inch"} />}
+          right={<TextInput.Affix text={t("measure.inch")} />}
         />
       </View>
 

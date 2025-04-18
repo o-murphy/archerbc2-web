@@ -21,7 +21,7 @@
         "Title": "Close File",
         "Question": "Do you want to save the changes before closing?",
         "Warning": "If you don’t, your data will be lost.",
-        "DownloadAndClose": "Download and Close",
+        "Download": "Download",
         "CloseWithoutSaving": "Close Without Saving",
         "Cancel": "Cancel"
     },
@@ -29,6 +29,7 @@
         "Share": "Share",
         "Close": "Close",
         "Tooltip": "Share",
+        "CopyLink": "Copy link",
         "Copied": "Link copied to clipboard",
         "Error": "Could not generate link"
     },
@@ -48,6 +49,8 @@
         "Description": "Description",
         "Name": "Name",
         "Hints": "Hints",
+        "Top": "Top",
+        "Bot": "Bottom",
         "Projectile": "Projectile",
         "Cartridge": "Cartridge",
         "Bullet": "Bullet",
@@ -69,12 +72,70 @@
         "PowderTemperature": "Powder temperature",
         "TemperatureSensitivity": "Temperature sensitivity"
     },
+    "bulletContent": {
+        "Bullet": "Bullet",
+        "Diameter": "Diameter",
+        "Weight": "Weight",
+        "Length": "Length",
+        "DragModel": "Drag model",
+        "G1": "G1",
+        "G7": "G7",
+        "CUSTOM": "Custom",
+        "Unknown": "Unknown drag model"
+    },
+    "zeroingContent": {
+        "Zeroing": "Zeroing",
+        "ZeroX": "Zero X",
+        "ZeroY": "Zero Y",
+        "ZeroDistance": "Zero Distance",
+        "AirTemperature": "Air Temperature",
+        "AirPressure": "Air Pressure",
+        "Pitch": "Pitch",
+        "PowderTemperature": "Powder Temperature",
+        "Humidity": "Air Humidity",
+        "EditDistances": "Edit Distances"
+    },
+    "distancesContent": {
+        "Distances": "Distances",
+        "QuickRangeSet": "Quick Range Set"
+    },
+    "zeroDistanceField": {
+        "SelectZeroingDistance": ""
+    },
     "measure": {
-        "inch": "in",
-        "inch_turn": "in/turn",
+        "inch": "inch",
+        "inch_turn": "inch/turn",
         "mm": "mm",
         "mps": "m/s",
         "°C": "°C",
-        "%/15°C": "% / 15°C"
+        "%/15°C": "% / 15°C",
+        "grain": "gr",
+        "click": "click",
+        "hPa": "hPa",
+        "degree": "°",
+        "%": "%",
+        "m": "m"
+    },
+    "distancesTemplates": {
+        "Subsonic": "",
+        "Low": "",
+        "Medium": "",
+        "Long": "",
+        "UltraLong": ""
+    },
+    "customDragTable": {
+        "Should have at least 4 valid rows with unique Mach values and Cd > 0": "The table should have at least 4 valid rows with unique Mach values and Cd > 0.",
+        "Sort": "Sort",
+        "ClearRow": "Clear Row"
+    },
+    "standardDragTable": {
+        "Should have at least 1 row with BC > 0": "Should have at least 1 row with BC > 0",
+        "Velocity values must be unique among rows with BC > 0": "Velocity values must be unique among rows with BC > 0",
+        "Sort": "Sort",
+        "ClearRow": "Clear Row"
+    },
+    "help": {
+        "Help": "Help",
+        "Close": "Close"
     }
 }

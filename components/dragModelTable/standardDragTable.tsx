@@ -7,6 +7,9 @@ import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { FieldHelp } from "../contentCards/help/helpContent";
+import { useTranslation } from "react-i18next";
+import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { md3PaperIconSource } from "../icons/md3PaperIcons";
 
 
 const MAX_STANDARD_ITEM_COUNT = 5
@@ -27,6 +30,8 @@ const FieldProps = {
 
 
 const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress?: () => void }) => {
+    const { t } = useTranslation()
+
     return (
         <View style={styles.row}>
             <HelpButton
@@ -36,11 +41,11 @@ const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress
             </HelpButton>
             <Text style={[styles.input, { textAlign: "center" }]}>{"Velocity, mps"}</Text>
             <Text style={[styles.input, { textAlign: "center" }]}>{`BC (${model})`}</Text>
-            <Tooltip title="Sort" leaveTouchDelay={1}>
-                <IconButton style={styles.icon} mode="outlined" icon="sort-variant" onPress={onSortPress} />
-            </Tooltip>
-            {/* <Button icon="sort-variant" mode="outlined" compact style={styles.sortBtn} onPress={onSortPress}>Sort</Button> */}
-
+            <ToolTipIconButton
+                tooltip={t("standardDragTable.Sort")}
+                icon={md3PaperIconSource({ name: "sort" })}
+                style={styles.icon} mode="outlined" onPress={onSortPress}
+            />
         </View>
     )
 }
@@ -48,6 +53,7 @@ const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress
 
 const StandardDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomDragRowProps) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const clearRow = () => {
         setRow(0, 0)
@@ -66,9 +72,14 @@ const StandardDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: Custo
             <Text style={[styles.label, { textAlign: "center" }]}>{`${index + 1}.`}</Text>
             <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
-            <Tooltip title="Clear row" leaveTouchDelay={1}>
-                <IconButton size={16} icon={"close"} iconColor={theme.colors.error} style={styles.icon} onPress={clearRow} />
-            </Tooltip>
+            <ToolTipIconButton
+                tooltip={t("standardDragTable.ClearRow")}
+                size={16}
+                icon={md3PaperIconSource({ name: "close" })}
+                iconColor={theme.colors.error}
+                style={styles.icon}
+                onPress={clearRow}
+            />
         </View>
     )
 }
@@ -77,6 +88,7 @@ const StandardDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: Custo
 const StandardDragTable = ({ model }: { model: BcType }) => {
 
     let field = 'coefRows' as keyof ProfileProps
+    const { t } = useTranslation()
 
     switch (model) {
         case BcType.G1:
@@ -114,9 +126,9 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
         const mvSet = new Set(validRows.map(row => row.mv));
 
         if (validRows.length < 1) {
-            setErr("Should have at least 1 row with BC > 0");
+            setErr(t("standardDragTable.Should have at least 1 row with BC > 0"));
         } else if (mvSet.size < validRows.length) {
-            setErr("Velocity values must be unique among rows with BC > 0");
+            setErr(t("standardDragTable.Velocity values must be unique among rows with BC > 0"));
         } else {
             setErr(null);
         }
