@@ -159,6 +159,20 @@ export const useParseFile = (fileHandleState: FileHandleState) => {
     }, [fileHandleState, setFileState, setParsedData, setBackupData]); // Re-run the effect when fileHandleState changes
 };
 
+export const encodePayloadParam = (data: ParsedData): string | undefined => {
+    if (data.profile && !data.error) {
+        try {
+            const buffer = encode({
+                profile: prepareProfile(data.profile)
+            })
+            const payload = encodeURIComponent(fromByteArray(new Uint8Array(buffer)));
+            return payload
+        } catch (error) {
+            throw new Error(`Error on file encode: ${error}`)
+        }
+    }
+}
+
 export const encodeToUrl = (data: ParsedData): string | undefined => {
 
     if (Platform.OS != "web") return;

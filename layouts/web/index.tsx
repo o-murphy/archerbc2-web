@@ -4,7 +4,7 @@ import { FileOpenError } from "@/components/fileOpenError";
 import { HelpDialogHost } from "@/components/helpDialog/helpService";
 import StartDialog from "@/components/startDialog";
 import { Toast } from "@/components/toast/toastService";
-import { UrlProfileLoader } from "@/hooks/useFileHandler";
+import { UrlProfileLoader, UrlProfileUpdater } from "@/hooks/useFileHandler";
 import { useEffect } from "react";
 import { ImageBackground, Platform, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -65,6 +65,7 @@ const WebLayout = () => {
         {/* <Surface style={styles.view}> */}
         <FileOpenError />
         <UrlProfileLoader />
+        <UrlProfileUpdater />
         <EditDialog />
         <StartDialog />
         {/* </Surface> */}

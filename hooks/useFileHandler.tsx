@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Linking } from "react-native";
-import { useParseUrl } from "./useFileParsing";
+import { Linking, Platform } from "react-native";
+import { encodePayloadParam, useParseUrl } from "./useFileParsing";
+import { useFileContext } from "./fileContext";
 
 export const AllowedExtensions = [".a7p"];
 
@@ -66,6 +67,50 @@ export const useFileHandler = () => {
     return { fileHandleState, handleFileChange, processFile };
 };
 
+// Function to update `payload` parameter in the URL (only works on web)
+export const updateUrlPayload = (newPayload: string) => {
+    if (Platform.OS === 'web') {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('payload', newPayload);
+        window.history.replaceState({}, '', currentUrl.toString());
+    }
+};
+
+export const UrlProfileUpdater = () => {
+    const { backupData } = useFileContext()
+    const [isError, setIsError] = useState<Error | null>(null);
+    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+
+    // Compute URL when currentData changes
+    useEffect(() => {
+        try {
+            const url = encodePayloadParam(backupData);
+            setUrlEncoded(url);
+            setIsError(null);
+        } catch (error: any) {
+            setUrlEncoded(undefined);
+            setIsError(error);
+        }
+    }, [backupData]);
+
+    useEffect(() => {
+        if (!backupData.error && backupData.profile && urlEncoded) {
+            updateUrlPld()
+        }
+    }, [urlEncoded, setUrlEncoded])
+
+    const updateUrlPld = () => {
+        if (isError) {
+            // toast.error(isError);
+            return;
+        } else if (urlEncoded) {
+            updateUrlPayload(urlEncoded)
+        }
+    }
+
+    return null
+}
+
 export const UrlProfileLoader = () => {
     // const [urlParams, setUrlParams] = useState<string | null>(null);
     const [urlPayload, setUrlPayload] = useState<string | null>(null);
@@ -110,3 +155,6 @@ export const UrlProfileLoader = () => {
 
     return null
 }
+
+
+
