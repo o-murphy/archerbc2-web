@@ -1,6 +1,10 @@
 import { StyleSheet, View } from "react-native";
-import { Text, Divider } from "react-native-paper";
+import { Text, Divider, TextInput, useTheme, IconButton } from "react-native-paper";
 import { FieldEdit, FieldEditProps, FieldProps } from "../fieldsEdit/fieldEditInput";
+import DescriptionHelpContent from "./descriptionHelp";
+import { help, HelpDialogButton } from "../helpDialog/helpService";
+import { ProfileProps } from "@/hooks/useFileParsing";
+import { ReactNode } from "react";
 
 
 const DescriptionFields: FieldProps = {
@@ -10,11 +14,13 @@ const DescriptionFields: FieldProps = {
   },
   shortNameTop: {
     field: 'shortNameTop',
-    maxLength: 8
+    maxLength: 8,
+    label: "Top"
   },
   shortNameBot: {
     field: 'shortNameBot',
-    maxLength: 8
+    maxLength: 8,
+    label: "Bot"
   },
   cartridgeName: {
     field: 'cartridgeName',
@@ -31,20 +37,60 @@ const DescriptionFields: FieldProps = {
   },
 };
 
+
+const FieldHelp: Partial<Record<keyof ProfileProps, ReactNode>> = {
+  profileName: <Text variant="bodyMedium">The name of the ballistic profile as it appears in the device’s "Rifles" menu.</Text>,
+  shortNameTop: <Text variant="bodyMedium">Short caliber label for the icon in the device interface.</Text>,
+  shortNameBot: <Text variant="bodyMedium">Short weight label for the icon in the device interface.</Text>,
+  cartridgeName: <Text variant="bodyMedium">The name of the projectile as it appears in the device’s "Rifles" menu.</Text>,
+  bulletName: <Text variant="bodyMedium">The name of the bullet.</Text>,
+  userNote: <Text variant="bodyMedium">Additional comment.</Text>,
+}
+
+
+const getHelpInputIcon = (helpText: ReactNode) => {
+  const theme = useTheme()
+  return (
+    <TextInput.Icon
+      size={16}
+      style={{ width: 24, height: 24, padding: 0, margin: 0 }}
+      icon="help-circle-outline"
+      color={theme.colors.tertiaryContainer}
+      onPress={() => help.show(helpText)}
+    />
+  )
+}
+
+const getHelpIcon = (helpText: ReactNode) => {
+  const theme = useTheme()
+  return (
+    <IconButton
+      size={16}
+      style={{ width: 24, height: 24, padding: 0, marginHorizontal: 8 }}
+      icon="help-circle-outline"
+      iconColor={theme.colors.tertiaryContainer}
+      onPress={() => help.show(helpText)}
+    />
+  )
+}
+
 const DescriptionContent = () => {
 
   return (
     <View style={styles.container}>
       <Text variant="titleLarge" style={styles.header}>
         Description
+        {getHelpIcon(<DescriptionHelpContent />)}
       </Text>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Name"}</Text>
+        <Text style={[styles.label, { alignContent: "center" }]}>{"Name"}
+        </Text>
         <FieldEdit
           {...DescriptionFields.profileName as FieldEditProps}
-          style={styles.input}        />
-        <View style={styles.label} />
+          style={styles.input}
+          left={getHelpInputIcon(FieldHelp.profileName)}
+        />
       </View>
 
       <View style={styles.row}>
@@ -53,19 +99,19 @@ const DescriptionContent = () => {
           <FieldEdit
             {...DescriptionFields.shortNameTop as FieldEditProps}
             style={styles.input}
+            left={getHelpInputIcon(FieldHelp.shortNameTop)}
           />
           <FieldEdit
             {...DescriptionFields.shortNameBot as FieldEditProps}
             style={styles.input}
+            left={getHelpInputIcon(FieldHelp.shortNameBot)}
           />
         </View>
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text variant="titleMedium" style={styles.sectionTitle}>{"Round"}</Text>
         <Divider style={styles.divider} />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -73,8 +119,8 @@ const DescriptionContent = () => {
         <FieldEdit
           {...DescriptionFields.cartridgeName as FieldEditProps}
           style={styles.input}
+          left={getHelpInputIcon(FieldHelp.cartridgeName)}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -82,14 +128,14 @@ const DescriptionContent = () => {
         <FieldEdit
           {...DescriptionFields.bulletName as FieldEditProps}
           style={styles.input}
+          left={getHelpInputIcon(FieldHelp.bulletName)}
         />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
         <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text>
+        {getHelpIcon(FieldHelp.userNote)}
         <Divider style={styles.divider} />
-        <View style={styles.label} />
       </View>
 
       <View style={styles.row}>
@@ -98,7 +144,6 @@ const DescriptionContent = () => {
           style={styles.input}
           placeholder="Add your profile specific notes here"
         />
-        <View style={styles.label} />
       </View>
     </View>
   );
@@ -106,8 +151,10 @@ const DescriptionContent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
-    width: 600,
+    gap: 8,
+    maxWidth: 500,
   },
   header: {
     marginBottom: 8,

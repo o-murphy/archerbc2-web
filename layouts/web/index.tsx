@@ -1,6 +1,7 @@
 import MainBackground from "@/components/backgroundImage";
 import EditDialog from "@/components/editDialog";
 import { FileOpenError } from "@/components/fileOpenError";
+import { HelpDialogHost } from "@/components/helpDialog/helpService";
 import StartDialog from "@/components/startDialog";
 import { Toast } from "@/components/toast/toastService";
 import { UrlProfileLoader } from "@/hooks/useFileHandler";
@@ -67,6 +68,7 @@ const WebLayout = () => {
         <EditDialog />
         <StartDialog />
         {/* </Surface> */}
+        <HelpDialogHost />
         <Toast />
       </ImageBackground>
     </>
