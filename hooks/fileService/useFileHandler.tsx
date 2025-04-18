@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Linking, Platform } from "react-native";
+import { Platform } from "react-native";
 import { encodePayloadParam, useParseUrl } from "./useFileParsing";
 import { useFileContext } from "./fileContext";
 
@@ -23,7 +23,6 @@ export const useFileHandler = () => {
     // This processes a File object (used in both input and drop)
     const processFile = (file: File) => {
         const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
-
         if (!AllowedExtensions.includes(extension)) {
             setFileHandleState({
                 name: null,
@@ -68,84 +67,47 @@ export const useFileHandler = () => {
 };
 
 // Function to update `payload` parameter in the URL (only works on web)
-export const updateUrlPayload = (newPayload: string | undefined) => {
+const updateUrlPayload = (newPayload: string | undefined) => {
     if (Platform.OS === 'web') {
         const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('payload', newPayload ? newPayload : "");
+
+        if (newPayload) {
+            currentUrl.searchParams.set('payload', newPayload);
+        } else {
+            currentUrl.searchParams.delete('payload');
+        }
+
         window.history.replaceState({}, '', currentUrl.toString());
     }
 };
 
-export const UrlProfileUpdater = () => {
-    const { backupData } = useFileContext()
-    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+const useUrlPayloadUpdater = () => {
+    const { backupData } = useFileContext();
 
-    // Compute URL when currentData changes
     useEffect(() => {
-        if (!backupData.error && backupData.profile) {
-            try {
-                const url = encodePayloadParam(backupData);
-                setUrlEncoded(url);
-            } catch (error: any) {
-                // setUrlEncoded(undefined);
-            }
+        if (backupData?.profile && !backupData.error) {
+            const encoded = encodePayloadParam(backupData);
+            updateUrlPayload(encoded);
         } else {
-            setUrlEncoded(undefined);
+            updateUrlPayload(undefined);
         }
     }, [backupData]);
+};
 
-    useEffect(() => {
-        updateUrlPayload(urlEncoded)
-    }, [urlEncoded, setUrlEncoded])
-
-
-    return null
-}
-
-export const UrlProfileLoader = () => {
-    // const [urlParams, setUrlParams] = useState<string | null>(null);
+const useUrlPayloadLoader = () => {
     const [urlPayload, setUrlPayload] = useState<string | null>(null);
 
-
     useEffect(() => {
-        const getInitialURLParams = async () => {
-            // Get the initial URL that the app was opened with
-            const url = await Linking.getInitialURL();
-
-            if (url) {
-                // If a URL exists, parse it and extract parameters
-                const urlParams = new URLSearchParams(url.split('?')[1]);
-                const myParam = urlParams.get('payload');  // Replace 'payload' with the name of your query param
-                // setUrlParams(myParam);
-                setUrlPayload(myParam);
-            }
-        };
-
-        // Check if the app was opened from a URL
-        getInitialURLParams();
-
-        // Handle URL changes while the app is in the background or opened via a deep link
-        const handleUrlChange = (event: any) => {
-            const { url } = event;
-            const urlParams = new URLSearchParams(url.split('?')[1]);
-            const myParam = urlParams.get('payload');
-            // setUrlParams(myParam);
-            setUrlPayload(myParam);
-        };
-
-        // Add event listener for URL changes
-        const urlListener = Linking.addEventListener('url', handleUrlChange);
-
-        // Clean up the event listener when the component unmounts or the effect is cleaned up
-        return () => {
-            urlListener.remove(); // Remove the event listener when cleaning up
-        };
+        const searchParams = new URLSearchParams(window.location.search);
+        const payload = searchParams.get('payload');
+        setUrlPayload(payload);
     }, []);
 
-    useParseUrl(urlPayload)
+    useParseUrl(urlPayload);
+};
 
-    return null
-}
-
-
-
+export const UrlPayloadHandler = () => {
+    useUrlPayloadUpdater();
+    useUrlPayloadLoader();
+    return null;
+};

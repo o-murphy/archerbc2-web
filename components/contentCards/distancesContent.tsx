@@ -20,7 +20,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ThemedIcon } from "../icons/customIcons";
-import { distancesTemplates, ProfileProps } from "@/hooks/useFileParsing";
+import { distancesTemplates, ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 

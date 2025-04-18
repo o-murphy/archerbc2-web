@@ -1,36 +1,26 @@
-import { AllowedExtensions, useFileHandler } from "@/hooks/useFileHandler";
-import { useParseFile } from "@/hooks/useFileParsing";
-import { useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper"
-import { FileInput } from "./fileInput";
-import { useFileContext } from "@/hooks/fileContext";
+import { useFileContext } from "@/hooks/fileService/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useThemeToggle } from "@/hooks/useThemeToggle";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { ShareDialogWidget } from "./shareDialog";
-
+import { FileOpenerService } from "../hooks/fileService/fileOpener";
 
 
 const TopBar = () => {
 
-  const { toggleTheme: toggleThemeMode } = useThemeToggle();
   const theme = useTheme()
 
-  const { fileHandleState, handleFileChange } = useFileHandler();
-  const { syncBackup, restoreBackup, saveFile, currentData } = useFileContext();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  useParseFile(fileHandleState);
+  const { toggleTheme } = useThemeToggle();
+  const { syncBackup, restoreBackup, saveFile } = useFileContext();
 
   const themeIcon = md3PaperIconSource({ name: theme.dark ? "dark-mode" : "light-mode" })
 
   const onOpenPress = () => {
     console.log("Open pressed");
-    if (fileInputRef?.current) {
-      fileInputRef.current.click();
-    }
+    FileOpenerService.triggerFileInputClick();
   };
 
   const onSavePress = () => {
@@ -51,23 +41,14 @@ const TopBar = () => {
       <ToolTipIconButton tooltip="Download" icon="file-download" onPress={onSavePress} />
       <ToolTipIconButton tooltip="Reject changes" icon="file-refresh" onPress={onReloadPress} />
       <ToolTipIconButton tooltip="Load zeroing" icon="crosshairs" onPress={() => { }} disabled />
-      {/* <IconButtonWithToolTip tooltip="Share" icon="share" onPress={onSharePress} /> */}
       <ShareDialogWidget />
 
-      <FileInput fileInputRef={fileInputRef} handleFileChange={handleFileChange} allowedExtensions={AllowedExtensions} />
-
-      {/* This will be aligned to the right side of the topBar */}
       <View style={styles.rightSide}>
-
         <View style={styles.separator} />
-
-        <ToolTipIconButton tooltip="Toggle theme" icon={themeIcon} onPress={toggleThemeMode} />
+        <ToolTipIconButton tooltip="Toggle theme" icon={themeIcon} onPress={toggleTheme} />
         <ToolTipIconButton tooltip="Language" icon={md3PaperIconSource({ name: "translate" })} onPress={() => { }} disabled />
-
         <View style={styles.separator} />
-
         <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
-
         <CloseDialogWidget />
       </View>
     </Surface>

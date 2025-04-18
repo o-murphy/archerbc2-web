@@ -1,5 +1,5 @@
-import { useFileContext } from "@/hooks/fileContext";
-import { toast } from "@/components/toast/toastService";
+import { useFileContext } from "@/hooks/fileService/fileContext";
+import { toast } from "@/components/services/toastService/toastService";
 import { useEffect } from "react";
 
 

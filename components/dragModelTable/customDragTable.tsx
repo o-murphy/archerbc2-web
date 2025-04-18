@@ -1,4 +1,4 @@
-import { ProfileProps } from "@/hooks/useFileParsing"
+import { ProfileProps } from "@/hooks/fileService/useFileParsing"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"

@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode, useEffect } from
 import { FileHandleState } from './useFileHandler';
 import { Platform } from 'react-native';
 import { ParsedData, saveParsedData } from './useFileParsing';
-import { toast } from '../components/toast/toastService';
+import { toast } from '../../components/services/toastService/toastService';
 
 
 // Define the context value type
@@ -54,6 +54,23 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         }
     }, [currentData.profile])
 
+    useEffect(() => {
+        if (Platform.OS !== 'web') return;
+
+        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            e.returnValue = 'Input data can be lost';
+        };
+
+        if (currentData.profile !== null) {
+            window.addEventListener('beforeunload', handleBeforeUnload);
+        }
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [currentData.profile]);
+
     const syncBackup = () => {
         setBackupData(currentData)
     }
@@ -81,23 +98,6 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         setCurrentData(defaultData)
         setFileState(defaultState)
     }
-
-    useEffect(() => {
-        if (Platform.OS !== 'web') return;
-
-        const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-            e.preventDefault();
-            e.returnValue = 'Input data can be lost';
-        };
-
-        if (currentData.profile !== null) {
-            window.addEventListener('beforeunload', handleBeforeUnload);
-        }
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [currentData.profile]);
 
     return (
         <FileContext.Provider value={{

@@ -1,4 +1,4 @@
-import { ProfileProps } from "@/hooks/useFileParsing";
+import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { ReactNode } from "react";
 import { Text } from "react-native-paper";
 import CartridgeHelpContent from "./cartridgeHelp";

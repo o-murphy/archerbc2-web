@@ -4,7 +4,7 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { FileProvider } from "@/hooks/fileContext";
+import { FileProvider } from "@/hooks/fileService/fileContext";
 import { ThemeContext, useThemePreference } from "@/hooks/useThemeToggle";
 
 

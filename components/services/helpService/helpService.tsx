@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Portal, Dialog, Button, useTheme, Text } from "react-native-paper";
-import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { ToolTipIconButton } from "../../iconButtonWithTooltip";
 
 
 export class HelpDialogService {

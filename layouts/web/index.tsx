@@ -1,10 +1,11 @@
 import MainBackground from "@/components/backgroundImage";
 import EditDialog from "@/components/editDialog";
+import { FileOpener } from "@/hooks/fileService/fileOpener";
 import { FileOpenError } from "@/components/fileOpenError";
-import { HelpDialogHost } from "@/components/helpDialog/helpService";
+import { HelpDialogHost } from "@/components/services/helpService/helpService";
 import StartDialog from "@/components/startDialog";
-import { Toast } from "@/components/toast/toastService";
-import { UrlProfileLoader, UrlProfileUpdater } from "@/hooks/useFileHandler";
+import { Toast } from "@/components/services/toastService/toastService";
+import { UrlPayloadHandler } from "@/hooks/fileService/useFileHandler";
 import { useEffect } from "react";
 import { ImageBackground, Platform, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
@@ -53,6 +54,14 @@ export const useApplyScrollbarTheme = () => {
 };
 
 
+const FileServices = () => (
+  <>
+    <UrlPayloadHandler />
+    <FileOpener />
+  </>
+)
+
+
 const WebLayout = () => {
   useApplyScrollbarTheme()
 
@@ -62,15 +71,12 @@ const WebLayout = () => {
         source={MainBackground}
         style={styles.view}
       >
-        {/* <Surface style={styles.view}> */}
         <FileOpenError />
-        <UrlProfileLoader />
-        <UrlProfileUpdater />
         <EditDialog />
         <StartDialog />
-        {/* </Surface> */}
         <HelpDialogHost />
         <Toast />
+        <FileServices />
       </ImageBackground>
     </>
   )

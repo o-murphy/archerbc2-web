@@ -1,12 +1,12 @@
-import { useFileContext } from "@/hooks/fileContext";
+import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Dialog, Portal, Surface, TextInput, Button } from "react-native-paper"
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
-import { encodeToUrl } from "@/hooks/useFileParsing";
+import { encodeToUrl } from "@/hooks/fileService/useFileParsing";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
-import { toast } from "@/components/toast/toastService";
+import { toast } from "@/components/services/toastService/toastService";
 
 
 export const ShareDialogButton = ({ icon = "share", ...props }) => (

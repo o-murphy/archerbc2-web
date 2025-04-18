@@ -3,7 +3,7 @@ import { Card, HelperText, IconButton, Text, Tooltip, useTheme } from "react-nat
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { CoefRow, BcType } from "a7p-js/dist/types"
 import { useEffect, useMemo, useState } from "react";
-import { ProfileProps } from "@/hooks/useFileParsing";
+import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { FieldHelp } from "../contentCards/help/helpContent";

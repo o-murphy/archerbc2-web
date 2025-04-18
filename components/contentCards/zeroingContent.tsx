@@ -37,6 +37,20 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
+            helpContent={FieldHelp.zeroY}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Zero Y"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"click"} />}
+          />
+        </View>
+
+        <View style={styles.row}>
+          <HelpButton
             helpContent={FieldHelp.cZeroDistanceIdx}
             style={[styles.label, { alignContent: "center" }]}
           >
@@ -77,19 +91,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
           />
         </View>
 
-        <View style={styles.row}>
-          <HelpButton
-            helpContent={FieldHelp.zeroY}
-            style={[styles.label, { alignContent: "center" }]}
-          >
-            <Text>{"Zero Y"}</Text>
-          </HelpButton>
-          <FieldEditFloat  //FIXME float
-            {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
-            style={styles.input}
-            right={<TextInput.Affix text={"click"} />}
-          />
-        </View>
+
         <View style={styles.row}>
           <HelpButton
             helpContent={FieldHelp.cZeroWPitch}

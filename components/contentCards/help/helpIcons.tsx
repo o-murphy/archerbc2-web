@@ -1,4 +1,4 @@
-import { help } from "@/components/helpDialog/helpService"
+import { help } from "@/components/services/helpService/helpService"
 import { ReactNode } from "react"
 import { StyleSheet } from "react-native"
 import { Pressable, TouchableOpacity, TouchableOpacityProps, View } from "react-native"

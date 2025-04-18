@@ -9,7 +9,7 @@ import CartridgeContent from "./contentCards/cartridgeContent";
 import BulletContent from "./contentCards/bulletContent";
 import ZeroingContent from "./contentCards/zeroingContent";
 import DistancesContent from "./contentCards/distancesContent";
-import { useFileContext } from "@/hooks/fileContext";
+import { useFileContext } from "@/hooks/fileService/fileContext";
 
 
 // Type for dialog dimensions
