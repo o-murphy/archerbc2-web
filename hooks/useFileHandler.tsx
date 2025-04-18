@@ -87,7 +87,7 @@ export const UrlProfileUpdater = () => {
                 const url = encodePayloadParam(backupData);
                 setUrlEncoded(url);
             } catch (error: any) {
-                setUrlEncoded(undefined);
+                // setUrlEncoded(undefined);
             }
         } else {
             setUrlEncoded(undefined);
