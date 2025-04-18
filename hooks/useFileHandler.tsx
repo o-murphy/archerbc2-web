@@ -68,45 +68,36 @@ export const useFileHandler = () => {
 };
 
 // Function to update `payload` parameter in the URL (only works on web)
-export const updateUrlPayload = (newPayload: string) => {
+export const updateUrlPayload = (newPayload: string | undefined) => {
     if (Platform.OS === 'web') {
         const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('payload', newPayload);
+        currentUrl.searchParams.set('payload', newPayload ? newPayload : "");
         window.history.replaceState({}, '', currentUrl.toString());
     }
 };
 
 export const UrlProfileUpdater = () => {
     const { backupData } = useFileContext()
-    const [isError, setIsError] = useState<Error | null>(null);
     const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
 
     // Compute URL when currentData changes
     useEffect(() => {
-        try {
-            const url = encodePayloadParam(backupData);
-            setUrlEncoded(url);
-            setIsError(null);
-        } catch (error: any) {
+        if (!backupData.error && backupData.profile) {
+            try {
+                const url = encodePayloadParam(backupData);
+                setUrlEncoded(url);
+            } catch (error: any) {
+                setUrlEncoded(undefined);
+            }
+        } else {
             setUrlEncoded(undefined);
-            setIsError(error);
         }
     }, [backupData]);
 
     useEffect(() => {
-        if (!backupData.error && backupData.profile && urlEncoded) {
-            updateUrlPld()
-        }
+        updateUrlPayload(urlEncoded)
     }, [urlEncoded, setUrlEncoded])
 
-    const updateUrlPld = () => {
-        if (isError) {
-            // toast.error(isError);
-            return;
-        } else if (urlEncoded) {
-            updateUrlPayload(urlEncoded)
-        }
-    }
 
     return null
 }
