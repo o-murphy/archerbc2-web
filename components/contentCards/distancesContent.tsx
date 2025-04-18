@@ -21,6 +21,8 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { ThemedIcon } from "../icons/customIcons";
 import { distancesTemplates, ProfileProps } from "@/hooks/useFileParsing";
+import { FieldHelp } from "./help/helpContent";
+import { HelpButton } from "./help/helpIcons";
 
 
 type DistanceItem = { id: string; value: number, zero: boolean };
@@ -142,11 +144,19 @@ const DistancesContent = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={styles.header}>
-        Distances
-      </Text>
-      
-      <Text style={{ alignSelf: "center" }} variant="titleMedium">Quick range set</Text>
+
+      <HelpButton helpContent={FieldHelp.DistancesCard}>
+        <Text variant="titleLarge" style={styles.header}>
+          Distances
+        </Text>
+      </HelpButton>
+
+      <HelpButton
+        helpContent={FieldHelp.caliber}
+        // style={[styles.label, { alignContent: "center" }]}
+      >
+        <Text style={{ alignSelf: "center" }} variant="titleMedium">Quick range set</Text>
+      </HelpButton>
 
       <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap" }}>
         {Object.entries(distancesTemplates).map(([key, distances]) => (
@@ -173,7 +183,7 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
     width: 400,
-},
+  },
   header: {
     marginBottom: 8,
   },

@@ -5,6 +5,8 @@ import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme 
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "a7p-js/dist/types"
 import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
+import { HelpButton } from "../contentCards/help/helpIcons"
+import { FieldHelp } from "../contentCards/help/helpContent"
 
 
 
@@ -118,7 +120,7 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
 
     return (
         <View style={styles.row}>
-            <Text style={[styles.label, { textAlign: "left" }]}>{`[${index + 1}]`}</Text>
+            <Text style={[styles.label, { textAlign: "left" }]}>{`${index + 1}.`}</Text>
             <Text style={styles.label}>{"Mach"}</Text>
             <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <Text style={styles.label}>{"Cd"}</Text>
@@ -168,9 +170,9 @@ const CustomDragTable = () => {
         const filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT).filter(row =>
             row.bcCd > 0 && row.mv > 0
         );
-    
+
         const uniqueMvs = new Set(filledRows.map(row => row.mv));
-    
+
         if (filledRows.length < 4 || uniqueMvs.size < filledRows.length) {
             setErr("Should have at least 4 valid rows with unique Mach values and Cd > 0");
         } else {
@@ -223,9 +225,16 @@ const CustomDragTable = () => {
                 {err}
             </HelperText>
             <View style={styles.row}>
-                <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
+                <HelpButton
+                    helpContent={FieldHelp.CustomDragModel}
+                    style={[styles.label, { alignContent: "center" }]}
+                >
+                    <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
+                </HelpButton>
                 <Divider style={styles.divider} />
-                <Button icon="sort-variant" mode="outlined" compact style={styles.sortBtn} onPress={onSortPress}>Sort</Button>
+                <Tooltip title="Sort" leaveTouchDelay={1}>
+                    <IconButton style={styles.icon} mode="outlined" icon="sort-variant" onPress={onSortPress} />
+                </Tooltip>
             </View>
             <FlatList
                 data={rows}
@@ -272,7 +281,7 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end"
     },
     divider: {
-        flex: 3,
+        flex: 2,
         alignSelf: "center"
     },
     sectionTitle: {

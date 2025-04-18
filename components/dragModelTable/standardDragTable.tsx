@@ -5,6 +5,8 @@ import { CoefRow, BcType } from "a7p-js/dist/types"
 import { useEffect, useMemo, useState } from "react";
 import { ProfileProps } from "@/hooks/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
+import { HelpButton } from "../contentCards/help/helpIcons";
+import { FieldHelp } from "../contentCards/help/helpContent";
 
 
 const MAX_STANDARD_ITEM_COUNT = 5
@@ -27,7 +29,11 @@ const FieldProps = {
 const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress?: () => void }) => {
     return (
         <View style={styles.row}>
-            <View style={styles.label}></View>
+            <HelpButton
+                helpContent={FieldHelp.StandardDragModel}
+                style={[styles.label, { alignContent: "center" }]}
+            >
+            </HelpButton>
             <Text style={[styles.input, { textAlign: "center" }]}>{"Velocity, mps"}</Text>
             <Text style={[styles.input, { textAlign: "center" }]}>{`BC (${model})`}</Text>
             <Tooltip title="Sort" leaveTouchDelay={1}>
@@ -57,7 +63,7 @@ const StandardDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: Custo
 
     return (
         <View style={styles.row}>
-            <Text style={[styles.label, { textAlign: "left" }]}>{`[${index + 1}]`}</Text>
+            <Text style={[styles.label, { textAlign: "center" }]}>{`${index + 1}.`}</Text>
             <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
             <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
             <Tooltip title="Clear row" leaveTouchDelay={1}>
@@ -106,7 +112,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
     useEffect(() => {
         const validRows = value.filter(row => row.bcCd > 0);
         const mvSet = new Set(validRows.map(row => row.mv));
-    
+
         if (validRows.length < 1) {
             setErr("Should have at least 1 row with BC > 0");
         } else if (mvSet.size < validRows.length) {
@@ -156,7 +162,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
 
     return (
         <Card elevation={3} style={styles.surface}>
-            <HelperText visible={!!err} type="error" style={{alignSelf: "center"}}>
+            <HelperText visible={!!err} type="error" style={{ alignSelf: "center" }}>
                 {err}
             </HelperText>
             <StandardDragHeader model={model} onSortPress={onSortPress} />

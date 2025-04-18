@@ -2,36 +2,17 @@ import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import StandardDragTable from "../dragModelTable/standardDragTable";
 import CustomDragTable from "../dragModelTable/customDragTable";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
+import { FieldEditFloat, FieldEditFloatProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { BcType, Profile } from "a7p-js/dist/types";
+import { HelpButton } from "./help/helpIcons";
+import { FieldHelp } from "./help/helpContent";
+import { BulletFloatFields } from "./fiedProps";
 
 
 const bcTypeMap: Record<string, React.ReactNode> = {
   G1: <StandardDragTable model={BcType.G1} />,
   G7: <StandardDragTable model={BcType.G7} />,
   CUSTOM: <CustomDragTable />,
-};
-
-
-const BulletFloatFields: FieldFloatProps = {
-  bDiameter: {
-    field: "bDiameter",
-    range: { min: 0.01, max: 50 },
-    multiplier: 1000,
-    fraction: 3,
-  },
-  bWeight: {
-    field: "bWeight",
-    range: { min: 0.1, max: 30000 },
-    multiplier: 10,
-    fraction: 1,
-  },
-  bLength: {
-    field: "bLength",
-    range: { min: 0.01, max: 50 },
-    multiplier: 1000,
-    fraction: 3,
-  },
 };
 
 
@@ -50,7 +31,12 @@ const DragModel = () => {
   return (
     <>
       <View style={styles.row}>
-        <Text style={styles.label}>{"Drag model"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.dragModel}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text style={styles.label}>{"Drag model"}</Text>
+        </HelpButton>
         <SegmentedButtons style={styles.segmented} onValueChange={handleBcTypeChange} value={bcType}
           buttons={[
             {
@@ -81,12 +67,19 @@ const BulletContent = () => {
   return (
     <View style={styles.container}>
 
-      <Text variant="titleLarge" style={styles.header}>
+      <HelpButton helpContent={FieldHelp.BulletCard}>
+        <Text variant="titleLarge" style={styles.header}>
         Bullet
-      </Text>
+        </Text>
+      </HelpButton>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Diameter"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.bDiameter}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text style={styles.label}>{"Diameter"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bDiameter as FieldEditFloatProps}
           style={styles.input}
@@ -95,7 +88,12 @@ const BulletContent = () => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Weight"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.bWeight}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text style={styles.label}>{"Weight"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bWeight as FieldEditFloatProps}
           style={styles.input}
@@ -104,7 +102,12 @@ const BulletContent = () => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Length"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.bLength}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text style={styles.label}>{"Length"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...BulletFloatFields.bLength as FieldEditFloatProps}
           style={styles.input}
@@ -122,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 8,
-    width: 400,
+    maxWidth: 500,
   },
   header: {
     marginBottom: 8,
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    gap: 16,
+    gap: 32,
     marginBottom: 8,
   },
   label: {

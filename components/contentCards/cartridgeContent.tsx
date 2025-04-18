@@ -1,39 +1,29 @@
 import { StyleSheet, View } from "react-native";
 import { TextInput, Text } from "react-native-paper";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fieldsEdit/fieldEditInput";
-
-
-const CartridgeFields: FieldFloatProps = {
-  cMuzzleVelocity: {
-    field: "cMuzzleVelocity",
-    range: { min: 1, max: 3000 },
-    multiplier: 10,
-    fraction: 0
-  },
-  cZeroTemperature: {
-    field: "cZeroTemperature",
-    range: { min: -50, max: 50 },
-    multiplier: 1,
-    fraction: 0
-  },
-  cTCoeff: {
-    field: "cTCoeff",
-    range: { min: 0, max: 100 },
-    multiplier: 1000,
-    fraction: 2
-  }
-}
+import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInput";
+import { CartridgeFields } from "./fiedProps";
+import { HelpButton } from "./help/helpIcons";
+import { FieldHelp } from "./help/helpContent";
+import CartridgeHelpContent from "./help/cartridgeHelp";
 
 
 const CartridgeContent = () => {
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={styles.header}>
-        Cartridge
-      </Text>
+
+      <HelpButton helpContent={FieldHelp.CartridgeCard}>
+        <Text variant="titleLarge" style={styles.header}>
+          Cartridge
+        </Text>
+      </HelpButton>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Muzzle velocity"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.cMuzzleVelocity}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>{"Muzzle velocity"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cMuzzleVelocity as FieldEditFloatProps}
           style={styles.input}
@@ -42,7 +32,12 @@ const CartridgeContent = () => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Powder temperature"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.cZeroTemperature}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>{"Powder temperature"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cZeroTemperature as FieldEditFloatProps}
           style={styles.input}
@@ -51,7 +46,13 @@ const CartridgeContent = () => {
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Temperature sensitivity"}</Text>
+
+        <HelpButton
+          helpContent={FieldHelp.cMuzzleVelocity}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>{"Temperature sensitivity"}</Text>
+        </HelpButton>
         <FieldEditFloat  //FIXME float
           {...CartridgeFields.cTCoeff as FieldEditFloatProps}
           style={styles.input}
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 8,
-    width: 400,
+    maxWidth: 500,
   },
   header: {
     marginBottom: 8,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    gap: 16,
+    gap: 32,
     marginBottom: 8,
   },
   label: {

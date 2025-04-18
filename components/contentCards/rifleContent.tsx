@@ -1,30 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
-import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, FieldFloatProps, FieldProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
+import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { Profile, TwistDir } from "a7p-js/dist/types";
+import { RifleFloatFields, RifleTextFields } from "./fiedProps";
+import { FieldHelp } from "./help/helpContent";
+import { HelpButton } from "./help/helpIcons";
 
-
-const RifleTextFields: FieldProps = {
-    caliber: {
-        field: "caliber",
-        maxLength: 50,
-    },
-};
-
-const RifleFloatFields: FieldFloatProps = {
-    rTwist: {
-        field: "rTwist",
-        range: { min: -50, max: 50 },
-        multiplier: 100,
-        fraction: 2,
-    },
-    scHeight: {
-        field: "scHeight",
-        range: { min: 0, max: 100 },
-        multiplier: 1,
-        fraction: 0,
-    },
-};
 
 const TwistField = () => {
     const [twistDir, setTwistDir] = useProfileFieldState<keyof Profile, TwistDir>({
@@ -57,12 +38,20 @@ const RifleContent = () => {
 
     return (
         <View style={styles.container}>
-            <Text variant="titleLarge" style={styles.header}>
-                Rifle
-            </Text>
+
+            <HelpButton helpContent={FieldHelp.RifleCard}>
+                <Text variant="titleLarge" style={styles.header}>
+                    Rifle
+                </Text>
+            </HelpButton>
 
             <View style={styles.row}>
-                <Text style={styles.label} >Caliber</Text>
+                <HelpButton
+                    helpContent={FieldHelp.caliber}
+                    style={[styles.label, { alignContent: "center" }]}
+                >
+                    <Text>{"Caliber"}</Text>
+                </HelpButton>
                 <FieldEdit  //FIXME float
                     {...RifleTextFields.caliber as FieldEditProps}
                     style={styles.input}
@@ -71,7 +60,12 @@ const RifleContent = () => {
             </View>
 
             <View style={styles.row}>
-                <Text style={styles.label}>Twist Rate</Text>
+                <HelpButton
+                    helpContent={FieldHelp.rTwist}
+                    style={[styles.label, { alignContent: "center" }]}
+                >
+                    <Text>{"Twist Rate"}</Text>
+                </HelpButton>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.rTwist as FieldEditFloatProps}
                     style={styles.input}
@@ -80,12 +74,22 @@ const RifleContent = () => {
             </View>
 
             <View style={styles.row}>
-                <Text style={styles.label}>Twist Direction</Text>
+                <HelpButton
+                    helpContent={FieldHelp.twistDir}
+                    style={[styles.label, { alignContent: "center" }]}
+                >
+                    <Text>{"Twist Direction"}</Text>
+                </HelpButton>
                 <TwistField />
             </View>
 
             <View style={styles.row}>
-                <Text style={styles.label}>Sight Height</Text>
+                <HelpButton
+                    helpContent={FieldHelp.scHeight}
+                    style={[styles.label, { alignContent: "center" }]}
+                >
+                    <Text>{"Sight Height"}</Text>
+                </HelpButton>
                 <FieldEditFloat  //FIXME float
                     {...RifleFloatFields.scHeight as FieldEditFloatProps}
                     style={styles.input}
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         gap: 8,
-        width: 400,
+        maxWidth: 500,
     },
     header: {
         marginBottom: 8,
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        gap: 16,
+        gap: 32,
         marginBottom: 8,
     },
     sectionTitle: {

@@ -1,134 +1,133 @@
 import { StyleSheet, View } from "react-native";
-import { Button, FAB, IconButton, Text, TextInput, ToggleButton } from "react-native-paper";
-import { FieldEditFloat, FieldEditFloatProps, FieldFloatProps } from "../fieldsEdit/fieldEditInput";
+import { IconButton, Text, TextInput } from "react-native-paper";
+import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInput";
 import ZeroDistanceField from "../fieldsEdit/zeroDistanceField";
-
-const ZeroingFloatFields: FieldFloatProps = {
-  zeroX: {
-    field: "zeroX",
-    range: { min: -200, max: 200 },
-    multiplier: -1000,
-    fraction: 2,
-  },
-  zeroY: {
-    field: "zeroY",
-    range: { min: -200, max: 200 },
-    multiplier: 1000,
-    fraction: 2,
-  },
-
-  cZeroWPitch: {
-    field: "cZeroWPitch",
-    range: { min: -90, max: 90 },
-    multiplier: 1,
-    fraction: 0,
-  },
-
-  cZeroAirTemperature: {
-    field: "cZeroAirTemperature",
-    range: { min: -50, max: 50 },
-    multiplier: 1,
-    fraction: 0,
-  },
-  cZeroPTemperature: {
-    field: "cZeroPTemperature",
-    range: { min: -50, max: 50 },
-    multiplier: 1,
-    fraction: 0,
-  },
-  cZeroAirPressure: {
-    field: "cZeroAirPressure",
-    range: { min: 0, max: 65535 },
-    multiplier: 10,
-    fraction: 0,
-  },
-  cZeroAirHumidity: {
-    field: "cZeroAirHumidity",
-    range: { min: 0, max: 100 },
-    multiplier: 1,
-    fraction: 0,
-  },
-};
+import { FieldHelp } from "./help/helpContent";
+import { HelpButton } from "./help/helpIcons";
+import { ZeroingFloatFields } from "./fiedProps";
+import { ThemedIcon } from "../icons/customIcons";
 
 
-const ZeroingContent = ({onDistancesBtnPress}: {onDistancesBtnPress?: () => void}) => {
+const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => void }) => {
   return (
     <View style={[styles.container]}>
-      <Text variant="titleLarge" style={styles.header}>
-        Zeroing
-      </Text>
 
-      <View style={styles.columns}>
-        <View style={styles.column}>
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Zero X"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.zeroX as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"click"}/>}
-            />
-          </View>
+      <HelpButton helpContent={FieldHelp.ZeroingCard}>
+        <Text variant="titleLarge" style={styles.header}>
+          Zeroing
+        </Text>
+      </HelpButton>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Zero distance"}</Text>
-            <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
-              <ZeroDistanceField style={styles.select}/>
-              <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={onDistancesBtnPress} />
-            </View>
-          </View>
+      <View style={styles.column}>
+        <View style={styles.row}>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Air"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.cZeroAirTemperature as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"°C"}/>}
-            />
-          </View>
+          <HelpButton
+            helpContent={FieldHelp.zeroX}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Zero X"}</Text>
+          </HelpButton>
 
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Pressure"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.cZeroAirPressure as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"hPa"}/>}
-            />
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.zeroX as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"click"} />}
+          />
+        </View>
+
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroDistanceIdx}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Zero distance"}</Text>
+            <ThemedIcon source="zeroing-distance" size={24} />
+          </HelpButton>
+          <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
+            <ZeroDistanceField style={styles.select} />
+            <IconButton style={styles.distancesEditBtn} mode="outlined" icon={"playlist-edit"} onPress={onDistancesBtnPress} />
           </View>
         </View>
 
-        <View style={styles.column}>
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Zero Y"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"click"}/>}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Pitch"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.cZeroWPitch as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"degree"}/>}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Powder"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.cZeroPTemperature as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"°C"}/>}
-            />
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>{"Humidity"}</Text>
-            <FieldEditFloat  //FIXME float
-              {...ZeroingFloatFields.cZeroAirHumidity as FieldEditFloatProps}
-              style={styles.input}
-              right={<TextInput.Affix text={"%"}/>}
-            />
-          </View>
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroAirTemperature}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Air"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.cZeroAirTemperature as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"°C"} />}
+          />
+        </View>
+
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroAirPressure}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Pressure"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.cZeroAirPressure as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"hPa"} />}
+          />
+        </View>
+
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.zeroY}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Zero Y"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.zeroY as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"click"} />}
+          />
+        </View>
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroWPitch}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Pitch"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.cZeroWPitch as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"degree"} />}
+          />
+        </View>
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroPTemperature}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Powder temperature"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.cZeroPTemperature as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"°C"} />}
+          />
+        </View>
+        <View style={styles.row}>
+          <HelpButton
+            helpContent={FieldHelp.cZeroAirHumidity}
+            style={[styles.label, { alignContent: "center" }]}
+          >
+            <Text>{"Humidity"}</Text>
+          </HelpButton>
+          <FieldEditFloat  //FIXME float
+            {...ZeroingFloatFields.cZeroAirHumidity as FieldEditFloatProps}
+            style={styles.input}
+            right={<TextInput.Affix text={"%"} />}
+          />
         </View>
       </View>
     </View>
@@ -137,8 +136,10 @@ const ZeroingContent = ({onDistancesBtnPress}: {onDistancesBtnPress?: () => void
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 16,
-    width: 600,
+    gap: 8,
+    maxWidth: 500,
   },
   header: {
     marginBottom: 8,
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    gap: 16,
+    gap: 32,
     marginBottom: 8,
   },
   label: {

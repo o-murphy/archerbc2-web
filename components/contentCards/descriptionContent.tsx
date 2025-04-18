@@ -1,140 +1,93 @@
 import { StyleSheet, View } from "react-native";
-import { Text, Divider, TextInput, useTheme, IconButton } from "react-native-paper";
-import { FieldEdit, FieldEditProps, FieldProps } from "../fieldsEdit/fieldEditInput";
-import DescriptionHelpContent from "./descriptionHelp";
-import { help, HelpDialogButton } from "../helpDialog/helpService";
-import { ProfileProps } from "@/hooks/useFileParsing";
-import { ReactNode } from "react";
+import { Text, Divider } from "react-native-paper";
+import { FieldEdit, FieldEditProps } from "../fieldsEdit/fieldEditInput";
+import { HelpButton } from "./help/helpIcons";
+import { FieldHelp } from "./help/helpContent";
+import { DescriptionFields } from "./fiedProps";
 
-
-const DescriptionFields: FieldProps = {
-  profileName: {
-    field: 'profileName',
-    maxLength: 50
-  },
-  shortNameTop: {
-    field: 'shortNameTop',
-    maxLength: 8,
-    label: "Top"
-  },
-  shortNameBot: {
-    field: 'shortNameBot',
-    maxLength: 8,
-    label: "Bot"
-  },
-  cartridgeName: {
-    field: 'cartridgeName',
-    maxLength: 50
-  },
-  bulletName: {
-    field: 'bulletName',
-    maxLength: 50
-  },
-  userNote: {
-    field: 'userNote',
-    maxLength: 1024,
-    multiline: true
-  },
-};
-
-
-const FieldHelp: Partial<Record<keyof ProfileProps, ReactNode>> = {
-  profileName: <Text variant="bodyMedium">The name of the ballistic profile as it appears in the device’s "Rifles" menu.</Text>,
-  shortNameTop: <Text variant="bodyMedium">Short caliber label for the icon in the device interface.</Text>,
-  shortNameBot: <Text variant="bodyMedium">Short weight label for the icon in the device interface.</Text>,
-  cartridgeName: <Text variant="bodyMedium">The name of the projectile as it appears in the device’s "Rifles" menu.</Text>,
-  bulletName: <Text variant="bodyMedium">The name of the bullet.</Text>,
-  userNote: <Text variant="bodyMedium">Additional comment.</Text>,
-}
-
-
-const getHelpInputIcon = (helpText: ReactNode) => {
-  const theme = useTheme()
-  return (
-    <TextInput.Icon
-      size={16}
-      style={{ width: 24, height: 24, padding: 0, margin: 0 }}
-      icon="help-circle-outline"
-      color={theme.colors.tertiaryContainer}
-      onPress={() => help.show(helpText)}
-    />
-  )
-}
-
-const getHelpIcon = (helpText: ReactNode) => {
-  const theme = useTheme()
-  return (
-    <IconButton
-      size={16}
-      style={{ width: 24, height: 24, padding: 0, marginHorizontal: 8 }}
-      icon="help-circle-outline"
-      iconColor={theme.colors.tertiaryContainer}
-      onPress={() => help.show(helpText)}
-    />
-  )
-}
 
 const DescriptionContent = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="titleLarge" style={styles.header}>
-        Description
-        {getHelpIcon(<DescriptionHelpContent />)}
-      </Text>
+      <HelpButton helpContent={FieldHelp.DescriptionCard}>
+
+        <Text variant="titleLarge" style={styles.header}>
+          Description
+        </Text>
+      </HelpButton>
 
       <View style={styles.row}>
-        <Text style={[styles.label, { alignContent: "center" }]}>{"Name"}
-        </Text>
+        <HelpButton
+          helpContent={FieldHelp.profileName}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>Name</Text>
+        </HelpButton>
         <FieldEdit
           {...DescriptionFields.profileName as FieldEditProps}
           style={styles.input}
-          left={getHelpInputIcon(FieldHelp.profileName)}
         />
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Hints"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.ShortHints}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>Hints</Text>
+        </HelpButton>
         <View style={[styles.row, styles.input]}>
           <FieldEdit
             {...DescriptionFields.shortNameTop as FieldEditProps}
             style={styles.input}
-            left={getHelpInputIcon(FieldHelp.shortNameTop)}
           />
           <FieldEdit
             {...DescriptionFields.shortNameBot as FieldEditProps}
             style={styles.input}
-            left={getHelpInputIcon(FieldHelp.shortNameBot)}
           />
         </View>
       </View>
 
       <View style={styles.row}>
-        <Text variant="titleMedium" style={styles.sectionTitle}>{"Round"}</Text>
+        <Text variant="titleMedium" style={styles.sectionTitle}>{"Projectile"}</Text>
         <Divider style={styles.divider} />
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Cartridge"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.cartridgeName}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>Cartridge</Text>
+        </HelpButton>
         <FieldEdit
           {...DescriptionFields.cartridgeName as FieldEditProps}
           style={styles.input}
-          left={getHelpInputIcon(FieldHelp.cartridgeName)}
         />
       </View>
 
       <View style={styles.row}>
-        <Text style={styles.label}>{"Bullet"}</Text>
+        <HelpButton
+          helpContent={FieldHelp.bulletName}
+          style={[styles.label, { alignContent: "center" }]}
+        >
+          <Text>Bullet</Text>
+        </HelpButton>
         <FieldEdit
           {...DescriptionFields.bulletName as FieldEditProps}
           style={styles.input}
-          left={getHelpInputIcon(FieldHelp.bulletName)}
         />
       </View>
 
       <View style={styles.row}>
-        <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text>
-        {getHelpIcon(FieldHelp.userNote)}
+        {/* <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text> */}
+        <HelpButton
+          helpContent={FieldHelp.userNote}
+          style={styles.sectionTitle}
+        >
+          <Text variant="titleMedium">User Note</Text>
+        </HelpButton>
         <Divider style={styles.divider} />
       </View>
 
@@ -163,7 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    gap: 16,
+    gap: 32,
     marginBottom: 8,
   },
   label: {

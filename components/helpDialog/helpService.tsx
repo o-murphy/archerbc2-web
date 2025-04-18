@@ -61,6 +61,7 @@ export const HelpDialogButton = ({ icon = "help-circle-outline", ...props }) => 
 
 const styles = StyleSheet.create({
     dialog: {
+        minWidth: 400,
         maxWidth: 500,
         maxHeight: 500,
         alignSelf: "center",
