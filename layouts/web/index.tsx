@@ -54,14 +54,6 @@ export const useApplyScrollbarTheme = () => {
 };
 
 
-const FileServices = () => (
-  <>
-    <UrlPayloadHandler />
-    <FileOpener />
-  </>
-)
-
-
 const WebLayout = () => {
   useApplyScrollbarTheme()
 
@@ -71,12 +63,13 @@ const WebLayout = () => {
         source={MainBackground}
         style={styles.view}
       >
+        <UrlPayloadHandler />
+        <FileOpener />
         <FileOpenError />
         <EditDialog />
         <StartDialog />
         <HelpDialogHost />
         <Toast />
-        <FileServices />
       </ImageBackground>
     </>
   )
