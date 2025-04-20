@@ -84,33 +84,31 @@ const EditDialog = () => {
     };
 
     return (
-        // <View style={}>
-            <Dialog
-                visible={visible}
-                dismissable={false}
-                style={[
-                    styles.dialog,
-                    {
-                        width: dialogDimensions.dialogWidth,  // Dynamically set width
-                        height: dialogDimensions.dialogHeight  // Dynamically set height
-                    }
-                ]}
-                onDismiss={closeDialog}
-            >
-                <Dialog.Title style={styles.dialogTitle}>
-                    <TopBar />
-                </Dialog.Title>
+        <Dialog
+            visible={visible}
+            dismissable={false}
+            style={[
+                styles.dialog,
+                {
+                    width: dialogDimensions.dialogWidth,  // Dynamically set width
+                    height: dialogDimensions.dialogHeight  // Dynamically set height
+                }
+            ]}
+            onDismiss={closeDialog}
+        >
+            <Dialog.Title style={styles.dialogTitle}>
+                <TopBar />
+            </Dialog.Title>
 
-                <Dialog.Content style={styles.dialogContent}>
-                    <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
-                    {/* @ts-expect-error: Web-only style, allowed intentionally */}
-                    <Surface style={[styles.surfaceContent, webSurfaceOverflow]}>
-                        {renderContent()}
-                    </Surface>
+            <Dialog.Content style={styles.dialogContent}>
+                <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
+                {/* @ts-expect-error: Web-only style, allowed intentionally */}
+                <Surface style={[styles.surfaceContent, webSurfaceOverflow]}>
+                    {renderContent()}
+                </Surface>
 
-                </Dialog.Content>
-            </Dialog>
-        // </View>
+            </Dialog.Content>
+        </Dialog>
     );
 };
 

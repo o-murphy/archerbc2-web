@@ -8,19 +8,67 @@ import { FileProvider } from "@/hooks/fileService/fileContext";
 import { ThemeContext, useThemePreference } from "@/hooks/useThemeToggle";
 
 import "@/i18n/i18n";
+import MobileLayout from "@/layouts/mobile";
+import { Platform } from "react-native";
 
+
+export const detectDevice = () => {
+  if (typeof navigator === 'undefined') {
+      return 'unknown';
+  }
+
+  const ua = navigator.userAgent;
+
+  if (/android/i.test(ua)) {
+      return 'Android';
+  }
+  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+      return 'iOS';
+  }
+  if (/Windows NT/.test(ua)) {
+      return 'Windows';
+  }
+  if (/Macintosh/.test(ua)) {
+      return 'Mac';
+  }
+  if (/Linux/.test(ua)) {
+      return 'Linux';
+  }
+
+  return 'unknown';
+};
+
+const isMobileUA = () => {
+  const dev = detectDevice();
+  switch (dev) {
+    case "Android":
+    case "iOS":
+      return true;
+    default:
+      return false;
+  }
+};
 
 export default function RootLayout() {
+  
   const { theme, toggleTheme, isReady } = useThemePreference();
 
   if (!isReady) return null; // or <SplashScreen />
+
+
+  console.log("Platform", Platform.OS, detectDevice())
+ 
 
   return (
     <FileProvider>
       <SafeAreaProvider>
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
           <PaperProvider theme={theme}>
-            <WebLayout />
+            {
+              isMobileUA() 
+              ? <MobileLayout />
+              : <WebLayout />
+            }
           </PaperProvider>
         </ThemeContext.Provider>
       </SafeAreaProvider>
