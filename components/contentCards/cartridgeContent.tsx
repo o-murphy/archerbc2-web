@@ -14,7 +14,7 @@ const CartridgeContent = () => {
   return (
     <View style={styles.container}>
 
-      <HelpButton helpContent={FieldHelp.CartridgeCard}>
+      <HelpButton helpContent={FieldHelp().CartridgeCard}>
         <Text variant="titleLarge" style={styles.header}>
           {t("cartridgeContent.Cartridge")}
         </Text>
@@ -22,7 +22,7 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.cMuzzleVelocity}
+          helpContent={FieldHelp().cMuzzleVelocity}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.MuzzleVelocity")}</Text>
@@ -36,7 +36,7 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.cZeroTemperature}
+          helpContent={FieldHelp().cZeroTemperature}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.PowderTemperature")}</Text>
@@ -51,7 +51,7 @@ const CartridgeContent = () => {
       <View style={styles.row}>
 
         <HelpButton
-          helpContent={FieldHelp.cMuzzleVelocity}
+          helpContent={FieldHelp().cTCoeff}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.TemperatureSensitivity")}</Text>

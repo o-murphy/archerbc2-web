@@ -230,7 +230,7 @@ const CustomDragTable = () => {
             </HelperText>
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp.CustomDragModel}
+                    helpContent={FieldHelp().CustomDragModel}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>

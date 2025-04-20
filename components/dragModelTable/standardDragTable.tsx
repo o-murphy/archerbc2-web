@@ -35,7 +35,7 @@ const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress
     return (
         <View style={styles.row}>
             <HelpButton
-                helpContent={FieldHelp.StandardDragModel}
+                helpContent={FieldHelp().StandardDragModel}
                 style={[styles.label, { alignContent: "center" }]}
             >
             </HelpButton>

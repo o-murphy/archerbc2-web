@@ -16,7 +16,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
   return (
     <View style={[styles.container]}>
 
-      <HelpButton helpContent={FieldHelp.ZeroingCard}>
+      <HelpButton helpContent={FieldHelp().ZeroingCard}>
         <Text variant="titleLarge" style={styles.header}>
           {t("zeroingContent.Zeroing")}
         </Text>
@@ -26,7 +26,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         <View style={styles.row}>
 
           <HelpButton
-            helpContent={FieldHelp.zeroX}
+            helpContent={FieldHelp().zeroX}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroX")}</Text>
@@ -41,7 +41,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.zeroY}
+            helpContent={FieldHelp().zeroY}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroY")}</Text>
@@ -55,7 +55,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroDistanceIdx}
+            helpContent={FieldHelp().cZeroDistanceIdx}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroDistance")}</Text>
@@ -75,7 +75,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroAirTemperature}
+            helpContent={FieldHelp().cZeroAirTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.AirTemperature")}</Text>
@@ -89,7 +89,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroAirPressure}
+            helpContent={FieldHelp().cZeroAirPressure}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.AirPressure")}</Text>
@@ -104,7 +104,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroWPitch}
+            helpContent={FieldHelp().cZeroWPitch}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.Pitch")}</Text>
@@ -117,7 +117,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         </View>
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroPTemperature}
+            helpContent={FieldHelp().cZeroPTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.PowderTemperature")}</Text>
@@ -130,7 +130,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         </View>
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp.cZeroAirHumidity}
+            helpContent={FieldHelp().cZeroAirHumidity}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.Humidity")}</Text>

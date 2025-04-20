@@ -11,7 +11,7 @@ export const getHelpInputIcon = (helpText: ReactNode) => {
         <TextInput.Icon
             size={16}
             style={{ width: 24, height: 24, padding: 0, margin: 0 }}
-            icon={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+            icon={md3PaperIconSource({ name: "help-outline", mode: "outline" })}
             color={theme.colors.onTertiaryContainer}
             onPress={() => help.show(helpText)}
         />
@@ -24,7 +24,7 @@ export const getHelpIcon = (helpText: ReactNode) => {
         <IconButton
             size={16}
             style={{ width: 24, height: 24, padding: 0, marginHorizontal: 8 }}
-            icon={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+            icon={md3PaperIconSource({ name: "help-outline", mode: "outline" })}
             iconColor={theme.colors.onTertiaryContainer}
             onPress={() => help.show(helpText)}
         />
@@ -39,11 +39,15 @@ export const HelpButton: React.FC<HelpButtonProps> = ({ helpContent, children, .
     const theme = useTheme()
 
     return (
-        <TouchableOpacity onPress={() => help.show(helpContent)} style={props.style}>
+        <TouchableOpacity
+            onPress={() => help.show(helpContent)}
+            // @ts-expect-error: Web-only style, allowed intentionally
+            style={[{ cursor: 'help' }, props.style]} // 👈 Add cursor style
+        >
             <View style={[styles.container, props.style]}>
                 <Icon
                     {...props}
-                    source={md3PaperIconSource({name: "help-outline", mode: "outline"})}
+                    source={md3PaperIconSource({ name: "help-outline", mode: "outline" })}
                     color={theme.colors.onTertiaryContainer}
                     size={16}
                 />

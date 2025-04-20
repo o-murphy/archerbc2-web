@@ -13,7 +13,7 @@ const DescriptionContent = () => {
 
   return (
     <View style={styles.container}>
-      <HelpButton helpContent={FieldHelp.DescriptionCard}>
+      <HelpButton helpContent={FieldHelp().DescriptionCard}>
 
         <Text variant="titleLarge" style={styles.header}>
           {t("descriptionContent.Description")}
@@ -22,7 +22,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.profileName}
+          helpContent={FieldHelp().profileName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Name")}</Text>
@@ -35,7 +35,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.ShortHints}
+          helpContent={FieldHelp().ShortHints}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Hints")}</Text>
@@ -61,7 +61,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.cartridgeName}
+          helpContent={FieldHelp().cartridgeName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Cartridge")}</Text>
@@ -74,7 +74,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.bulletName}
+          helpContent={FieldHelp().bulletName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Bullet")}</Text>
@@ -88,7 +88,7 @@ const DescriptionContent = () => {
       <View style={styles.row}>
         {/* <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text> */}
         <HelpButton
-          helpContent={FieldHelp.userNote}
+          helpContent={FieldHelp().userNote}
           style={styles.sectionTitle}
         >
           <Text variant="titleMedium">{t("descriptionContent.UserNote")}</Text>

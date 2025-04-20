@@ -45,7 +45,7 @@ const RifleContent = () => {
     return (
         <View style={styles.container}>
 
-            <HelpButton helpContent={FieldHelp.RifleCard}>
+            <HelpButton helpContent={FieldHelp().RifleCard}>
                 <Text variant="titleLarge" style={styles.header}>
                     {t("rifleContent.Rifle")}
                 </Text>
@@ -53,7 +53,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp.caliber}
+                    helpContent={FieldHelp().caliber}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.Caliber")}</Text>
@@ -66,7 +66,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp.rTwist}
+                    helpContent={FieldHelp().rTwist}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.TwistRate")}</Text>
@@ -80,7 +80,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp.twistDir}
+                    helpContent={FieldHelp().twistDir}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.TwistDirection")}</Text>
@@ -90,7 +90,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp.scHeight}
+                    helpContent={FieldHelp().scHeight}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.SightHeight")}</Text>

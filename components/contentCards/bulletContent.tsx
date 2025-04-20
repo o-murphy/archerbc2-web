@@ -35,7 +35,7 @@ const DragModel = () => {
     <>
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.dragModel}
+          helpContent={FieldHelp().DragModel}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.DragModel")}</Text>
@@ -71,7 +71,7 @@ const BulletContent = () => {
   return (
     <View style={styles.container}>
 
-      <HelpButton helpContent={FieldHelp.BulletCard}>
+      <HelpButton helpContent={FieldHelp().BulletCard}>
         <Text variant="titleLarge" style={styles.header}>
           {t("bulletContent.Bullet")}
         </Text>
@@ -79,7 +79,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.bDiameter}
+          helpContent={FieldHelp().bDiameter}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Diameter")}</Text>
@@ -93,7 +93,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.bWeight}
+          helpContent={FieldHelp().bWeight}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Weight")}</Text>
@@ -107,7 +107,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp.bLength}
+          helpContent={FieldHelp().bLength}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Length")}</Text>

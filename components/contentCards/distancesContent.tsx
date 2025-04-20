@@ -151,14 +151,14 @@ const DistancesContent = () => {
   return (
     <View style={styles.container}>
 
-      <HelpButton helpContent={FieldHelp.DistancesCard}>
+      <HelpButton helpContent={FieldHelp().DistancesCard}>
         <Text variant="titleLarge" style={styles.header}>
           {t("distancesContent.Distances")}
         </Text>
       </HelpButton>
 
       <HelpButton
-        helpContent={FieldHelp.caliber}
+        helpContent={FieldHelp().QuickRangeSet}
       // style={[styles.label, { alignContent: "center" }]}
       >
         <Text style={{ alignSelf: "center" }} variant="titleMedium">
