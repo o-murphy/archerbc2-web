@@ -1,7 +1,7 @@
 {
   "name": "archerbc2-web",
   "main": "expo-router/entry",
-  "version": "0.1.0-beta.13",
+  "version": "0.1.0-beta.14",
   "homepage": "https://o-murphy.github.io/ArcherBC2-Web",
   "scripts": {
     "start": "expo start",
@@ -27,7 +27,7 @@
     "@react-native-clipboard/clipboard": "^1.16.2",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/native": "^7.1.6",
-    "a7p-js": "^1.0.2",
+    "a7p-js": "^1.0.3",
     "base64-js": "^1.5.1",
     "crypto-js": "^4.2.0",
     "expo": "^52.0.44",
