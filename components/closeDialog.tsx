@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB, Menu } from "react-native-paper"
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
-import { md3PaperIconSource } from "./icons/md3PaperIcons";
+import { MD3PaperIcon, md3PaperIconSource } from "./icons/md3PaperIcons";
 
 
 export const CloseDialogButton = ({ icon = md3PaperIconSource({ name: "close" }), ...props }) => {
@@ -71,6 +71,8 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
                         style={styles.actionButton}
                         icon={md3PaperIconSource({ name: "delete-forever" })}
                         onPress={notSavePress}
+                        buttonColor={theme.colors.tertiaryContainer}
+                        textColor={theme.colors.onTertiaryContainer}
                     >
                         {t("closeDialog.CloseWithoutSaving")}
                     </Button>
@@ -109,13 +111,15 @@ export const CloseDialogWidget = () => {
 export const CloseDialogMenuAction = () => {
     const [visible, setVisible] = useState(false);
     const { t } = useTranslation();
-    const theme = useTheme()
+    const theme = useTheme();
 
     return (
         <>
             <Menu.Item
-                leadingIcon={md3PaperIconSource({ name: "close", color: theme.colors.error })}
-                onPress={() => setVisible(true)} title={t("closeDialog.Close")}
+                leadingIcon={(props) => MD3PaperIcon({ ...props, name: "close", color: theme.colors.error })}
+                onPress={() => setVisible(true)}
+                title={t("closeDialog.Close")}
+                titleStyle={{ color: theme.colors.error }} // Set the text color here
             />
             <Portal>
                 <CloseDialog visible={visible} setVisible={() => setVisible(false)} />
@@ -123,6 +127,7 @@ export const CloseDialogMenuAction = () => {
         </>
     );
 };
+
 
 const styles = StyleSheet.create({
     dialog: {

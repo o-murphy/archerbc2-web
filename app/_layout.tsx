@@ -1,5 +1,5 @@
 import React from "react";
-import WebLayout from "@/layouts/web";
+import WebLayout from "@/layouts/desktop";
 import {
   PaperProvider,
 } from "react-native-paper";
@@ -8,56 +8,16 @@ import { FileProvider } from "@/hooks/fileService/fileContext";
 import { ThemeContext, useThemePreference } from "@/hooks/useThemeToggle";
 
 import "@/i18n/i18n";
+import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import MobileLayout from "@/layouts/mobile";
-import { Platform } from "react-native";
 
-
-export const detectDevice = () => {
-  if (typeof navigator === 'undefined') {
-      return 'unknown';
-  }
-
-  const ua = navigator.userAgent;
-
-  if (/android/i.test(ua)) {
-      return 'Android';
-  }
-  if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
-      return 'iOS';
-  }
-  if (/Windows NT/.test(ua)) {
-      return 'Windows';
-  }
-  if (/Macintosh/.test(ua)) {
-      return 'Mac';
-  }
-  if (/Linux/.test(ua)) {
-      return 'Linux';
-  }
-
-  return 'unknown';
-};
-
-export const isMobileUA = () => {
-  const dev = detectDevice();
-  switch (dev) {
-    case "Android":
-    case "iOS":
-      return true;
-    default:
-      return false;
-  }
-};
 
 export default function RootLayout() {
-  
+
   const { theme, toggleTheme, isReady } = useThemePreference();
+  const {layout: layoutMode} = useResponsiveLayout();
 
   if (!isReady) return null; // or <SplashScreen />
-
-
-  console.log("Platform", Platform.OS, detectDevice())
- 
 
   return (
     <FileProvider>
@@ -65,9 +25,9 @@ export default function RootLayout() {
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
           <PaperProvider theme={theme}>
             {
-              isMobileUA() 
-              ? <MobileLayout />
-              : <WebLayout />
+              layoutMode === "mobile"
+                ? <MobileLayout />
+                : <WebLayout />
             }
           </PaperProvider>
         </ThemeContext.Provider>

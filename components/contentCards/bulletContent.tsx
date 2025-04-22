@@ -5,7 +5,7 @@ import CustomDragTable from "../dragModelTable/customDragTable";
 import { FieldEditFloat, FieldEditFloatProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { BcType, Profile } from "a7p-js/dist/types";
 import { HelpButton } from "./help/helpIcons";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { BulletFloatFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./contentTitle";
@@ -20,6 +20,7 @@ const bcTypeMap: Record<string, React.ReactNode> = {
 
 const DragModel = () => {
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
   const [bcType, setBcType] = useProfileFieldState<keyof Profile, BcType>({
     field: 'bcType',
@@ -36,7 +37,7 @@ const DragModel = () => {
     <>
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().DragModel}
+          helpContent={helpContent.DragModel}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.DragModel")}</Text>
@@ -58,9 +59,7 @@ const DragModel = () => {
           ]}
         />
       </View>
-      {/* <View style={styles.row}> */}
-        <View style={{ flex: 4 }}>{renderContent()}</View>
-      {/* </View> */}
+      <View style={{ flex: 1 }}>{renderContent()}</View>
     </>
   )
 };
@@ -68,6 +67,7 @@ const DragModel = () => {
 
 const BulletContent = () => {
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
   return (
     <View style={styles.container}>
@@ -75,7 +75,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().bDiameter}
+          helpContent={helpContent.bDiameter}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Diameter")}</Text>
@@ -89,7 +89,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().bWeight}
+          helpContent={helpContent.bWeight}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Weight")}</Text>
@@ -103,7 +103,7 @@ const BulletContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().bLength}
+          helpContent={helpContent.bLength}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text style={styles.label}>{t("bulletContent.Length")}</Text>
@@ -126,9 +126,6 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
     maxWidth: 500,
-  },
-  header: {
-    marginBottom: 8,
   },
   row: {
     flexDirection: "row",

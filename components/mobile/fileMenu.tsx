@@ -1,4 +1,4 @@
-import { Appbar, FAB, Menu, useTheme } from "react-native-paper";
+import { Appbar, Divider, FAB, Menu, useTheme } from "react-native-paper";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
 import { ShareDialogMenuItem } from "../shareDialog";
 import { CloseDialogMenuAction } from "../closeDialog";
@@ -48,6 +48,7 @@ export const FileMenu = () => {
             <Menu.Item leadingIcon={md3PaperIconSource({ name: "refresh" })} onPress={onReloadPress} title={t("topBar.RejectChanges")} />
             <Menu.Item leadingIcon={md3PaperIconSource({ name: "my-location" })} disabled onPress={() => { }} title={t("topBar.LoadZeroing")} />
             <ShareDialogMenuItem />
+            <Divider />
             <CloseDialogMenuAction />
         </Menu>
     )

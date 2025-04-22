@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 import { HelpButton } from "../contentCards/help/helpIcons";
-import { FieldHelp } from "../contentCards/help/helpContent";
+import { useHelp } from "../contentCards/help/helpContent";
 import { useTranslation } from "react-i18next";
 import { ToolTipIconButton } from "../iconButtonWithTooltip";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
@@ -31,11 +31,12 @@ const FieldProps = {
 
 const StandardDragHeader = ({ model, onSortPress }: { model: BcType, onSortPress?: () => void }) => {
     const { t } = useTranslation()
+    const helpContent = useHelp()
 
     return (
         <View style={styles.row}>
             <HelpButton
-                helpContent={FieldHelp().StandardDragModel}
+                helpContent={helpContent.StandardDragModel}
                 style={[styles.label, { alignContent: "center" }]}
             >
             </HelpButton>
@@ -75,7 +76,7 @@ const StandardDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: Custo
             <ToolTipIconButton
                 tooltip={t("standardDragTable.ClearRow")}
                 size={16}
-                icon={md3PaperIconSource({ name: "close" })}
+                icon={md3PaperIconSource({ name: "cancel" })}
                 iconColor={theme.colors.error}
                 style={styles.icon}
                 onPress={clearRow}

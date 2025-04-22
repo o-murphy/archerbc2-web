@@ -1,19 +1,22 @@
 import { StyleSheet, View } from "react-native";
 import { Surface, Text } from "react-native-paper"
 import { useFileContext } from "@/hooks/fileService/fileContext";
-import { CloseDialogWidget } from "./closeDialog";
-import { ToolTipIconButton } from "./iconButtonWithTooltip";
+import { CloseDialogWidget } from "../closeDialog";
+import { ToolTipIconButton } from "../iconButtonWithTooltip";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
-import { ShareDialogMenuItem } from "./shareDialog";
-import { FileOpenerService } from "../hooks/fileService/fileOpener";
-import { ThemeToggle } from "./themeToggle";
-import { LanguageToggle } from "./languageToggle";
+import { ShareDialogWidget } from "../shareDialog";
+import { FileOpenerService } from "../../hooks/fileService/fileOpener";
+import { ThemeToggle } from "../themeToggle";
+import { LanguageToggle } from "../languageToggle";
 import { useTranslation } from "react-i18next";
+import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
+import { FileMenu } from "../mobile/fileMenu";
 
 
 const TopBar = () => {
   const { t } = useTranslation();
   const { syncBackup, restoreBackup, saveFile } = useFileContext();
+  const { width } = useResponsiveLayout()
 
   const onOpenPress = () => {
     console.log("Open pressed");
@@ -31,14 +34,23 @@ const TopBar = () => {
     console.log("RestoreBackup");
   };
 
+  const renderTooltips = width >= 700;
+
   return (
     <Surface elevation={1} style={styles.topBar}>
-      <ToolTipIconButton tooltip={t("topBar.Create new file")} icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
-      <ToolTipIconButton tooltip={t("topBar.OpenFile")} icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
-      <ToolTipIconButton tooltip={t("topBar.Download")} icon={md3PaperIconSource({name: "file-download"})} onPress={onSavePress} />
-      <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon={md3PaperIconSource({name: "refresh"})} onPress={onReloadPress} />
-      <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon={md3PaperIconSource({name: "my-location"})} onPress={() => { }} disabled />
-      <ShareDialogMenuItem />
+      {renderTooltips ? (
+        <>
+          <CloseDialogWidget />
+          <View style={styles.separator} />
+
+          <ToolTipIconButton tooltip={t("topBar.Create new file")} icon={md3PaperIconSource({ name: "file-open" })} onPress={() => { }} disabled />
+          <ToolTipIconButton tooltip={t("topBar.OpenFile")} icon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} />
+          <ToolTipIconButton tooltip={t("topBar.Download")} icon={md3PaperIconSource({ name: "file-download" })} onPress={onSavePress} />
+          <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon={md3PaperIconSource({ name: "refresh" })} onPress={onReloadPress} />
+          <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon={md3PaperIconSource({ name: "my-location" })} onPress={() => { }} disabled />
+          <ShareDialogWidget />
+        </>
+      ) : <FileMenu />}
 
       <View style={styles.rightSide}>
         <View style={styles.separator} />
@@ -46,7 +58,6 @@ const TopBar = () => {
         <LanguageToggle />
         <View style={styles.separator} />
         <Text variant="titleLarge" style={styles.topBarTitle}>ArcherBC2</Text>
-        <CloseDialogWidget />
       </View>
     </Surface>
   );

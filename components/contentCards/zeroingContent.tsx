@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInput";
 import ZeroDistanceField from "../fieldsEdit/zeroDistanceField";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { ZeroingFloatFields } from "./fiedProps";
 import { ThemedIcon } from "../icons/customIcons";
@@ -13,6 +13,7 @@ import { ContentTitle } from "./contentTitle";
 
 const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => void }) => {
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
   return (
     <View style={[styles.container]}>
@@ -22,7 +23,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         <View style={styles.row}>
 
           <HelpButton
-            helpContent={FieldHelp().zeroX}
+            helpContent={helpContent.zeroX}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroX")}</Text>
@@ -37,7 +38,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().zeroY}
+            helpContent={helpContent.zeroY}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroY")}</Text>
@@ -51,13 +52,14 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroDistanceIdx}
+            helpContent={helpContent.cZeroDistanceIdx}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.ZeroDistance")}</Text>
-            <ThemedIcon source="zeroing-distance" size={24} />
           </HelpButton>
-          <View style={[styles.row, styles.input, { gap: 0, alignItems: "center" }]}>
+          <View style={[styles.row, styles.input, { gap: 8, alignItems: "center" }]}>
+            <ThemedIcon source="zeroing-distance" size={24} />
+
             <ZeroDistanceField style={styles.select} />
             <ToolTipIconButton
               tooltip={t("zeroingContent.EditDistances")}
@@ -71,7 +73,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroAirTemperature}
+            helpContent={helpContent.cZeroAirTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.AirTemperature")}</Text>
@@ -85,7 +87,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroAirPressure}
+            helpContent={helpContent.cZeroAirPressure}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.AirPressure")}</Text>
@@ -100,7 +102,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroWPitch}
+            helpContent={helpContent.cZeroWPitch}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.Pitch")}</Text>
@@ -113,7 +115,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         </View>
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroPTemperature}
+            helpContent={helpContent.cZeroPTemperature}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.PowderTemperature")}</Text>
@@ -126,7 +128,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
         </View>
         <View style={styles.row}>
           <HelpButton
-            helpContent={FieldHelp().cZeroAirHumidity}
+            helpContent={helpContent.cZeroAirHumidity}
             style={[styles.label, { alignContent: "center" }]}
           >
             <Text>{t("zeroingContent.Humidity")}</Text>
@@ -149,9 +151,6 @@ const styles = StyleSheet.create({
     gap: 8,
     maxWidth: 500,
   },
-  header: {
-    marginBottom: 8,
-  },
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -170,6 +169,7 @@ const styles = StyleSheet.create({
   },
   distancesEditBtn: {
     borderRadius: 4,
+    margin: 0
   },
   columns: {
     flexDirection: "row",

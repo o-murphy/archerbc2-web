@@ -3,13 +3,14 @@ import { TextInput, Text } from "react-native-paper";
 import { FieldEditFloat, FieldEditFloatProps } from "../fieldsEdit/fieldEditInput";
 import { CartridgeFields } from "./fiedProps";
 import { HelpButton } from "./help/helpIcons";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./contentTitle";
 
 
 const CartridgeContent = () => {
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
 
   return (
@@ -18,7 +19,7 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().cMuzzleVelocity}
+          helpContent={helpContent.cMuzzleVelocity}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.MuzzleVelocity")}</Text>
@@ -32,7 +33,7 @@ const CartridgeContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().cZeroTemperature}
+          helpContent={helpContent.cZeroTemperature}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.PowderTemperature")}</Text>
@@ -47,7 +48,7 @@ const CartridgeContent = () => {
       <View style={styles.row}>
 
         <HelpButton
-          helpContent={FieldHelp().cTCoeff}
+          helpContent={helpContent.cTCoeff}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("cartridgeContent.TemperatureSensitivity")}</Text>
@@ -70,9 +71,6 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
     maxWidth: 500,
-  },
-  header: {
-    marginBottom: 8,
   },
   row: {
     flexDirection: "row",

@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Text, Divider } from "react-native-paper";
 import { FieldEdit, FieldEditProps } from "../fieldsEdit/fieldEditInput";
 import { HelpButton } from "./help/helpIcons";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { DescriptionFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./contentTitle";
@@ -11,6 +11,7 @@ import { ContentTitle } from "./contentTitle";
 const DescriptionContent = () => {
 
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
   return (
     <View style={styles.container}>
@@ -18,7 +19,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().profileName}
+          helpContent={helpContent.profileName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Name")}</Text>
@@ -31,7 +32,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().ShortHints}
+          helpContent={helpContent.ShortHints}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Hints")}</Text>
@@ -57,7 +58,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().cartridgeName}
+          helpContent={helpContent.cartridgeName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Cartridge")}</Text>
@@ -70,7 +71,7 @@ const DescriptionContent = () => {
 
       <View style={styles.row}>
         <HelpButton
-          helpContent={FieldHelp().bulletName}
+          helpContent={helpContent.bulletName}
           style={[styles.label, { alignContent: "center" }]}
         >
           <Text>{t("descriptionContent.Bullet")}</Text>
@@ -84,7 +85,7 @@ const DescriptionContent = () => {
       <View style={styles.row}>
         {/* <Text variant="titleMedium" style={styles.sectionTitle}>{"User Note"}</Text> */}
         <HelpButton
-          helpContent={FieldHelp().userNote}
+          helpContent={helpContent.userNote}
           style={styles.sectionTitle}
         >
           <Text variant="titleMedium">{t("descriptionContent.UserNote")}</Text>

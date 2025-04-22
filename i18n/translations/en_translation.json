@@ -164,5 +164,17 @@
         "cZeroPTemperature": "Powder temperature during zeroing (°C).",
         "cZeroWPitch": "Sight elevation angle during zeroing (°).",
         "QuickRangeSet": "Quick switch between predefined distance sets."
+    },
+    "DescriptionHelpContent": {
+        "Description is the base ballistic profile metadata": "Description is the base ballistic profile metadata",
+        "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.",
+        "Short labels for the icon in the device interface.": "Short labels for the icon in the device interface.",
+        "The name of the projectile as it appears in the device’s \"Rifles\" menu.": "The name of the projectile as it appears in the device’s \"Rifles\" menu.",
+        "The name of the bullet.": "The name of the bullet.",
+        "Additional comment.": "Additional comment."
+    },
+    "CartridgeHelpContent": {
+        "Description is the base ballistic profile metadata": "Description is the base ballistic profile metadata",
+        "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu."
     }
 }

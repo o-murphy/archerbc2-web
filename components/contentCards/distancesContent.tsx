@@ -21,7 +21,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { ThemedIcon } from "../icons/customIcons";
 import { distancesTemplates, ProfileProps } from "@/hooks/fileService/useFileParsing";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./contentTitle";
@@ -148,13 +148,14 @@ const DistancesTemplateChip = ({ name, distances }: { name: string, distances: n
 
 const DistancesContent = () => {
   const { t } = useTranslation()
+  const helpContent = useHelp()
 
   return (
     <View style={styles.container}>
       <ContentTitle title={t("distancesContent.Distances")} helpKey="DistancesCard" />
 
       <HelpButton
-        helpContent={FieldHelp().QuickRangeSet}
+        helpContent={helpContent.QuickRangeSet}
       // style={[styles.label, { alignContent: "center" }]}
       >
         <Text style={{ alignSelf: "center" }} variant="titleMedium">
@@ -186,10 +187,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     gap: 8,
-    width: 400,
-  },
-  header: {
-    marginBottom: 8,
+    maxWidth: 600,
+    minWidth: 300
   },
   input: {
     width: "60%",

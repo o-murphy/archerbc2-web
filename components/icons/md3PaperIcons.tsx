@@ -12,6 +12,6 @@ export const MD3PaperIcon = ({ ...props }) => {
   )
 }
 
-export const md3PaperIconSource = ({...props}): IconSource => {
+export const md3PaperIconSource = ({ ...props }): IconSource => {
   return (rest: any) => <MD3PaperIcon {...props} {...rest} />
 } 

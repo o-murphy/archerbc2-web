@@ -77,7 +77,7 @@
         "Diameter": "Діаметр",
         "Weight": "Вага",
         "Length": "Довжина",
-        "DragModel": "Аеродинамічна модель",
+        "DragModel": "Драг-функція",
         "G1": "G1",
         "G7": "G7",
         "CUSTOM": "Спеціальна",
@@ -164,5 +164,17 @@
         "cZeroPTemperature": "Температура пороху під час пристрілки (°C).",
         "cZeroWPitch": "Кут нахилу прицілу під час пристрілки (°).",
         "QuickRangeSet": "Швидке перемикання між наборами відстаней."
+    },
+    "DescriptionHelpContent": {
+        "Description is the base ballistic profile metadata": "Опис є базовими метаданими балістичного профілю",
+        "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "Назва балістичного профілю, як вона відображається в меню \"Гвинтівки\" пристрою.",
+        "Short labels for the icon in the device interface.": "Короткі підписи до піктограми в інтерфейсі пристрою.",
+        "The name of the projectile as it appears in the device’s \"Rifles\" menu.": "Назва снаряду, як вона відображається в меню \"Гвинтівки\" пристрою.",
+        "The name of the bullet.": "Назва кулі.",
+        "Additional comment.": "Додатковий коментар."
+    },
+    "CartridgeHelpContent": {
+        "Description is the base ballistic profile metadata": "Опис є базовими метаданими балістичного профілю",
+        "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "Назва балістичного профілю, як вона відображається в меню \"Гвинтівки\" пристрою."
     }
 }

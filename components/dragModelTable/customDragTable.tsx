@@ -1,16 +1,15 @@
 import { ProfileProps } from "@/hooks/fileService/useFileParsing"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
-import { Button, Card, Divider, HelperText, IconButton, Text, Tooltip, useTheme } from "react-native-paper"
+import { Button, Card, Divider, HelperText, Text, useTheme } from "react-native-paper"
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput"
 import { CoefRow } from "a7p-js/dist/types"
 import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
 import { HelpButton } from "../contentCards/help/helpIcons"
-import { FieldHelp } from "../contentCards/help/helpContent"
+import { useHelp } from "../contentCards/help/helpContent"
 import { useTranslation } from "react-i18next"
 import { ToolTipIconButton } from "../iconButtonWithTooltip"
 import { md3PaperIconSource } from "../icons/md3PaperIcons"
-
 
 
 const MAX_CUSTOM_ITEM_COUNT = 200
@@ -75,7 +74,6 @@ export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2,
                 onBlur={editEnd}
                 mode="outlined"
                 style={styles.input}
-            // right={<TextInput.Affix text={affixText} />}
             />
             <HelperText visible={!!err} type="error" >
                 {err?.message}
@@ -83,9 +81,9 @@ export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2,
         </View>
     ) : (
         <Button
-            style={[styles.input, { justifyContent: "center" }]}
+            style={[styles.input, { justifyContent: "center", alignSelf: "center", height: 24 }]}
             onPress={edit}
-            labelStyle={{ padding: 0, margin: 0, justifyContent: "center", textAlign: "center" }}
+            labelStyle={{ padding: 0, margin: 0, height: 24, justifyContent: "center", textAlign: "center" }}
         >
             {`${localValue.toFixed(fraction)} ${affixText}`}
         </Button>
@@ -97,12 +95,10 @@ const FieldProps = {
     mv: {
         range: { min: 0, max: 10 },
         fraction: 2,
-        // affixText: "mps"
     },
     cd: {
         range: { min: 0, max: 10 },
         fraction: 3,
-        // affixText: ""
     }
 }
 
@@ -132,7 +128,7 @@ const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomD
             <ToolTipIconButton
                 tooltip={t("customDragTable.ClearRow")}
                 size={16}
-                icon={md3PaperIconSource({name: "close"})}
+                icon={md3PaperIconSource({name: "cancel"})}
                 iconColor={theme.colors.error}
                 style={styles.icon}
                 onPress={clearRow}
@@ -146,6 +142,7 @@ const CustomDragTable = () => {
 
     const field = 'coefRowsCustom' as keyof ProfileProps
     const { t } = useTranslation()
+    const helpContent = useHelp()
 
     const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
         field,
@@ -230,7 +227,7 @@ const CustomDragTable = () => {
             </HelperText>
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp().CustomDragModel}
+                    helpContent={helpContent.CustomDragModel}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
@@ -276,7 +273,8 @@ const styles = StyleSheet.create({
         height: 24,
     },
     inputBox: {
-        flex: 3
+        flex: 3,
+        alignSelf: "center"
     },
     icon: {
         height: 24,

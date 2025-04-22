@@ -3,7 +3,7 @@ import { Text, SegmentedButtons, TextInput } from "react-native-paper";
 import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { Profile, TwistDir } from "a7p-js/dist/types";
 import { RifleFloatFields, RifleTextFields } from "./fiedProps";
-import { FieldHelp } from "./help/helpContent";
+import { useHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
@@ -42,6 +42,7 @@ const TwistField = () => {
 const RifleContent = () => {
 
     const { t } = useTranslation()
+    const helpContent = useHelp()
 
     return (
         <View style={styles.container}>
@@ -49,7 +50,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp().caliber}
+                    helpContent={helpContent.caliber}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.Caliber")}</Text>
@@ -62,7 +63,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp().rTwist}
+                    helpContent={helpContent.rTwist}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.TwistRate")}</Text>
@@ -76,7 +77,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp().twistDir}
+                    helpContent={helpContent.twistDir}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.TwistDirection")}</Text>
@@ -86,7 +87,7 @@ const RifleContent = () => {
 
             <View style={styles.row}>
                 <HelpButton
-                    helpContent={FieldHelp().scHeight}
+                    helpContent={helpContent.scHeight}
                     style={[styles.label, { alignContent: "center" }]}
                 >
                     <Text>{t("rifleContent.SightHeight")}</Text>
@@ -107,9 +108,6 @@ const styles = StyleSheet.create({
         padding: 16,
         gap: 8,
         maxWidth: 500,
-    },
-    header: {
-        marginBottom: 8,
     },
     row: {
         flexDirection: "row",
