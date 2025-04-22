@@ -1,54 +1,58 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { ReactNode, useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 
-import { CommonActions, NavigationContainer, NavigationProp, ParamListBase, RouteProp } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, Surface, Text, useTheme } from 'react-native-paper';
-import DescriptionContent from '../contentCards/descriptionContent';
-import RifleContent from '../contentCards/rifleContent';
-import { ThemedIconName, ThemedTabIcon } from '../icons/customIcons';
-import CartridgeContent from '../contentCards/cartridgeContent';
-import BulletContent from '../contentCards/bulletContent';
-import ZeroingContent from '../contentCards/zeroingContent';
-import DistancesContent from '../contentCards/distancesContent';
-import { useFileContext } from '@/hooks/fileService/fileContext';
-import { TopBar } from './topBar';
-import { useTranslation } from 'react-i18next';
-
+import {
+    CommonActions,
+    NavigationContainer,
+    NavigationProp,
+    ParamListBase,
+    RouteProp,
+} from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomNavigation, Surface, Text, useTheme } from "react-native-paper";
+import DescriptionContent from "../contentCards/descriptionContent";
+import RifleContent from "../contentCards/rifleContent";
+import { ThemedIconName, ThemedTabIcon } from "../icons/customIcons";
+import CartridgeContent from "../contentCards/cartridgeContent";
+import BulletContent from "../contentCards/bulletContent";
+import ZeroingContent from "../contentCards/zeroingContent";
+import DistancesContent from "../contentCards/distancesContent";
+import { useFileContext } from "@/hooks/fileService/fileContext";
+import { TopBar } from "./topBar";
+import { useTranslation } from "react-i18next";
 
 const tabs = [
     {
-        name: 'sideBar.Description',
+        name: "sideBar.Description",
         content: DescriptionContent,
-        icon: 'description',
+        icon: "description",
     },
     {
-        name: 'sideBar.Rifle',
+        name: "sideBar.Rifle",
         content: RifleContent,
-        icon: 'rifle',
+        icon: "rifle",
     },
     {
-        name: 'sideBar.Cartridge',
+        name: "sideBar.Cartridge",
         content: CartridgeContent,
-        icon: 'cartridge',
+        icon: "cartridge",
     },
     {
-        name: 'sideBar.Bullet',
+        name: "sideBar.Bullet",
         content: BulletContent,
-        icon: 'bullet',
+        icon: "bullet",
     },
     {
-        name: 'sideBar.Zeroing',
+        name: "sideBar.Zeroing",
         content: ZeroingContent,
-        icon: 'zeroing',
+        icon: "zeroing",
     },
     {
-        name: 'sideBar.Distances',
+        name: "sideBar.Distances",
         content: DistancesContent,
-        icon: 'distances',
+        icon: "distances",
     },
 ];
-
 
 type TabScreenProps = {
     title: string;
@@ -58,23 +62,22 @@ type TabScreenProps = {
 };
 
 const TabScreen = ({ title, children, route, navigation }: TabScreenProps) => {
-    const { t } = useTranslation()
-    console.log(navigation)
-
+    const { t } = useTranslation();
+    console.log(navigation);
 
     return (
         <Surface style={styles.tabContainerStyle}>
             <TopBar title={t(title)} />
             {children}
         </Surface>
-    )
-}
+    );
+};
 
 const Tab = createBottomTabNavigator();
 
 export default function EditNav() {
-    const theme = useTheme()
-    const { t } = useTranslation()
+    const theme = useTheme();
+    const { t } = useTranslation();
     return (
         <Tab.Navigator
             screenOptions={{
@@ -82,16 +85,17 @@ export default function EditNav() {
             }}
             tabBar={({ navigation, state, descriptors, insets }) => (
                 <BottomNavigation.Bar
-                    style={{ height: 100, backgroundColor: theme.colors.elevation.level2 }} // matches your dark theme
-
+                    style={{
+                        height: 100,
+                        backgroundColor: theme.colors.elevation.level2,
+                    }} // matches your dark theme
                     activeIndicatorStyle={{ height: 48, marginTop: 16 }}
-
                     labeled={true}
                     navigationState={state}
                     safeAreaInsets={insets}
                     onTabPress={({ route, preventDefault }) => {
                         const event = navigation.emit({
-                            type: 'tabPress',
+                            type: "tabPress",
                             target: route.key,
                             canPreventDefault: true,
                         });
@@ -100,7 +104,10 @@ export default function EditNav() {
                             preventDefault();
                         } else {
                             navigation.dispatch({
-                                ...CommonActions.navigate(route.name, route.params),
+                                ...CommonActions.navigate(
+                                    route.name,
+                                    route.params,
+                                ),
                                 target: state.key,
                             });
                         }
@@ -108,7 +115,11 @@ export default function EditNav() {
                     renderIcon={({ route, focused, color }) => {
                         const { options } = descriptors[route.key];
                         if (options.tabBarIcon) {
-                            return options.tabBarIcon({ focused, color, size: 40 });
+                            return options.tabBarIcon({
+                                focused,
+                                color,
+                                size: 40,
+                            });
                         }
                         return null;
                     }}
@@ -122,7 +133,15 @@ export default function EditNav() {
                                     : route.title;
                         return label;
                     }}
-                    renderLabel={({ route, focused, color }: { route: any, focused: boolean, color: any }) => {
+                    renderLabel={({
+                        route,
+                        focused,
+                        color,
+                    }: {
+                        route: any;
+                        focused: boolean;
+                        color: any;
+                    }) => {
                         const { options } = descriptors[route.key];
                         const label =
                             options.tabBarLabel !== undefined
@@ -151,10 +170,14 @@ export default function EditNav() {
                     key={name}
                     name={name}
                     options={{
+                        title: `ArcherBC2 | ${t(name)}`,
                         tabBarLabelPosition: "beside-icon",
                         tabBarLabel: t(name),
                         tabBarIcon: ({ ...props }) => (
-                            <ThemedTabIcon source={icon as ThemedIconName} {...props} />
+                            <ThemedTabIcon
+                                source={icon as ThemedIconName}
+                                {...props}
+                            />
                         ),
                     }}
                 >
@@ -171,15 +194,15 @@ export default function EditNav() {
 
 export const BottomNav = () => {
     const [visible, setVisible] = useState<boolean>(false);
-    const { currentData } = useFileContext()
+    const { currentData } = useFileContext();
 
     useEffect(() => {
         if (currentData.profile) {
-            setVisible(true)
+            setVisible(true);
         } else {
-            setVisible(false)
+            setVisible(false);
         }
-    }, [currentData])
+    }, [currentData]);
 
     return (
         <Surface style={styles.tabContainerStyle}>
@@ -189,14 +212,13 @@ export const BottomNav = () => {
                 </NavigationContainer>
             )}
         </Surface>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     tabContainerStyle: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch',
-    }
+        justifyContent: "center",
+        alignItems: "stretch",
+    },
 });

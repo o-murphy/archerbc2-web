@@ -11,7 +11,6 @@ import ZeroingContent from "./contentCards/zeroingContent";
 import DistancesContent from "./contentCards/distancesContent";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 
-
 // Type for dialog dimensions
 type DialogDimensions = {
     dialogWidth: number;
@@ -20,7 +19,7 @@ type DialogDimensions = {
 
 // Function to calculate dialog width and height based on window dimensions
 const calculateDialogDimensions = (): DialogDimensions => {
-    const { width, height } = Dimensions.get('window');
+    const { width, height } = Dimensions.get("window");
 
     const dialogWidth = width < 1024 ? (width < 1024 ? width : 720) : 1024;
     const dialogHeight = height < 720 ? (height < 720 ? height : 540) : 720;
@@ -38,43 +37,51 @@ const routeContentMap: Record<string, React.FC> = {
 };
 
 const EditDialog = () => {
-
     // State with TypeScript annotations
-    const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(calculateDialogDimensions());
+    const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(
+        calculateDialogDimensions(),
+    );
     const [visible, setVisible] = useState<boolean>(false);
-    const [selectedRoute, setSelectedRoute] = useState<string>('description');
+    const [selectedRoute, setSelectedRoute] = useState<string>("description");
 
-    const { currentData } = useFileContext()
+    const { currentData } = useFileContext();
 
     useEffect(() => {
         if (currentData.profile) {
-            setVisible(true)
+            setVisible(true);
         } else {
-            setVisible(false)
+            setVisible(false);
         }
-    }, [currentData])
+    }, [currentData]);
 
     useEffect(() => {
         const handleResize = () => {
-            const newDimensions = calculateDialogDimensions();  // Recalculate width and height on resize
+            const newDimensions = calculateDialogDimensions(); // Recalculate width and height on resize
             setDialogDimensions(newDimensions);
         };
 
         // Add event listener for screen resizing
-        const subscription = Dimensions.addEventListener('change', handleResize);
+        const subscription = Dimensions.addEventListener(
+            "change",
+            handleResize,
+        );
 
         // Cleanup the event listener
-        return () => subscription.remove();  // Automatically cleans up when component unmounts
-    }, []);  // Empty dependency array ensures this only runs once on mount
+        return () => subscription.remove(); // Automatically cleans up when component unmounts
+    }, []); // Empty dependency array ensures this only runs once on mount
 
     const handleNavigate = (route: string) => {
-        console.log('Navigate to:', route);
+        console.log("Navigate to:", route);
         setSelectedRoute(route);
     };
 
     const renderContent = () => {
-        if (selectedRoute === 'zeroing') {
-            return <ZeroingContent onDistancesBtnPress={() => handleNavigate('distances')} />
+        if (selectedRoute === "zeroing") {
+            return (
+                <ZeroingContent
+                    onDistancesBtnPress={() => handleNavigate("distances")}
+                />
+            );
         }
         const ContentComponent = routeContentMap[selectedRoute];
         return ContentComponent ? <ContentComponent /> : <Text>Unknown</Text>;
@@ -90,9 +97,9 @@ const EditDialog = () => {
             style={[
                 styles.dialog,
                 {
-                    width: dialogDimensions.dialogWidth,  // Dynamically set width
-                    height: dialogDimensions.dialogHeight  // Dynamically set height
-                }
+                    width: dialogDimensions.dialogWidth, // Dynamically set width
+                    height: dialogDimensions.dialogHeight, // Dynamically set height
+                },
             ]}
             onDismiss={closeDialog}
         >
@@ -101,24 +108,19 @@ const EditDialog = () => {
             </Dialog.Title>
 
             <Dialog.Content style={styles.dialogContent}>
-                <SideBar onNavigate={handleNavigate} selectedRoute={selectedRoute} />
-                {/* @ts-expect-error: Web-only style, allowed intentionally */}
-                <Surface style={[styles.surfaceContent, webSurfaceOverflow]}>
+                <SideBar
+                    onNavigate={handleNavigate}
+                    selectedRoute={selectedRoute}
+                />
+                <Surface style={styles.surfaceContent}>
                     {renderContent()}
                 </Surface>
-
             </Dialog.Content>
         </Dialog>
     );
 };
 
-const webSurfaceOverflow = {
-    // // @ts-expect-error: Web-only style, allowed intentionally
-    overflow: "auto"
-}
-
 const styles = StyleSheet.create({
-
     surfaceContent: {
         flex: 1,
         marginLeft: 16,
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     dialogContent: {
         flex: 1,
         flexDirection: "row",
-        alignItems: "stretch",  // important to allow vertical growth
+        alignItems: "stretch", // important to allow vertical growth
         borderRadius: 16,
     },
 });

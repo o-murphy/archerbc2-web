@@ -1,200 +1,200 @@
 {
-  "options": {
-    "syntax": "proto3"
-  },
-  "nested": {
-    "profedit": {
-      "options": {
-        "go_package": "github.com/jaremko/a7p_transfer_example/profedit"
-      },
-      "nested": {
-        "Payload": {
-          "fields": {
-            "profile": {
-              "type": "Profile",
-              "id": 1
+    "options": {
+        "syntax": "proto3"
+    },
+    "nested": {
+        "profedit": {
+            "options": {
+                "go_package": "github.com/jaremko/a7p_transfer_example/profedit"
+            },
+            "nested": {
+                "Payload": {
+                    "fields": {
+                        "profile": {
+                            "type": "Profile",
+                            "id": 1
+                        }
+                    }
+                },
+                "CoefRow": {
+                    "fields": {
+                        "bcCd": {
+                            "type": "int32",
+                            "id": 1
+                        },
+                        "mv": {
+                            "type": "int32",
+                            "id": 2
+                        }
+                    }
+                },
+                "DType": {
+                    "values": {
+                        "VALUE": 0,
+                        "INDEX": 1
+                    }
+                },
+                "SwPos": {
+                    "fields": {
+                        "cIdx": {
+                            "type": "int32",
+                            "id": 1
+                        },
+                        "reticleIdx": {
+                            "type": "int32",
+                            "id": 2
+                        },
+                        "zoom": {
+                            "type": "int32",
+                            "id": 3
+                        },
+                        "distance": {
+                            "type": "int32",
+                            "id": 4
+                        },
+                        "distanceFrom": {
+                            "type": "DType",
+                            "id": 5
+                        }
+                    }
+                },
+                "GType": {
+                    "values": {
+                        "G1": 0,
+                        "G7": 1,
+                        "CUSTOM": 2
+                    }
+                },
+                "TwistDir": {
+                    "values": {
+                        "RIGHT": 0,
+                        "LEFT": 1
+                    }
+                },
+                "Profile": {
+                    "fields": {
+                        "profileName": {
+                            "type": "string",
+                            "id": 1
+                        },
+                        "cartridgeName": {
+                            "type": "string",
+                            "id": 2
+                        },
+                        "bulletName": {
+                            "type": "string",
+                            "id": 3
+                        },
+                        "shortNameTop": {
+                            "type": "string",
+                            "id": 4
+                        },
+                        "shortNameBot": {
+                            "type": "string",
+                            "id": 5
+                        },
+                        "userNote": {
+                            "type": "string",
+                            "id": 6
+                        },
+                        "zeroX": {
+                            "type": "int32",
+                            "id": 7
+                        },
+                        "zeroY": {
+                            "type": "int32",
+                            "id": 8
+                        },
+                        "scHeight": {
+                            "type": "int32",
+                            "id": 9
+                        },
+                        "rTwist": {
+                            "type": "int32",
+                            "id": 10
+                        },
+                        "cMuzzleVelocity": {
+                            "type": "int32",
+                            "id": 11
+                        },
+                        "cZeroTemperature": {
+                            "type": "int32",
+                            "id": 12
+                        },
+                        "cTCoeff": {
+                            "type": "int32",
+                            "id": 13
+                        },
+                        "cZeroDistanceIdx": {
+                            "type": "int32",
+                            "id": 14
+                        },
+                        "cZeroAirTemperature": {
+                            "type": "int32",
+                            "id": 15
+                        },
+                        "cZeroAirPressure": {
+                            "type": "int32",
+                            "id": 16
+                        },
+                        "cZeroAirHumidity": {
+                            "type": "int32",
+                            "id": 17
+                        },
+                        "cZeroWPitch": {
+                            "type": "int32",
+                            "id": 18
+                        },
+                        "cZeroPTemperature": {
+                            "type": "int32",
+                            "id": 19
+                        },
+                        "bDiameter": {
+                            "type": "int32",
+                            "id": 20
+                        },
+                        "bWeight": {
+                            "type": "int32",
+                            "id": 21
+                        },
+                        "bLength": {
+                            "type": "int32",
+                            "id": 22
+                        },
+                        "twistDir": {
+                            "type": "TwistDir",
+                            "id": 23
+                        },
+                        "bcType": {
+                            "type": "GType",
+                            "id": 24
+                        },
+                        "switches": {
+                            "rule": "repeated",
+                            "type": "SwPos",
+                            "id": 25
+                        },
+                        "distances": {
+                            "rule": "repeated",
+                            "type": "int32",
+                            "id": 26
+                        },
+                        "coefRows": {
+                            "rule": "repeated",
+                            "type": "CoefRow",
+                            "id": 27
+                        },
+                        "caliber": {
+                            "type": "string",
+                            "id": 28
+                        },
+                        "deviceUuid": {
+                            "type": "string",
+                            "id": 29
+                        }
+                    }
+                }
             }
-          }
-        },
-        "CoefRow": {
-          "fields": {
-            "bcCd": {
-              "type": "int32",
-              "id": 1
-            },
-            "mv": {
-              "type": "int32",
-              "id": 2
-            }
-          }
-        },
-        "DType": {
-          "values": {
-            "VALUE": 0,
-            "INDEX": 1
-          }
-        },
-        "SwPos": {
-          "fields": {
-            "cIdx": {
-              "type": "int32",
-              "id": 1
-            },
-            "reticleIdx": {
-              "type": "int32",
-              "id": 2
-            },
-            "zoom": {
-              "type": "int32",
-              "id": 3
-            },
-            "distance": {
-              "type": "int32",
-              "id": 4
-            },
-            "distanceFrom": {
-              "type": "DType",
-              "id": 5
-            }
-          }
-        },
-        "GType": {
-          "values": {
-            "G1": 0,
-            "G7": 1,
-            "CUSTOM": 2
-          }
-        },
-        "TwistDir": {
-          "values": {
-            "RIGHT": 0,
-            "LEFT": 1
-          }
-        },
-        "Profile": {
-          "fields": {
-            "profileName": {
-              "type": "string",
-              "id": 1
-            },
-            "cartridgeName": {
-              "type": "string",
-              "id": 2
-            },
-            "bulletName": {
-              "type": "string",
-              "id": 3
-            },
-            "shortNameTop": {
-              "type": "string",
-              "id": 4
-            },
-            "shortNameBot": {
-              "type": "string",
-              "id": 5
-            },
-            "userNote": {
-              "type": "string",
-              "id": 6
-            },
-            "zeroX": {
-              "type": "int32",
-              "id": 7
-            },
-            "zeroY": {
-              "type": "int32",
-              "id": 8
-            },
-            "scHeight": {
-              "type": "int32",
-              "id": 9
-            },
-            "rTwist": {
-              "type": "int32",
-              "id": 10
-            },
-            "cMuzzleVelocity": {
-              "type": "int32",
-              "id": 11
-            },
-            "cZeroTemperature": {
-              "type": "int32",
-              "id": 12
-            },
-            "cTCoeff": {
-              "type": "int32",
-              "id": 13
-            },
-            "cZeroDistanceIdx": {
-              "type": "int32",
-              "id": 14
-            },
-            "cZeroAirTemperature": {
-              "type": "int32",
-              "id": 15
-            },
-            "cZeroAirPressure": {
-              "type": "int32",
-              "id": 16
-            },
-            "cZeroAirHumidity": {
-              "type": "int32",
-              "id": 17
-            },
-            "cZeroWPitch": {
-              "type": "int32",
-              "id": 18
-            },
-            "cZeroPTemperature": {
-              "type": "int32",
-              "id": 19
-            },
-            "bDiameter": {
-              "type": "int32",
-              "id": 20
-            },
-            "bWeight": {
-              "type": "int32",
-              "id": 21
-            },
-            "bLength": {
-              "type": "int32",
-              "id": 22
-            },
-            "twistDir": {
-              "type": "TwistDir",
-              "id": 23
-            },
-            "bcType": {
-              "type": "GType",
-              "id": 24
-            },
-            "switches": {
-              "rule": "repeated",
-              "type": "SwPos",
-              "id": 25
-            },
-            "distances": {
-              "rule": "repeated",
-              "type": "int32",
-              "id": 26
-            },
-            "coefRows": {
-              "rule": "repeated",
-              "type": "CoefRow",
-              "id": 27
-            },
-            "caliber": {
-              "type": "string",
-              "id": 28
-            },
-            "deviceUuid": {
-              "type": "string",
-              "id": 29
-            }
-          }
         }
-      }
     }
-  }
 }

@@ -19,15 +19,15 @@ export const useApplyScrollbarTheme = () => {
         const root = document.documentElement;
         // root.style.setProperty('--scrollbarBG', colors.surfaceVariant);  // Track background color
         // root.style.setProperty('--scrollbarBG', '#00000033');  // Track background color
-        root.style.setProperty('--scrollbarBG', colors.background);  // Track background color
+        root.style.setProperty("--scrollbarBG", colors.background); // Track background color
         // root.style.setProperty('--thumbBG', colors.onSecondary);  // Thumb color
-        root.style.setProperty('--thumbBG', colors.secondaryContainer);  // Thumb color
-        root.style.setProperty('--trackBG', colors.secondaryContainer);  // Optional: Track background color, e.g., surface color
+        root.style.setProperty("--thumbBG", colors.secondaryContainer); // Thumb color
+        root.style.setProperty("--trackBG", colors.secondaryContainer); // Optional: Track background color, e.g., surface color
 
         // Inject the scrollbar style once
-        const styleId = 'custom-scrollbar-style';
+        const styleId = "custom-scrollbar-style";
         if (!document.getElementById(styleId)) {
-            const style = document.createElement('style');
+            const style = document.createElement("style");
             style.id = styleId;
             style.innerHTML = `
           body {
@@ -52,9 +52,8 @@ export const useApplyScrollbarTheme = () => {
     }, [colors]);
 };
 
-
 const MobileLayout = () => {
-    useApplyScrollbarTheme()
+    useApplyScrollbarTheme();
 
     return (
         <>
@@ -66,14 +65,14 @@ const MobileLayout = () => {
             <HelpDialogHost />
             <Toast />
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     view: {
         flex: 1,
         flexDirection: "column",
-    }
-})
+    },
+});
 
 export default MobileLayout;

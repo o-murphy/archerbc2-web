@@ -15,23 +15,29 @@ const renderInputIcon = () => {
 };
 
 const ZeroDistanceField = ({ ...props }) => {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
 
-    const { currentData: parsedData, setCurrentData: setParsedData, dummyState } = useFileContext();
+    const {
+        currentData: parsedData,
+        setCurrentData: setParsedData,
+        dummyState,
+    } = useFileContext();
 
     const distances: DistanceOption[] = useMemo(() => {
         if (parsedData.profile?.distances) {
-            return parsedData.profile.distances.map((item: number, index: number) => ({
-                label: `${item / 100} ${t("measure.m")}`,
-                value: index.toString(),
-            }));
+            return parsedData.profile.distances.map(
+                (item: number, index: number) => ({
+                    label: `${item / 100} ${t("measure.m")}`,
+                    value: index.toString(),
+                }),
+            );
         }
         return [];
     }, [parsedData, dummyState]);
 
     const zeroDistanceIdx: string = useMemo(
         () => (parsedData.profile?.cZeroDistanceIdx ?? 0).toString(),
-        [parsedData, dummyState]
+        [parsedData, dummyState],
     );
 
     const handleZeroDistanceChange = (value?: string | undefined) => {
@@ -50,7 +56,8 @@ const ZeroDistanceField = ({ ...props }) => {
         });
     };
 
-    const selectedLabel = distances.find(d => d.value === zeroDistanceIdx)?.label ?? "";
+    const selectedLabel =
+        distances.find((d) => d.value === zeroDistanceIdx)?.label ?? "";
 
     return (
         <View style={props.style}>
@@ -61,19 +68,18 @@ const ZeroDistanceField = ({ ...props }) => {
                 onSelect={handleZeroDistanceChange}
                 hideMenuHeader
                 maxMenuHeight={400}
-                CustomDropdownInput={
-                    (props) => <TextInput
+                CustomDropdownInput={(props) => (
+                    <TextInput
                         {...props}
                         dense
                         mode="outlined"
                         value={selectedLabel}
                         right={renderInputIcon()}
                     />
-                }
+                )}
             />
         </View>
     );
 };
-
 
 export default ZeroDistanceField;

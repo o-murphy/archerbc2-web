@@ -1,7 +1,9 @@
 import { ChangeEvent, RefObject, useEffect, useRef } from "react";
-import { AllowedExtensions, useFileHandler } from "@/hooks/fileService/useFileHandler";
+import {
+    AllowedExtensions,
+    useFileHandler,
+} from "@/hooks/fileService/useFileHandler";
 import { useParseFile } from "@/hooks/fileService/useFileParsing";
-
 
 type FileInputProps = {
     fileInputRef: RefObject<HTMLInputElement>;
@@ -9,18 +11,22 @@ type FileInputProps = {
     allowedExtensions: string[];
 };
 
-const FileInput: React.FC<FileInputProps> = ({ fileInputRef, handleFileChange, allowedExtensions }) => {
+const FileInput: React.FC<FileInputProps> = ({
+    fileInputRef,
+    handleFileChange,
+    allowedExtensions,
+}) => {
     return (
         <input
             type="file"
             ref={fileInputRef}
-            style={{ display: 'none' }} // Hide the default file input
+            style={{ display: "none" }} // Hide the default file input
             key="file-upload" // Give an ID to the input
             onChange={handleFileChange}
-            accept={allowedExtensions.join(',')} // Restrict to specific file types
+            accept={allowedExtensions.join(",")} // Restrict to specific file types
         />
-    )
-}
+    );
+};
 
 class FileOpenerService {
     // This will hold a reference to the file input element, set by FileOpener
@@ -39,7 +45,6 @@ class FileOpenerService {
     }
 }
 
-
 const FileOpener = () => {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const { fileHandleState, handleFileChange } = useFileHandler(); // Use the custom hook
@@ -54,7 +59,9 @@ const FileOpener = () => {
     useParseFile(fileHandleState);
 
     // Handle file selection by passing the file to the custom hook for processing
-    const handleFileChangeWrapper = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChangeWrapper = (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
         const file = event.target.files?.[0];
         if (file) {
             handleFileChange(event); // Process file

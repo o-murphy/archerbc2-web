@@ -1,13 +1,16 @@
-import { IconButton, IconButtonProps, Tooltip } from "react-native-paper"
+import { IconButton, IconButtonProps, Tooltip } from "react-native-paper";
 
 export interface ToolTipIconButtonProps extends IconButtonProps {
-    tooltip: string
+    tooltip: string;
 }
 
-export const ToolTipIconButton = ({ tooltip, ...props }: ToolTipIconButtonProps) => {
+export const ToolTipIconButton = ({
+    tooltip,
+    ...props
+}: ToolTipIconButtonProps) => {
     return (
         <Tooltip title={tooltip} leaveTouchDelay={0.2}>
             <IconButton {...props} />
         </Tooltip>
-    )
-}
+    );
+};

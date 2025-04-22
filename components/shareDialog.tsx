@@ -1,24 +1,41 @@
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Dialog, Portal, Surface, TextInput, Button, Menu } from "react-native-paper"
+import {
+    Dialog,
+    Portal,
+    Surface,
+    TextInput,
+    Button,
+    Menu,
+} from "react-native-paper";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { encodeToUrl } from "@/hooks/fileService/useFileParsing";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
 import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
-import { shareContent } from "@/utils/shareAPI";
+import {
+    shareContent,
+    ShareNotAllowedError,
+    ShareNotSupportedError,
+    ShareUnknownError,
+} from "@/utils/shareAPI";
 
-
-export const ShareDialogButton = ({ icon = md3PaperIconSource({ name: "share", mode: "outline" }), ...props }) => {
+export const ShareDialogButton = ({
+    icon = md3PaperIconSource({ name: "share", mode: "outline" }),
+    ...props
+}) => {
     const { t } = useTranslation();
 
     return (
-        <ToolTipIconButton tooltip={t("shareDialog.Tooltip")} icon={icon} {...props} />
-    )
-}
-
+        <ToolTipIconButton
+            tooltip={t("shareDialog.Tooltip")}
+            icon={icon}
+            {...props}
+        />
+    );
+};
 
 interface ShareDialogProps {
     visible: boolean;
@@ -27,13 +44,15 @@ interface ShareDialogProps {
     onCopyPress: () => void;
 }
 
-
-export const ShareDialog: React.FC<ShareDialogProps> = (
-    { visible, setVisible, urlEncoded, onCopyPress }) => {
-
+export const ShareDialog: React.FC<ShareDialogProps> = ({
+    visible,
+    setVisible,
+    urlEncoded,
+    onCopyPress,
+}) => {
     const closeDialog = () => {
-        setVisible(false)
-    }
+        setVisible(false);
+    };
 
     const { t } = useTranslation();
 
@@ -52,38 +71,81 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
                         //     <TextInput.Icon icon={md3PaperIconSource({ name: "share" })} size={24} onPress={shareContent} />
                         // }
                         right={
-                            <TextInput.Icon icon={md3PaperIconSource({ name: "content-copy" })} size={24} onPress={onCopyPress} />
+                            <TextInput.Icon
+                                icon={md3PaperIconSource({
+                                    name: "content-copy",
+                                })}
+                                size={24}
+                                onPress={onCopyPress}
+                            />
                         }
                     />
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button onPress={closeDialog}>{t("shareDialog.Close")}</Button>
+                    <Button onPress={closeDialog}>
+                        {t("shareDialog.Close")}
+                    </Button>
                 </Dialog.Actions>
             </Surface>
         </Dialog>
-    )
-}
+    );
+};
 
+// Custom hook for handling URL encoding and share logic
+export const useShareLogic = (
+    currentData: any,
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+    const [isError, setIsError] = useState<Error | null>(null);
+    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        try {
+            const url = encodeToUrl(currentData);
+            setUrlEncoded(url);
+            setIsError(null);
+        } catch (error: any) {
+            setUrlEncoded(undefined);
+            setIsError(error);
+        }
+    }, [currentData]);
+
+    const handleShare = async () => {
+        if (isError || !urlEncoded) {
+            toast.error(
+                isError ? isError.message : "URL is missing or invalid",
+            );
+            setVisible(true); // Show dialog if there's an error
+            return;
+        }
+        try {
+            await shareContent(urlEncoded);
+        } catch (error: unknown) {
+            if (error instanceof ShareNotSupportedError) {
+                toast.error("Sharing is not supported on this device/browser.");
+            } else if (error instanceof ShareNotAllowedError) {
+                toast.error("User canceled or denied the share request.");
+            } else if (error instanceof ShareUnknownError) {
+                toast.error(`An unexpected error occurred: ${error.message}`);
+            } else {
+                toast.error("An unknown error occurred");
+            }
+            setVisible(true); // Show dialog if an error occurs during sharing
+        }
+    };
+
+    return { isError, urlEncoded, handleShare };
+};
 
 export const ShareDialogWidget = () => {
     const { t } = useTranslation();
-    const [visible, setVisible] = useState(false)
-
+    const [visible, setVisible] = useState(false);
     const { currentData } = useFileContext();
-    const [isError, setIsError] = useState<Error | null>(null);
-    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
 
-    // Compute URL when currentData changes
-    useEffect(() => {
-        try {
-            const url = encodeToUrl(currentData);
-            setUrlEncoded(url);
-            setIsError(null);
-        } catch (error: any) {
-            setUrlEncoded(undefined);
-            setIsError(error);
-        }
-    }, [currentData]);
+    const { isError, urlEncoded, handleShare } = useShareLogic(
+        currentData,
+        setVisible,
+    );
 
     const onCopyPress = () => {
         if (urlEncoded) {
@@ -92,22 +154,9 @@ export const ShareDialogWidget = () => {
         }
     };
 
-    const showDialog = async () => {
-        if (isError || !urlEncoded) {
-            toast.error(isError);
-            return;
-        } else {
-            try {
-                await shareContent(urlEncoded)
-            } catch (error) {
-                setVisible(true)
-            }
-        }
-    }
-
     return (
         <>
-            <ShareDialogButton onPress={showDialog} />
+            <ShareDialogButton onPress={handleShare} />
             <Portal>
                 <ShareDialog
                     visible={visible}
@@ -117,29 +166,18 @@ export const ShareDialogWidget = () => {
                 />
             </Portal>
         </>
-    )
-}
-
+    );
+};
 
 export const ShareDialogMenuItem = () => {
     const { t } = useTranslation();
-    const [visible, setVisible] = useState(false)
-
+    const [visible, setVisible] = useState(false);
     const { currentData } = useFileContext();
-    const [isError, setIsError] = useState<Error | null>(null);
-    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
 
-    // Compute URL when currentData changes
-    useEffect(() => {
-        try {
-            const url = encodeToUrl(currentData);
-            setUrlEncoded(url);
-            setIsError(null);
-        } catch (error: any) {
-            setUrlEncoded(undefined);
-            setIsError(error);
-        }
-    }, [currentData]);
+    const { isError, urlEncoded, handleShare } = useShareLogic(
+        currentData,
+        setVisible,
+    );
 
     const onCopyPress = () => {
         if (urlEncoded) {
@@ -148,31 +186,13 @@ export const ShareDialogMenuItem = () => {
         }
     };
 
-    const showDialog = async () => {
-        if (isError || !urlEncoded) {
-            toast.error(isError);
-            return;
-        } else {
-            try {
-                await shareContent(urlEncoded)
-            } catch (error) {
-                setVisible(true)
-            }
-        }
-    }
-
-    // const showDialog = () => {
-    //     if (isError) {
-    //         toast.error(isError);
-    //         return;
-    //     } else {
-    //         setVisible(true)
-    //     }
-    // }
-
     return (
         <>
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "share" })} onPress={showDialog} title={t("shareDialog.Share")} />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "share" })}
+                onPress={handleShare}
+                title={t("shareDialog.Share")}
+            />
             <Portal>
                 <ShareDialog
                     visible={visible}
@@ -182,8 +202,8 @@ export const ShareDialogMenuItem = () => {
                 />
             </Portal>
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     dialog: {
@@ -191,12 +211,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     dialogTitle: {
-        textAlign: "center"
+        textAlign: "center",
     },
     dialogContent: {
-        alignItems: "center"
+        alignItems: "center",
     },
-})
-
+});
 
 export default ShareDialog;

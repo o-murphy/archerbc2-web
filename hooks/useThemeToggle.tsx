@@ -1,12 +1,17 @@
 // src/hooks/useThemePreference.ts
 
-import { useEffect, useState, useCallback, useContext, createContext } from "react";
+import {
+    useEffect,
+    useState,
+    useCallback,
+    useContext,
+    createContext,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ArmyDarkTheme, ArmyLightTheme } from "@/theme/theme";
 import { ThemeBase } from "react-native-paper";
 
 const THEME_PREFERENCE_KEY = "theme_preference";
-
 
 // Define the theme context type
 export type ThemeContextType = {
@@ -15,12 +20,15 @@ export type ThemeContextType = {
 };
 
 // Create the context
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+    undefined,
+);
 
 // Export hook to use in child components
 export const useThemeToggle = () => {
     const context = useContext(ThemeContext);
-    if (!context) throw new Error("useThemeToggle must be used within ThemeProvider");
+    if (!context)
+        throw new Error("useThemeToggle must be used within ThemeProvider");
     return context;
 };
 
@@ -32,7 +40,10 @@ export type ThemeState = {
 };
 
 // Load theme preference from storage
-const useLoadTheme = (setIsDark: (value: boolean) => void, setIsReady: (value: boolean) => void) => {
+const useLoadTheme = (
+    setIsDark: (value: boolean) => void,
+    setIsReady: (value: boolean) => void,
+) => {
     useEffect(() => {
         const loadTheme = async () => {
             try {
@@ -54,7 +65,10 @@ const useSaveTheme = (isDark: boolean) => {
     return useCallback(async () => {
         const next = !isDark;
         try {
-            await AsyncStorage.setItem(THEME_PREFERENCE_KEY, next ? "dark" : "light");
+            await AsyncStorage.setItem(
+                THEME_PREFERENCE_KEY,
+                next ? "dark" : "light",
+            );
         } catch (e) {
             console.error("Failed to save theme", e);
         }

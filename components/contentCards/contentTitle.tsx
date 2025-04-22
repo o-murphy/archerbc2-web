@@ -1,16 +1,21 @@
-import { HelpButton } from "./help/helpIcons"
-import { Text } from "react-native-paper"
-import { StyleSheet } from "react-native"
-import { useHelp } from "./help/helpContent"
-import { useResponsiveLayout } from "@/hooks/useResponsiveLayout"
+import { HelpButton } from "./help/helpIcons";
+import { Text } from "react-native-paper";
+import { StyleSheet } from "react-native";
+import { useHelp } from "./help/helpContent";
+import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 
+export const ContentTitle = ({
+    title,
+    helpKey,
+}: {
+    title: string;
+    helpKey: string;
+}) => {
+    const { layout: layoutMode } = useResponsiveLayout();
+    const helpContent = useHelp();
 
-export const ContentTitle = ({ title, helpKey }: { title: string, helpKey: string }) => {
-    const {layout: layoutMode} = useResponsiveLayout();
-    const helpContent = useHelp()
-
-    if (layoutMode === 'mobile') {
-        return <></>
+    if (layoutMode === "mobile") {
+        return <></>;
     }
 
     return (
@@ -26,4 +31,4 @@ const styles = StyleSheet.create({
     header: {
         marginBottom: 8,
     },
-})
+});

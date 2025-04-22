@@ -9,17 +9,20 @@ import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";
 import { View } from "react-native";
 
-
 export const TopBar = ({ title }: { title: string }) => {
-    const { theme, toggleTheme } = useThemeToggle()
-    const helpContent = useHelp()
-    const themeIcon = md3PaperIconSource({ name: theme.dark ? "dark-mode" : "light-mode" });
+    const { theme, toggleTheme } = useThemeToggle();
+    const helpContent = useHelp();
+    const themeIcon = md3PaperIconSource({
+        name: theme.dark ? "dark-mode" : "light-mode",
+    });
 
     const { i18n } = useTranslation();
-    const [currentLang, setCurrentLang] = useState<'en' | 'ua'>(() => i18n.language === 'ua' ? 'ua' : 'en');
+    const [currentLang, setCurrentLang] = useState<"en" | "ua">(() =>
+        i18n.language === "ua" ? "ua" : "en",
+    );
 
     const toggleLanguage = async () => {
-        const newLang = currentLang === 'en' ? 'ua' : 'en';
+        const newLang = currentLang === "en" ? "ua" : "en";
         await i18n.changeLanguage(newLang);
         setCurrentLang(newLang);
     };
@@ -27,20 +30,32 @@ export const TopBar = ({ title }: { title: string }) => {
     return (
         <Appbar.Header>
             <FileMenu />
-            <Appbar.Content title={
-                (
+            <Appbar.Content
+                title={
                     <View style={{ flexDirection: "row", gap: 8 }}>
                         <Text variant="titleLarge">{title}</Text>
-                        <HelpButton helpContent={helpContent.cTCoeff}>
-                        </HelpButton>
+                        <HelpButton
+                            helpContent={helpContent.cTCoeff}
+                        ></HelpButton>
                     </View>
-                )
-            } />
+                }
+            />
 
-            <Appbar.Action icon={themeIcon} onPress={toggleTheme} animated={false} />
-            <Appbar.Action icon={
-                (props) => <CountryFlag size={16} isoCode={currentLang === 'en' ? 'ua' : 'us'} />
-            } onPress={toggleLanguage} animated={false} />
+            <Appbar.Action
+                icon={themeIcon}
+                onPress={toggleTheme}
+                animated={false}
+            />
+            <Appbar.Action
+                icon={(props) => (
+                    <CountryFlag
+                        size={16}
+                        isoCode={currentLang === "en" ? "ua" : "us"}
+                    />
+                )}
+                onPress={toggleLanguage}
+                animated={false}
+            />
         </Appbar.Header>
     );
-}
+};

@@ -2120,7 +2120,7 @@
   resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.13.tgz"
   integrity sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==
 
-a7p-js@^1.0.2:
+a7p-js@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/a7p-js/-/a7p-js-1.0.3.tgz#fdcc6d4f67ec16fe357535a4e68739a4f069f385"
   integrity sha512-/P/ptBLKS88tTRxiOcubxXA8/Tfs+nZ6uTtjee/sSxorrJMrVhJ8xfEbtt/MdUxS2Z+uMcEb2AryKRRn9jvA4w==

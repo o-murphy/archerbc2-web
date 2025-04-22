@@ -8,9 +8,15 @@ export const ThemeToggle = () => {
     const theme = useTheme();
     const { toggleTheme } = useThemeToggle();
     const { t } = useTranslation();
-    const themeIcon = md3PaperIconSource({ name: theme.dark ? "dark-mode" : "light-mode" });
+    const themeIcon = md3PaperIconSource({
+        name: theme.dark ? "dark-mode" : "light-mode",
+    });
 
     return (
-        <ToolTipIconButton tooltip={t("themeToggle.ToggleTheme")} icon={themeIcon} onPress={toggleTheme} />
+        <ToolTipIconButton
+            tooltip={t("themeToggle.ToggleTheme")}
+            icon={themeIcon}
+            onPress={toggleTheme}
+        />
     );
 };

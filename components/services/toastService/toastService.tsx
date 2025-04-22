@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Portal, Snackbar, useTheme } from "react-native-paper";
 
 // SnackbarService.ts
-type Msg = string | null | undefined | Error
+type Msg = string | null | undefined | Error;
 type SnackbarOptions = {
     message: Msg;
     isError?: boolean;
@@ -10,25 +10,34 @@ type SnackbarOptions = {
 };
 
 export class ToastService {
-    private static showCallback: ((options: SnackbarOptions) => void) | null = null;
+    private static showCallback: ((options: SnackbarOptions) => void) | null =
+        null;
 
     static register(callback: (options: SnackbarOptions) => void) {
         this.showCallback = callback;
     }
 
-    static show(message: Msg, isError: boolean = false, duration: number = 3000) {
+    static show(
+        message: Msg,
+        isError: boolean = false,
+        duration: number = 3000,
+    ) {
         if (this.showCallback) {
             this.showCallback({ message: `${message}`, isError, duration });
         } else {
-            console.warn('SnackbarService not initialized yet.');
+            console.warn("SnackbarService not initialized yet.");
         }
     }
 
     static error(message: Msg, duration: number = 3000) {
         if (this.showCallback) {
-            this.showCallback({ message: `${message}`, isError: true, duration });
+            this.showCallback({
+                message: `${message}`,
+                isError: true,
+                duration,
+            });
         } else {
-            console.warn('SnackbarService not initialized yet.');
+            console.warn("SnackbarService not initialized yet.");
         }
     }
 }
@@ -38,7 +47,7 @@ export const Toast = () => {
     const [message, setMessage] = useState<Msg>(null);
     const [duration, setDuration] = useState<number>(3000);
     const [isError, setIsError] = useState<boolean>(false);
-    const theme = useTheme()
+    const theme = useTheme();
 
     useEffect(() => {
         ToastService.register(({ message, isError, duration }) => {
@@ -68,7 +77,7 @@ export const Toast = () => {
         >
             {`${message}`}
         </Snackbar>
-    )
-}
+    );
+};
 
-export {ToastService as toast}
+export { ToastService as toast };

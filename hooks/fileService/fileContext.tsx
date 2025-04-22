@@ -1,9 +1,14 @@
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { FileHandleState } from './useFileHandler';
-import { Platform } from 'react-native';
-import { ParsedData, saveParsedData } from './useFileParsing';
-import { toast } from '../../components/services/toastService/toastService';
-
+import React, {
+    createContext,
+    useState,
+    useContext,
+    ReactNode,
+    useEffect,
+} from "react";
+import { FileHandleState } from "./useFileHandler";
+import { Platform } from "react-native";
+import { ParsedData, saveParsedData } from "./useFileParsing";
+import { toast } from "../../components/services/toastService/toastService";
 
 // Define the context value type
 interface FileContextType {
@@ -20,7 +25,7 @@ interface FileContextType {
     setDummyState: React.Dispatch<React.SetStateAction<boolean>>; // Function to modify dummy state
 
     closeFile: (save?: boolean) => void;
-    saveFile: () => void
+    saveFile: () => void;
 }
 
 // Define the props type for FileProvider
@@ -31,9 +36,8 @@ interface FileProviderProps {
 // Create context with default values
 const FileContext = createContext<FileContextType | undefined>(undefined);
 
-const defaultState = { name: null, data: null, error: null }
-const defaultData = { profile: null, error: null }
-
+const defaultState = { name: null, data: null, error: null };
+const defaultData = { profile: null, error: null };
 
 // Provider component to wrap around your app
 export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
@@ -45,69 +49,77 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
     const [dummyState, setDummyState] = useState<boolean>(false);
 
     if (currentData.profile) {
-        console.log(currentData.profile)
+        console.log(currentData.profile);
     }
 
     useEffect(() => {
         if (currentData.profile && !backupData.profile) {
-            syncBackup()
+            syncBackup();
         }
-    }, [currentData.profile])
+    }, [currentData.profile]);
 
     useEffect(() => {
-        if (Platform.OS !== 'web') return;
+        if (Platform.OS !== "web") return;
 
         const handleBeforeUnload = (e: BeforeUnloadEvent) => {
             e.preventDefault();
-            e.returnValue = 'Input data can be lost';
+            e.returnValue = "Input data can be lost";
         };
 
         if (currentData.profile !== null) {
-            window.addEventListener('beforeunload', handleBeforeUnload);
+            window.addEventListener("beforeunload", handleBeforeUnload);
         }
 
         return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener("beforeunload", handleBeforeUnload);
         };
     }, [currentData.profile]);
 
     const syncBackup = () => {
-        setBackupData(currentData)
-    }
+        setBackupData(currentData);
+    };
 
     // FIXME use backup and current diff status
     const restoreBackup = () => {
-        setDummyState(prev => !prev); // Increment dummyState to trigger re-render
-        setCurrentData(backupData)
-    }
+        setDummyState((prev) => !prev); // Increment dummyState to trigger re-render
+        setCurrentData(backupData);
+    };
 
     const saveFile = async () => {
         try {
-            saveParsedData(currentData, fileState.name)
+            saveParsedData(currentData, fileState.name);
         } catch (error: any) {
-            console.log(`Error on file download, ${error}`)
-            toast.error(error)
+            console.log(`Error on file download, ${error}`);
+            toast.error(error);
         }
-    }
+    };
 
     const closeFile = (save: boolean = false) => {
         if (save) {
-            saveFile()
+            saveFile();
         }
-        setBackupData(defaultData)
-        setCurrentData(defaultData)
-        setFileState(defaultState)
-    }
+        setBackupData(defaultData);
+        setCurrentData(defaultData);
+        setFileState(defaultState);
+    };
 
     return (
-        <FileContext.Provider value={{
-            fileState, setFileState,
-            currentData, setCurrentData,
-            backupData, setBackupData,
-            syncBackup, restoreBackup,
-            dummyState, setDummyState,
-            closeFile, saveFile,
-        }}>
+        <FileContext.Provider
+            value={{
+                fileState,
+                setFileState,
+                currentData,
+                setCurrentData,
+                backupData,
+                setBackupData,
+                syncBackup,
+                restoreBackup,
+                dummyState,
+                setDummyState,
+                closeFile,
+                saveFile,
+            }}
+        >
             {children}
         </FileContext.Provider>
     );
@@ -117,7 +129,7 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
 export const useFileContext = (): FileContextType => {
     const context = useContext(FileContext);
     if (!context) {
-        throw new Error('useFileContext must be used within a FileProvider');
+        throw new Error("useFileContext must be used within a FileProvider");
     }
     return context;
 };

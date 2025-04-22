@@ -1,18 +1,24 @@
-import { ProfileProps } from "@/hooks/fileService/useFileParsing"
-import { useEffect, useMemo, useRef, useState } from "react"
-import { FlatList, StyleSheet, View } from "react-native"
-import { Button, Card, Divider, HelperText, Text, useTheme } from "react-native-paper"
-import { useProfileFieldState } from "../fieldsEdit/fieldEditInput"
-import { CoefRow } from "a7p-js/dist/types"
-import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox"
-import { HelpButton } from "../contentCards/help/helpIcons"
-import { useHelp } from "../contentCards/help/helpContent"
-import { useTranslation } from "react-i18next"
-import { ToolTipIconButton } from "../iconButtonWithTooltip"
-import { md3PaperIconSource } from "../icons/md3PaperIcons"
+import { ProfileProps } from "@/hooks/fileService/useFileParsing";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import {
+    Button,
+    Card,
+    Divider,
+    HelperText,
+    Text,
+    useTheme,
+} from "react-native-paper";
+import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
+import { CoefRow } from "a7p-js/dist/types";
+import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox";
+import { HelpButton } from "../contentCards/help/helpIcons";
+import { useHelp } from "../contentCards/help/helpContent";
+import { useTranslation } from "react-i18next";
+import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { md3PaperIconSource } from "../icons/md3PaperIcons";
 
-
-const MAX_CUSTOM_ITEM_COUNT = 200
+const MAX_CUSTOM_ITEM_COUNT = 200;
 
 export interface EditProps {
     value: number;
@@ -25,40 +31,43 @@ export interface EditProps {
 export interface CustomDragRowProps {
     index: number;
     row: {
-        velocity: number,
-        bc: number,
+        velocity: number;
+        bc: number;
     };
-    setRow: (
-        velocity: number | null,
-        bc: number | null
-    ) => void;
+    setRow: (velocity: number | null, bc: number | null) => void;
 }
 
-export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2, affixText = "" }: EditProps) => {
-    const [editMode, setEditMode] = useState(false)
-    const [localValue, setLocalValue] = useState<number>(value)
-    const [err, onErr] = useState<Error | null>(null)
-    const ref = useRef<any>(null)
+export const CustomRowField = ({
+    value,
+    onValueChange,
+    range = {},
+    fraction = 2,
+    affixText = "",
+}: EditProps) => {
+    const [editMode, setEditMode] = useState(false);
+    const [localValue, setLocalValue] = useState<number>(value);
+    const [err, onErr] = useState<Error | null>(null);
+    const ref = useRef<any>(null);
 
     useEffect(() => {
-        setLocalValue(value)
-    }, [value])
+        setLocalValue(value);
+    }, [value]);
 
     useEffect(() => {
         if (ref.current && editMode) {
             ref.current.focus();
         }
-    }, [editMode, setEditMode])
+    }, [editMode, setEditMode]);
 
-    const edit = () => setEditMode(true)
+    const edit = () => setEditMode(true);
     const editEnd = () => {
-        setEditMode(false)
+        setEditMode(false);
         if (!err) {
-            onValueChange(localValue)
+            onValueChange(localValue);
         } else {
-            setLocalValue(value)
+            setLocalValue(value);
         }
-    }
+    };
 
     return editMode ? (
         <View style={styles.inputBox}>
@@ -75,21 +84,29 @@ export const CustomRowField = ({ value, onValueChange, range = {}, fraction = 2,
                 mode="outlined"
                 style={styles.input}
             />
-            <HelperText visible={!!err} type="error" >
+            <HelperText visible={!!err} type="error">
                 {err?.message}
             </HelperText>
         </View>
     ) : (
         <Button
-            style={[styles.input, { justifyContent: "center", alignSelf: "center", height: 24 }]}
+            style={[
+                styles.input,
+                { justifyContent: "center", alignSelf: "center", height: 24 },
+            ]}
             onPress={edit}
-            labelStyle={{ padding: 0, margin: 0, height: 24, justifyContent: "center", textAlign: "center" }}
+            labelStyle={{
+                padding: 0,
+                margin: 0,
+                height: 24,
+                justifyContent: "center",
+                textAlign: "center",
+            }}
         >
             {`${localValue.toFixed(fraction)} ${affixText}`}
         </Button>
     );
-}
-
+};
 
 const FieldProps = {
     mv: {
@@ -99,60 +116,75 @@ const FieldProps = {
     cd: {
         range: { min: 0, max: 10 },
         fraction: 3,
-    }
-}
+    },
+};
 
-const CustomDragRow = ({ index, row: { velocity = 0, bc = 0 }, setRow }: CustomDragRowProps) => {
-    const theme = useTheme()
-    const { t } = useTranslation()
+const CustomDragRow = ({
+    index,
+    row: { velocity = 0, bc = 0 },
+    setRow,
+}: CustomDragRowProps) => {
+    const theme = useTheme();
+    const { t } = useTranslation();
 
     const clearRow = () => {
-        setRow(0, 0)
-    }
+        setRow(0, 0);
+    };
 
     const handleMvChange = (value: number) => {
-        setRow(value, null)
-    }
+        setRow(value, null);
+    };
 
     const handleBcCdChange = (value: number) => {
-        setRow(null, value)
-    }
+        setRow(null, value);
+    };
 
     return (
         <View style={styles.row}>
-            <Text style={[styles.label, { textAlign: "left" }]}>{`${index + 1}.`}</Text>
+            <Text
+                style={[styles.label, { textAlign: "left" }]}
+            >{`${index + 1}.`}</Text>
             <Text style={styles.label}>{"Mach"}</Text>
-            <CustomRowField value={velocity} onValueChange={handleMvChange} {...FieldProps.mv} />
+            <CustomRowField
+                value={velocity}
+                onValueChange={handleMvChange}
+                {...FieldProps.mv}
+            />
             <Text style={styles.label}>{"Cd"}</Text>
-            <CustomRowField value={bc} onValueChange={handleBcCdChange} {...FieldProps.cd} />
+            <CustomRowField
+                value={bc}
+                onValueChange={handleBcCdChange}
+                {...FieldProps.cd}
+            />
             <ToolTipIconButton
                 tooltip={t("customDragTable.ClearRow")}
                 size={16}
-                icon={md3PaperIconSource({name: "cancel"})}
+                icon={md3PaperIconSource({ name: "cancel" })}
                 iconColor={theme.colors.error}
                 style={styles.icon}
                 onPress={clearRow}
             />
         </View>
-    )
-}
-
+    );
+};
 
 const CustomDragTable = () => {
+    const field = "coefRowsCustom" as keyof ProfileProps;
+    const { t } = useTranslation();
+    const helpContent = useHelp();
 
-    const field = 'coefRowsCustom' as keyof ProfileProps
-    const { t } = useTranslation()
-    const helpContent = useHelp()
-
-    const [value, setValue] = useProfileFieldState<keyof ProfileProps, CoefRow[]>({
+    const [value, setValue] = useProfileFieldState<
+        keyof ProfileProps,
+        CoefRow[]
+    >({
         field,
         defaultValue: [],
     });
 
-    const [err, setErr] = useState<string | null>(null)
+    const [err, setErr] = useState<string | null>(null);
 
     const rows = useMemo(() => {
-        let filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT)
+        let filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT);
 
         // If there are fewer than 5 rows, fill the rest with { bcCd: 0, mv: 0 }
         while (filledRows.length < MAX_CUSTOM_ITEM_COUNT) {
@@ -162,49 +194,63 @@ const CustomDragTable = () => {
         return filledRows.map((item, index) => ({
             id: `${index}`,
             bcCd: item.bcCd / 10000,
-            mv: item.mv / 10000
+            mv: item.mv / 10000,
         }));
-
     }, [value, setValue]);
 
     useEffect(() => {
-        const filledRows = value.slice(0, MAX_CUSTOM_ITEM_COUNT).filter(row =>
-            row.bcCd > 0 && row.mv > 0
-        );
+        const filledRows = value
+            .slice(0, MAX_CUSTOM_ITEM_COUNT)
+            .filter((row) => row.bcCd > 0 && row.mv > 0);
 
-        const uniqueMvs = new Set(filledRows.map(row => row.mv));
+        const uniqueMvs = new Set(filledRows.map((row) => row.mv));
 
         if (filledRows.length < 4 || uniqueMvs.size < filledRows.length) {
-            setErr(t("customDragTable.Should have at least 4 valid rows with unique Mach values and Cd > 0"));
+            setErr(
+                t(
+                    "customDragTable.Should have at least 4 valid rows with unique Mach values and Cd > 0",
+                ),
+            );
         } else {
             setErr(null);
         }
     }, [value, setValue]);
 
-    const handleChange = (index: number, mv: number | null = null, bcCd: number | null = null) => {
-
-        const newValue = [...value];  // Create a shallow copy of the value array
+    const handleChange = (
+        index: number,
+        mv: number | null = null,
+        bcCd: number | null = null,
+    ) => {
+        const newValue = [...value]; // Create a shallow copy of the value array
         while (newValue.length < MAX_CUSTOM_ITEM_COUNT) {
             newValue.push({ bcCd: 0, mv: 0 });
         }
 
         newValue[index] = {
-            ...newValue[index],  // Copy the existing row
-            mv: mv !== null && mv >= 0 ? Math.round(mv * 10000) : newValue[index].mv,  // Ensure mv is not 0
-            bcCd: bcCd != null && bcCd >= 0 ? Math.round(bcCd * 10000) : newValue[index].bcCd
+            ...newValue[index], // Copy the existing row
+            mv:
+                mv !== null && mv >= 0
+                    ? Math.round(mv * 10000)
+                    : newValue[index].mv, // Ensure mv is not 0
+            bcCd:
+                bcCd != null && bcCd >= 0
+                    ? Math.round(bcCd * 10000)
+                    : newValue[index].bcCd,
         };
 
-        setValue(newValue)
-    }
+        setValue(newValue);
+    };
 
     const onSortPress = () => {
         setValue(
-            value.filter(row => !(row.bcCd === 0 && row.mv === 0)).sort((a, b) => b.mv - a.mv)
-        )
-    }
+            value
+                .filter((row) => !(row.bcCd === 0 && row.mv === 0))
+                .sort((a, b) => b.mv - a.mv),
+        );
+    };
 
     const renderItem = (item: any) => {
-        const index = item.index
+        const index = item.index;
 
         return (
             <CustomDragRow
@@ -212,17 +258,19 @@ const CustomDragTable = () => {
                 index={index}
                 row={{
                     velocity: item.item.mv,
-                    bc: item.item.bcCd
+                    bc: item.item.bcCd,
                 }}
-                setRow={
-                    (mv = null, bc = null) => handleChange(index, mv, bc)
-                }
+                setRow={(mv = null, bc = null) => handleChange(index, mv, bc)}
             />
-        )
-    }
+        );
+    };
     return (
         <Card elevation={3} style={styles.surface}>
-            <HelperText visible={!!err} type="error" style={{ alignSelf: "center" }}>
+            <HelperText
+                visible={!!err}
+                type="error"
+                style={{ alignSelf: "center" }}
+            >
                 {err}
             </HelperText>
             <View style={styles.row}>
@@ -230,33 +278,38 @@ const CustomDragTable = () => {
                     helpContent={helpContent.CustomDragModel}
                     style={[styles.label, { alignContent: "center" }]}
                 >
-                    <Text variant="titleMedium" style={styles.sectionTitle} >{"Coefficients"}</Text>
+                    <Text variant="titleMedium" style={styles.sectionTitle}>
+                        {"Coefficients"}
+                    </Text>
                 </HelpButton>
                 <Divider style={styles.divider} />
                 <ToolTipIconButton
                     tooltip={t("customDragTable.Sort")}
                     icon={md3PaperIconSource({ name: "sort" })}
-                    style={styles.icon} mode="outlined" onPress={onSortPress}
+                    style={styles.icon}
+                    mode="outlined"
+                    onPress={onSortPress}
                 />
             </View>
             <FlatList
                 data={rows}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={(item) => item.id}
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
+                nestedScrollEnabled={true}
             />
         </Card>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     surface: {
         flex: 1,
         padding: 16,
-        gap: 8
+        // gap: 8,
+        minHeight: 300,
     },
     row: {
         flexDirection: "row",
@@ -274,24 +327,24 @@ const styles = StyleSheet.create({
     },
     inputBox: {
         flex: 3,
-        alignSelf: "center"
+        alignSelf: "center",
     },
     icon: {
         height: 24,
     },
     sortBtn: {
         flex: 1,
-        alignSelf: "flex-end"
+        alignSelf: "flex-end",
     },
     divider: {
-        flex: 2,
-        alignSelf: "center"
+        flex: 1,
+        alignSelf: "center",
     },
     sectionTitle: {
         flex: 1,
         marginBottom: 4,
-        alignSelf: "center"
+        alignSelf: "center",
     },
-})
+});
 
-export default CustomDragTable
+export default CustomDragTable;

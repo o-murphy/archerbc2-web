@@ -22,7 +22,9 @@ export const useFileHandler = () => {
 
     // This processes a File object (used in both input and drop)
     const processFile = (file: File) => {
-        const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+        const extension = file.name
+            .slice(file.name.lastIndexOf("."))
+            .toLowerCase();
         if (!AllowedExtensions.includes(extension)) {
             setFileHandleState({
                 name: null,
@@ -59,7 +61,7 @@ export const useFileHandler = () => {
         const file = input.files?.[0];
         if (!file) return;
 
-        input.value = ''; // allow reselecting same file
+        input.value = ""; // allow reselecting same file
         processFile(file);
     };
 
@@ -68,16 +70,16 @@ export const useFileHandler = () => {
 
 // Function to update `payload` parameter in the URL (only works on web)
 const updateUrlPayload = (newPayload: string | undefined) => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === "web") {
         const currentUrl = new URL(window.location.href);
 
         if (newPayload) {
-            currentUrl.searchParams.set('payload', newPayload);
+            currentUrl.searchParams.set("payload", newPayload);
         } else {
-            currentUrl.searchParams.delete('payload');
+            currentUrl.searchParams.delete("payload");
         }
 
-        window.history.replaceState({}, '', currentUrl.toString());
+        window.history.replaceState({}, "", currentUrl.toString());
     }
 };
 
@@ -99,7 +101,7 @@ const useUrlPayloadLoader = () => {
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
-        const payload = searchParams.get('payload');
+        const payload = searchParams.get("payload");
         setUrlPayload(payload);
     }, []);
 

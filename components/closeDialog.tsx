@@ -1,31 +1,50 @@
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB, Menu } from "react-native-paper"
+import {
+    Button,
+    Dialog,
+    Portal,
+    Surface,
+    Text,
+    Tooltip,
+    useTheme,
+    FAB,
+    Menu,
+} from "react-native-paper";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
 import { MD3PaperIcon, md3PaperIconSource } from "./icons/md3PaperIcons";
 
-
-export const CloseDialogButton = ({ icon = md3PaperIconSource({ name: "close" }), ...props }) => {
+export const CloseDialogButton = ({
+    icon = md3PaperIconSource({ name: "close" }),
+    ...props
+}) => {
     const theme = useTheme();
     const { t } = useTranslation();
 
     return (
-        <ToolTipIconButton tooltip={t("closeDialog.Close")} icon={icon} iconColor={theme.colors.error} {...props} />
-    )
-}
+        <ToolTipIconButton
+            tooltip={t("closeDialog.Close")}
+            icon={icon}
+            iconColor={theme.colors.error}
+            {...props}
+        />
+    );
+};
 
 interface CloseDialogProps {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
-export const CloseDialog: React.FC<CloseDialogProps> = (
-    { visible, setVisible }:
-        { visible: boolean, setVisible: React.Dispatch<React.SetStateAction<boolean>> }
-) => {
+export const CloseDialog: React.FC<CloseDialogProps> = ({
+    visible,
+    setVisible,
+}: {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
     const { closeFile, saveFile } = useFileContext();
     const theme = useTheme();
     const { t } = useTranslation();
@@ -53,7 +72,10 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
                     <Text variant="bodyLarge" style={{ textAlign: "center" }}>
                         {t("closeDialog.Question")}
                     </Text>
-                    <Text variant="bodyLarge" style={[styles.warning, { color: theme.colors.error }]}>
+                    <Text
+                        variant="bodyLarge"
+                        style={[styles.warning, { color: theme.colors.error }]}
+                    >
                         🔴 {t("closeDialog.Warning")}
                     </Text>
                     <FAB
@@ -90,8 +112,6 @@ export const CloseDialog: React.FC<CloseDialogProps> = (
     );
 };
 
-
-
 export const CloseDialogWidget = () => {
     const [visible, setVisible] = useState(false);
     const { t } = useTranslation();
@@ -102,7 +122,10 @@ export const CloseDialogWidget = () => {
                 <CloseDialogButton onPress={() => setVisible(true)} />
             </Tooltip>
             <Portal>
-                <CloseDialog visible={visible} setVisible={() => setVisible(false)} />
+                <CloseDialog
+                    visible={visible}
+                    setVisible={() => setVisible(false)}
+                />
             </Portal>
         </>
     );
@@ -116,18 +139,26 @@ export const CloseDialogMenuAction = () => {
     return (
         <>
             <Menu.Item
-                leadingIcon={(props) => MD3PaperIcon({ ...props, name: "close", color: theme.colors.error })}
+                leadingIcon={(props) =>
+                    MD3PaperIcon({
+                        ...props,
+                        name: "close",
+                        color: theme.colors.error,
+                    })
+                }
                 onPress={() => setVisible(true)}
                 title={t("closeDialog.Close")}
                 titleStyle={{ color: theme.colors.error }} // Set the text color here
             />
             <Portal>
-                <CloseDialog visible={visible} setVisible={() => setVisible(false)} />
+                <CloseDialog
+                    visible={visible}
+                    setVisible={() => setVisible(false)}
+                />
             </Portal>
         </>
     );
 };
-
 
 const styles = StyleSheet.create({
     dialog: {
@@ -137,25 +168,22 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     dialogTitle: {
-        textAlign: "center"
+        textAlign: "center",
     },
     dialogActions: {
-        justifyContent: "space-around"
+        justifyContent: "space-around",
     },
     dialogContent: {
-        alignItems: "center"
+        alignItems: "center",
     },
     actionButton: {
         flex: 1,
     },
     fab: {
         flex: 1,
-        marginTop: 16
+        marginTop: 16,
     },
-    warning: {
-
-    }
-})
-
+    warning: {},
+});
 
 export default CloseDialog;

@@ -5,9 +5,8 @@ import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
 import { View, ViewStyle } from "react-native";
 import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 
-
 export function useProfileFields<K extends keyof ProfileProps>(
-    fields: K[]
+    fields: K[],
 ): [Pick<ProfileProps, K>, (updates: Partial<Pick<ProfileProps, K>>) => void] {
     const { currentData, setCurrentData } = useFileContext();
 
@@ -21,7 +20,7 @@ export function useProfileFields<K extends keyof ProfileProps>(
     }, [currentData.profile, ...fields]);
 
     const setValues = (updates: Partial<Pick<ProfileProps, K>>) => {
-        setCurrentData(prev => ({
+        setCurrentData((prev) => ({
             ...prev,
             profile: {
                 ...(prev.profile ?? {}),
@@ -33,8 +32,10 @@ export function useProfileFields<K extends keyof ProfileProps>(
     return [currentValues, setValues];
 }
 
-
-export function useProfileFieldState<K extends keyof ProfileProps, T = ProfileProps[K]>({
+export function useProfileFieldState<
+    K extends keyof ProfileProps,
+    T = ProfileProps[K],
+>({
     field,
     defaultValue,
     parse = (v: any) => v,
@@ -53,7 +54,7 @@ export function useProfileFieldState<K extends keyof ProfileProps, T = ProfilePr
     const [value, setValue] = useState<T>(
         currentData.profile?.[field] !== undefined
             ? parse(currentData.profile?.[field])
-            : defaultValue
+            : defaultValue,
     );
 
     useEffect(() => {
@@ -88,17 +89,17 @@ export function useProfileFieldState<K extends keyof ProfileProps, T = ProfilePr
             setValue(
                 currentData.profile?.[field] !== undefined
                     ? parse(currentData.profile?.[field])
-                    : defaultValue
-            )
+                    : defaultValue,
+            );
         }
-    }
+    };
 
     return [value, handleChange, reset] as const;
 }
 
-
 // Extend TextInputProps and constrain 'field' to keys of ProfileProps
-export interface FieldEditProps extends Omit<TextInputProps, 'value' | 'onChangeText'> {
+export interface FieldEditProps
+    extends Omit<TextInputProps, "value" | "onChangeText"> {
     field: keyof ProfileProps;
 }
 
@@ -132,19 +133,22 @@ export const FieldEditFloat = ({
 }: FieldEditFloatProps) => {
     const [err, setErr] = useState<Error | null>(null);
 
-    const [value, setValue, reset] = useProfileFieldState<keyof ProfileProps, string>({
+    const [value, setValue, reset] = useProfileFieldState<
+        keyof ProfileProps,
+        string
+    >({
         field,
         defaultValue: "",
         parse: (v) => (v / multiplier).toString(),
         format: (v) => Math.round(parseFloat(v) * multiplier),
         validate: useCallback(() => {
-            return !!err
-        }, [err])
+            return !!err;
+        }, [err]),
     });
 
     const handleSetValue = (value: number) => {
-        setValue(value.toString())
-    }
+        setValue(value.toString());
+    };
 
     return (
         <View style={props?.style as ViewStyle}>
@@ -165,11 +169,10 @@ export const FieldEditFloat = ({
     );
 };
 
-
 export type FieldProps = {
     [K in keyof ProfileProps]?: Partial<FieldEditProps>;
-}
+};
 
 export type FieldFloatProps = {
     [K in keyof ProfileProps]?: Partial<FieldEditFloatProps>;
-} 
+};

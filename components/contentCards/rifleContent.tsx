@@ -1,6 +1,12 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Text, SegmentedButtons, TextInput } from "react-native-paper";
-import { FieldEdit, FieldEditFloat, FieldEditFloatProps, FieldEditProps, useProfileFieldState } from "../fieldsEdit/fieldEditInput";
+import {
+    FieldEdit,
+    FieldEditFloat,
+    FieldEditFloatProps,
+    FieldEditProps,
+    useProfileFieldState,
+} from "../fieldsEdit/fieldEditInput";
 import { Profile, TwistDir } from "a7p-js/dist/types";
 import { RifleFloatFields, RifleTextFields } from "./fiedProps";
 import { useHelp } from "./help/helpContent";
@@ -9,12 +15,14 @@ import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
 import { ContentTitle } from "./contentTitle";
 
-
 const TwistField = () => {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
 
-    const [twistDir, setTwistDir] = useProfileFieldState<keyof Profile, TwistDir>({
-        field: 'twistDir',
+    const [twistDir, setTwistDir] = useProfileFieldState<
+        keyof Profile,
+        TwistDir
+    >({
+        field: "twistDir",
         defaultValue: TwistDir.RIGHT,
     });
 
@@ -26,13 +34,19 @@ const TwistField = () => {
             buttons={[
                 {
                     value: TwistDir.LEFT,
-                    label: t('rifleContent.Left'),
-                    icon: md3PaperIconSource({ name: "rotate-left", mode: "outline" }),
+                    label: t("rifleContent.Left"),
+                    icon: md3PaperIconSource({
+                        name: "rotate-left",
+                        mode: "outline",
+                    }),
                 },
                 {
                     value: TwistDir.RIGHT,
-                    label: t('rifleContent.Right'),
-                    icon: md3PaperIconSource({ name: "rotate-right", mode: "outline" }),
+                    label: t("rifleContent.Right"),
+                    icon: md3PaperIconSource({
+                        name: "rotate-right",
+                        mode: "outline",
+                    }),
                 },
             ]}
         />
@@ -40,12 +54,11 @@ const TwistField = () => {
 };
 
 const RifleContent = () => {
-
-    const { t } = useTranslation()
-    const helpContent = useHelp()
+    const { t } = useTranslation();
+    const helpContent = useHelp();
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <ContentTitle title={t("rifleContent.Rifle")} helpKey="RifleCard" />
 
             <View style={styles.row}>
@@ -55,8 +68,8 @@ const RifleContent = () => {
                 >
                     <Text>{t("rifleContent.Caliber")}</Text>
                 </HelpButton>
-                <FieldEdit  //FIXME float
-                    {...RifleTextFields.caliber as FieldEditProps}
+                <FieldEdit //FIXME float
+                    {...(RifleTextFields.caliber as FieldEditProps)}
                     style={styles.input}
                 />
             </View>
@@ -68,8 +81,8 @@ const RifleContent = () => {
                 >
                     <Text>{t("rifleContent.TwistRate")}</Text>
                 </HelpButton>
-                <FieldEditFloat  //FIXME float
-                    {...RifleFloatFields.rTwist as FieldEditFloatProps}
+                <FieldEditFloat //FIXME float
+                    {...(RifleFloatFields.rTwist as FieldEditFloatProps)}
                     style={styles.input}
                     right={<TextInput.Affix text={t("measure.inch_turn")} />}
                 />
@@ -92,13 +105,13 @@ const RifleContent = () => {
                 >
                     <Text>{t("rifleContent.SightHeight")}</Text>
                 </HelpButton>
-                <FieldEditFloat  //FIXME float
-                    {...RifleFloatFields.scHeight as FieldEditFloatProps}
+                <FieldEditFloat //FIXME float
+                    {...(RifleFloatFields.scHeight as FieldEditFloatProps)}
                     style={styles.input}
                     right={<TextInput.Affix text={t("measure.mm")} />}
                 />
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -113,21 +126,34 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        gap: 32,
-        marginBottom: 8,
-    },
-    sectionTitle: {
-        marginBottom: 4,
+        gap: 16,
+        marginBottom: 12,
     },
     label: {
         flex: 1,
+        alignItems: "flex-start",
+    },
+    inputContainer: {
+        flex: 3,
+        flexDirection: "row",
+        gap: 8,
     },
     input: {
+        flex: 1,
+    },
+    extraInput: {
+        flex: 1, // Ensure extra fields also occupy available space
+    },
+    sectionTitle: {
+        flex: 1,
+        marginBottom: 4,
+    },
+    divider: {
         flex: 3,
     },
     segmented: {
-        flex: 3,
-    }
+        flex: 1,
+    },
 });
 
 export default RifleContent;

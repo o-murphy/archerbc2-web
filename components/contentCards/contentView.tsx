@@ -11,7 +11,10 @@ type ContentProps = {
 const ContentCard: React.FC<ContentProps> = ({ children, style }) => {
     return (
         <Surface style={[styles.surface, style]}>
-            <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+            <ScrollView
+                style={styles.scrollView}
+                contentContainerStyle={styles.scrollContent}
+            >
                 {children}
             </ScrollView>
         </Surface>

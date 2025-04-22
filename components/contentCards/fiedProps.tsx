@@ -1,58 +1,55 @@
 import { FieldFloatProps, FieldProps } from "../fieldsEdit/fieldEditInput";
 
-
 export const DescriptionFields: FieldProps = {
     profileName: {
-        field: 'profileName',
-        maxLength: 50
+        field: "profileName",
+        maxLength: 50,
     },
     shortNameTop: {
-        field: 'shortNameTop',
+        field: "shortNameTop",
         maxLength: 8,
-        label: "Top"
+        label: "Top",
     },
     shortNameBot: {
-        field: 'shortNameBot',
+        field: "shortNameBot",
         maxLength: 8,
-        label: "Bot"
+        label: "Bot",
     },
     cartridgeName: {
-        field: 'cartridgeName',
-        maxLength: 50
+        field: "cartridgeName",
+        maxLength: 50,
     },
     bulletName: {
-        field: 'bulletName',
-        maxLength: 50
+        field: "bulletName",
+        maxLength: 50,
     },
     userNote: {
-        field: 'userNote',
+        field: "userNote",
         maxLength: 1024,
-        multiline: true
+        multiline: true,
     },
 };
-
 
 export const CartridgeFields: FieldFloatProps = {
     cMuzzleVelocity: {
         field: "cMuzzleVelocity",
         range: { min: 1, max: 3000 },
         multiplier: 10,
-        fraction: 0
+        fraction: 0,
     },
     cZeroTemperature: {
         field: "cZeroTemperature",
         range: { min: -50, max: 50 },
         multiplier: 1,
-        fraction: 0
+        fraction: 0,
     },
     cTCoeff: {
         field: "cTCoeff",
         range: { min: 0, max: 100 },
         multiplier: 1000,
-        fraction: 2
-    }
-}
-
+        fraction: 2,
+    },
+};
 
 export const BulletFloatFields: FieldFloatProps = {
     bDiameter: {
@@ -74,7 +71,6 @@ export const BulletFloatFields: FieldFloatProps = {
         fraction: 3,
     },
 };
-
 
 export const RifleTextFields: FieldProps = {
     caliber: {
@@ -98,51 +94,49 @@ export const RifleFloatFields: FieldFloatProps = {
     },
 };
 
+export const ZeroingFloatFields: FieldFloatProps = {
+    zeroX: {
+        field: "zeroX",
+        range: { min: -200, max: 200 },
+        multiplier: -1000,
+        fraction: 2,
+    },
+    zeroY: {
+        field: "zeroY",
+        range: { min: -200, max: 200 },
+        multiplier: 1000,
+        fraction: 2,
+    },
 
-export 
-const ZeroingFloatFields: FieldFloatProps = {
-  zeroX: {
-    field: "zeroX",
-    range: { min: -200, max: 200 },
-    multiplier: -1000,
-    fraction: 2,
-  },
-  zeroY: {
-    field: "zeroY",
-    range: { min: -200, max: 200 },
-    multiplier: 1000,
-    fraction: 2,
-  },
+    cZeroWPitch: {
+        field: "cZeroWPitch",
+        range: { min: -90, max: 90 },
+        multiplier: 1,
+        fraction: 0,
+    },
 
-  cZeroWPitch: {
-    field: "cZeroWPitch",
-    range: { min: -90, max: 90 },
-    multiplier: 1,
-    fraction: 0,
-  },
-
-  cZeroAirTemperature: {
-    field: "cZeroAirTemperature",
-    range: { min: -50, max: 50 },
-    multiplier: 1,
-    fraction: 0,
-  },
-  cZeroPTemperature: {
-    field: "cZeroPTemperature",
-    range: { min: -50, max: 50 },
-    multiplier: 1,
-    fraction: 0,
-  },
-  cZeroAirPressure: {
-    field: "cZeroAirPressure",
-    range: { min: 0, max: 65535 },
-    multiplier: 10,
-    fraction: 0,
-  },
-  cZeroAirHumidity: {
-    field: "cZeroAirHumidity",
-    range: { min: 0, max: 100 },
-    multiplier: 1,
-    fraction: 0,
-  },
+    cZeroAirTemperature: {
+        field: "cZeroAirTemperature",
+        range: { min: -50, max: 50 },
+        multiplier: 1,
+        fraction: 0,
+    },
+    cZeroPTemperature: {
+        field: "cZeroPTemperature",
+        range: { min: -50, max: 50 },
+        multiplier: 1,
+        fraction: 0,
+    },
+    cZeroAirPressure: {
+        field: "cZeroAirPressure",
+        range: { min: 0, max: 65535 },
+        multiplier: 10,
+        fraction: 0,
+    },
+    cZeroAirHumidity: {
+        field: "cZeroAirHumidity",
+        range: { min: 0, max: 100 },
+        multiplier: 1,
+        fraction: 0,
+    },
 };

@@ -17,14 +17,17 @@ export const DropZoneWeb = ({ children, onDropFile }: DropZoneProps) => {
         setIsDragging(false);
     }, []);
 
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault();
-        setIsDragging(false);
-        const file = e.dataTransfer.files?.[0];
-        if (file) {
-            onDropFile(file);
-        }
-    }, [onDropFile]);
+    const handleDrop = useCallback(
+        (e: React.DragEvent) => {
+            e.preventDefault();
+            setIsDragging(false);
+            const file = e.dataTransfer.files?.[0];
+            if (file) {
+                onDropFile(file);
+            }
+        },
+        [onDropFile],
+    );
 
     return (
         <div
@@ -37,7 +40,9 @@ export const DropZoneWeb = ({ children, onDropFile }: DropZoneProps) => {
                 borderWidth: 2,
                 borderStyle: "dashed",
                 borderColor: isDragging ? "#2196f3" : "#555",
-                backgroundColor: isDragging ? "rgba(33, 150, 243, 0.1)" : "transparent",
+                backgroundColor: isDragging
+                    ? "rgba(33, 150, 243, 0.1)"
+                    : "transparent",
                 transition: "background-color 0.2s, border-color 0.2s",
             }}
         >

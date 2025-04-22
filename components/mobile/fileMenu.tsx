@@ -7,31 +7,30 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 
-
 export const FileMenu = () => {
-    const theme = useTheme()
-    const { t } = useTranslation()
-    const [visible, setVisible] = useState(false)
+    const theme = useTheme();
+    const { t } = useTranslation();
+    const [visible, setVisible] = useState(false);
     const { syncBackup, restoreBackup, saveFile } = useFileContext();
 
-    const openMenu = () => setVisible(true)
-    const closeMenu = () => setVisible(false)
+    const openMenu = () => setVisible(true);
+    const closeMenu = () => setVisible(false);
 
     const onOpenPress = () => {
         console.log("Open pressed");
-        closeMenu()
+        closeMenu();
         FileOpenerService.triggerFileInputClick();
     };
 
     const onSavePress = () => {
-        closeMenu()
+        closeMenu();
         syncBackup();
         saveFile();
         console.log("SyncBackup");
     };
 
     const onReloadPress = () => {
-        closeMenu()
+        closeMenu();
         restoreBackup();
         console.log("RestoreBackup");
     };
@@ -41,15 +40,47 @@ export const FileMenu = () => {
             visible={visible}
             onDismiss={closeMenu}
             // anchor={<Appbar.Action icon="menu" color={theme.colors.onPrimaryContainer} onPress={openMenu} />}>
-            anchor={<FAB size="small" style={{margin: 8}} mode="flat" icon="menu" color={theme.colors.onPrimaryContainer} onPress={openMenu} />}>
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "file-open" })} disabled onPress={() => { }} title={t("topBar.Create new file")} />
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "folder-open" })} onPress={onOpenPress} title={t("topBar.OpenFile")} />
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "file-download" })} onPress={onSavePress} title={t("topBar.Download")} />
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "refresh" })} onPress={onReloadPress} title={t("topBar.RejectChanges")} />
-            <Menu.Item leadingIcon={md3PaperIconSource({ name: "my-location" })} disabled onPress={() => { }} title={t("topBar.LoadZeroing")} />
+            anchor={
+                <FAB
+                    size="small"
+                    style={{ margin: 8 }}
+                    mode="flat"
+                    icon="menu"
+                    color={theme.colors.onPrimaryContainer}
+                    onPress={openMenu}
+                />
+            }
+        >
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "file-open" })}
+                disabled
+                onPress={() => {}}
+                title={t("topBar.Create new file")}
+            />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "folder-open" })}
+                onPress={onOpenPress}
+                title={t("topBar.OpenFile")}
+            />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "file-download" })}
+                onPress={onSavePress}
+                title={t("topBar.Download")}
+            />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "refresh" })}
+                onPress={onReloadPress}
+                title={t("topBar.RejectChanges")}
+            />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "my-location" })}
+                disabled
+                onPress={() => {}}
+                title={t("topBar.LoadZeroing")}
+            />
             <ShareDialogMenuItem />
             <Divider />
             <CloseDialogMenuAction />
         </Menu>
-    )
-}
+    );
+};

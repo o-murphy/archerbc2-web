@@ -9,24 +9,23 @@ import ua from "./translations/ua_translation.json";
 // Если забудем добавить поле в один из языков,
 // здесь появится TypeScript ошибка
 const resources: Record<string, { translation: TranslationTypes }> = {
-  en: { translation: en },
-  ua: { translation: ua },
+    en: { translation: en },
+    ua: { translation: ua },
 };
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    detection: {
-      order: ["localStorage", "navigator"],
-      caches: ["localStorage"],
-      lookupLocalStorage: "i18nextLng",
-    },
-    fallbackLng: "en",
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+i18n.use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+        resources,
+        detection: {
+            order: ["localStorage", "navigator"],
+            caches: ["localStorage"],
+            lookupLocalStorage: "i18nextLng",
+        },
+        fallbackLng: "en",
+        interpolation: {
+            escapeValue: false,
+        },
+    });
 
 export default i18n;
