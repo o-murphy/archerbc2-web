@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Drawer } from "react-native-paper";
-import { ThemedIconName, ThemedTabIcon } from "./icons/customIcons";
+import { ThemedIconName, ThemedTabIcon } from "../icons/customIcons";
 import { useTranslation } from "react-i18next";
 
 

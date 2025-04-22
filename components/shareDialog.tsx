@@ -8,7 +8,7 @@ import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
 import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
-import { shareContent } from "@/utils/shareUrl";
+import { shareContent } from "@/utils/shareAPI";
 
 
 export const ShareDialogButton = ({ icon = md3PaperIconSource({ name: "share", mode: "outline" }), ...props }) => {

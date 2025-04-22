@@ -66,8 +66,9 @@ export const savefileBackup = async (data: ArrayBuffer | null) => {
         } else {
             await AsyncStorage.removeItem(FILE_BACKUP_KEY);
         }
-    } catch (e) {
-        console.error("Failed to save backup", e);
+    } catch (error) {
+        console.error("Failed to save backup", error);
+        throw error
     }
     return data;
 }

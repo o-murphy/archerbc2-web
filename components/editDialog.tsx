@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Dialog, Surface, Text, useTheme } from "react-native-paper";
-import SideBar from "./sideBar";
+import SideBar from "./desktop/sideBar";
 import TopBar from "./desktop/topBar";
 import RifleContent from "./contentCards/rifleContent";
 import DescriptionContent from "./contentCards/descriptionContent";

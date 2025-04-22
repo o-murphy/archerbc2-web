@@ -1,0 +1,58 @@
+export const shareContent = async (url: string) => {
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: 'Check this out!',
+        text: 'This is something cool I wanted to share with you.',
+        url: url, // or any specific URL
+      });
+      console.log('Shared successfully');
+    } catch (error) {
+      console.error('Error sharing:', error);
+      throw error
+    }
+  } else {
+    // alert('Sharing not supported on this browser.');
+    throw new Error('Sharing not supported on this browser.')
+  }
+};
+
+
+export const shareBuffer = async ({
+  title = 'Here’s a file!',
+  text = 'Check out this file.',
+  file,
+}: {
+  title?: string;
+  text?: string;
+  file: {
+    name: string;
+    type: string;
+    buffer: ArrayBuffer;
+  };
+}) => {
+  if (!file || !file.buffer || !file.name || !file.type) {
+    console.warn('Invalid file object provided');
+    return;
+  }
+
+  const blob = new Blob([file.buffer], { type: file.type || 'application/octet-stream' });
+  const newFile = new File([blob], file.name, { type: file.type || 'application/octet-stream' });
+
+  if (navigator.canShare && navigator.canShare({ files: [newFile] })) {
+    try {
+      await navigator.share({
+        title,
+        text,
+        files: [newFile],
+      });
+      console.log('File shared successfully');
+    } catch (error) {
+      // console.error('Error sharing file:', err);
+      throw error
+    }
+  } else {
+    // alert('File sharing is not supported on this device/browser.');
+    throw new Error('File sharing is not supported on this device/browser.')
+  }
+};

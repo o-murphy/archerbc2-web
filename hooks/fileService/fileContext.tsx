@@ -81,7 +81,7 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         setCurrentData(backupData)
     }
 
-    const saveFile = () => {
+    const saveFile = async () => {
         try {
             saveParsedData(currentData, fileState.name)
         } catch (error: any) {

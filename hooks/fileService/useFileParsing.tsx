@@ -9,6 +9,7 @@ import { Platform } from "react-native";
 import { decode } from "a7p-js";
 import { toByteArray } from 'base64-js';
 import { BcType, CoefRow, Profile } from "a7p-js/dist/types.js";
+import { shareBuffer } from "@/utils/shareAPI";
 
 
 export type DistanceTemplateType = Record<string, number[]>
@@ -220,7 +221,7 @@ export const encodeToUrl = (data: ParsedData): string | undefined => {
 
 
 // Function to save parsed data
-export const saveParsedData = (data: ParsedData, filename: string | null) => {
+export const saveParsedData = async (data: ParsedData, filename: string | null) => {
     if (data.profile && !data.error) {
         try {
             const buffer = encode({
@@ -232,8 +233,18 @@ export const saveParsedData = (data: ParsedData, filename: string | null) => {
                 filename = generateFilename(data.profile);
             }
 
-            downloadA7PFile(buffer, filename);
-            savefileBackup(buffer);
+            // downloadA7PFile(buffer, filename);
+            try {
+                await shareBuffer({file: {
+                    name: filename,
+                    type: ".a7p",
+                    buffer: buffer
+                }})    
+            } catch (error) {
+                downloadA7PFile(buffer, filename);
+            } finally {
+                savefileBackup(buffer);
+            }
         } catch (error) {
             throw new Error(`Error on file download: ${error}`);
         }
