@@ -8,6 +8,7 @@ import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 import { copyToClipboard } from "@/utils/copyToClip";
 import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
+import { shareContent } from "@/utils/shareUrl";
 
 
 export const ShareDialogButton = ({ icon = md3PaperIconSource({ name: "share", mode: "outline" }), ...props }) => {
@@ -47,6 +48,9 @@ export const ShareDialog: React.FC<ShareDialogProps> = (
                         style={{ width: "100%" }}
                         readOnly={true}
                         value={urlEncoded}
+                        // left={
+                        //     <TextInput.Icon icon={md3PaperIconSource({ name: "share" })} size={24} onPress={shareContent} />
+                        // }
                         right={
                             <TextInput.Icon icon={md3PaperIconSource({ name: "content-copy" })} size={24} onPress={onCopyPress} />
                         }
@@ -88,12 +92,16 @@ export const ShareDialogWidget = () => {
         }
     };
 
-    const showDialog = () => {
-        if (isError) {
+    const showDialog = async () => {
+        if (isError || !urlEncoded) {
             toast.error(isError);
             return;
         } else {
-            setVisible(true)
+            try {
+                await shareContent(urlEncoded)
+            } catch (error) {
+                setVisible(true)
+            }
         }
     }
 
@@ -140,14 +148,27 @@ export const ShareDialogMenuItem = () => {
         }
     };
 
-    const showDialog = () => {
-        if (isError) {
+    const showDialog = async () => {
+        if (isError || !urlEncoded) {
             toast.error(isError);
             return;
         } else {
-            setVisible(true)
+            try {
+                await shareContent(urlEncoded)
+            } catch (error) {
+                setVisible(true)
+            }
         }
     }
+
+    // const showDialog = () => {
+    //     if (isError) {
+    //         toast.error(isError);
+    //         return;
+    //     } else {
+    //         setVisible(true)
+    //     }
+    // }
 
     return (
         <>
