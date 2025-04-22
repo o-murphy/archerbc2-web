@@ -6,7 +6,8 @@ import { UrlPayloadHandler } from "@/hooks/fileService/useFileHandler";
 import { useEffect } from "react";
 import { Platform, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
-import { BottomNav } from "@/components/bottomNav/bottomNav";
+import { BottomNav } from "@/components/mobile/bottomNav";
+import StartDialog from "@/components/startDialog";
 
 export const useApplyScrollbarTheme = () => {
     const { colors } = useTheme();
@@ -61,6 +62,7 @@ const MobileLayout = () => {
             <FileOpener />
             <FileOpenError />
             <BottomNav />
+            <StartDialog />
             <HelpDialogHost />
             <Toast />
         </>

@@ -82,7 +82,9 @@ const StartDialog = () => {
 
 const styles = StyleSheet.create({
     dialog: {
-        width: 400,
+        minWidth: 400,
+        maxWidth: 500,
+        maxHeight: 500,
         alignSelf: "center",
     },
     dialogTitle: {

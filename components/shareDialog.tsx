@@ -1,7 +1,7 @@
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { Dialog, Portal, Surface, TextInput, Button } from "react-native-paper"
+import { Dialog, Portal, Surface, TextInput, Button, Menu } from "react-native-paper"
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { encodeToUrl } from "@/hooks/fileService/useFileParsing";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
@@ -10,7 +10,7 @@ import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
 
 
-export const ShareDialogButton = ({ icon = md3PaperIconSource({name: "share", mode: "outline"}), ...props }) => {
+export const ShareDialogButton = ({ icon = md3PaperIconSource({ name: "share", mode: "outline" }), ...props }) => {
     const { t } = useTranslation();
 
     return (
@@ -100,6 +100,58 @@ export const ShareDialogWidget = () => {
     return (
         <>
             <ShareDialogButton onPress={showDialog} />
+            <Portal>
+                <ShareDialog
+                    visible={visible}
+                    setVisible={setVisible}
+                    urlEncoded={urlEncoded}
+                    onCopyPress={onCopyPress}
+                />
+            </Portal>
+        </>
+    )
+}
+
+
+export const ShareDialogMenuItem = () => {
+    const { t } = useTranslation();
+    const [visible, setVisible] = useState(false)
+
+    const { currentData } = useFileContext();
+    const [isError, setIsError] = useState<Error | null>(null);
+    const [urlEncoded, setUrlEncoded] = useState<string | undefined>(undefined);
+
+    // Compute URL when currentData changes
+    useEffect(() => {
+        try {
+            const url = encodeToUrl(currentData);
+            setUrlEncoded(url);
+            setIsError(null);
+        } catch (error: any) {
+            setUrlEncoded(undefined);
+            setIsError(error);
+        }
+    }, [currentData]);
+
+    const onCopyPress = () => {
+        if (urlEncoded) {
+            copyToClipboard(urlEncoded);
+            toast.show(t("shareDialog.Copied"));
+        }
+    };
+
+    const showDialog = () => {
+        if (isError) {
+            toast.error(isError);
+            return;
+        } else {
+            setVisible(true)
+        }
+    }
+
+    return (
+        <>
+            <Menu.Item leadingIcon={md3PaperIconSource({ name: "share" })} onPress={showDialog} title={t("shareDialog.Share")} />
             <Portal>
                 <ShareDialog
                     visible={visible}

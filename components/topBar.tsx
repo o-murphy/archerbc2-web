@@ -4,7 +4,7 @@ import { useFileContext } from "@/hooks/fileService/fileContext";
 import { CloseDialogWidget } from "./closeDialog";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
-import { ShareDialogWidget } from "./shareDialog";
+import { ShareDialogMenuItem } from "./shareDialog";
 import { FileOpenerService } from "../hooks/fileService/fileOpener";
 import { ThemeToggle } from "./themeToggle";
 import { LanguageToggle } from "./languageToggle";
@@ -38,7 +38,7 @@ const TopBar = () => {
       <ToolTipIconButton tooltip={t("topBar.Download")} icon={md3PaperIconSource({name: "file-download"})} onPress={onSavePress} />
       <ToolTipIconButton tooltip={t("topBar.RejectChanges")} icon={md3PaperIconSource({name: "refresh"})} onPress={onReloadPress} />
       <ToolTipIconButton tooltip={t("topBar.LoadZeroing")} icon={md3PaperIconSource({name: "my-location"})} onPress={() => { }} disabled />
-      <ShareDialogWidget />
+      <ShareDialogMenuItem />
 
       <View style={styles.rightSide}>
         <View style={styles.separator} />

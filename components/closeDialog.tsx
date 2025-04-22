@@ -1,7 +1,7 @@
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB } from "react-native-paper"
+import { Button, Dialog, Portal, Surface, Text, Tooltip, useTheme, FAB, Menu } from "react-native-paper"
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "./icons/md3PaperIcons";
@@ -106,9 +106,29 @@ export const CloseDialogWidget = () => {
     );
 };
 
+export const CloseDialogMenuAction = () => {
+    const [visible, setVisible] = useState(false);
+    const { t } = useTranslation();
+    const theme = useTheme()
+
+    return (
+        <>
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "close", color: theme.colors.error })}
+                onPress={() => setVisible(true)} title={t("closeDialog.Close")}
+            />
+            <Portal>
+                <CloseDialog visible={visible} setVisible={() => setVisible(false)} />
+            </Portal>
+        </>
+    );
+};
+
 const styles = StyleSheet.create({
     dialog: {
-        width: 400,
+        minWidth: 400,
+        maxWidth: 500,
+        maxHeight: 500,
         alignSelf: "center",
     },
     dialogTitle: {

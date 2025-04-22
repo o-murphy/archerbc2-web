@@ -17,8 +17,8 @@
         "ToggleTheme": "Toggle theme"
     },
     "closeDialog": {
-        "Close": "Close",
-        "Title": "Close File",
+        "Close": "Close file",
+        "Title": "Close file",
         "Question": "Do you want to save the changes before closing?",
         "Warning": "If you don’t, your data will be lost.",
         "Download": "Download",

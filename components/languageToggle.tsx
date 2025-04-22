@@ -2,6 +2,7 @@ import { useState } from "react";
 import { md3PaperIconSource } from "./icons/md3PaperIcons";
 import { ToolTipIconButton } from "./iconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
+import CountryFlag from "react-native-country-flag";
 
 
 export const LanguageToggle = () => {
@@ -17,7 +18,10 @@ export const LanguageToggle = () => {
     return (
         <ToolTipIconButton
             tooltip={t(`languageToggle.SwitchTo_${currentLang === 'en' ? 'ua' : 'en'}`)}
-            icon={md3PaperIconSource({ name: "translate" })}
+            // icon={md3PaperIconSource({ name: "translate" })}
+            icon={
+                (props) => <CountryFlag isoCode={currentLang === 'en' ? 'ua' : 'us'} {...props}/>
+            }
             onPress={toggleLanguage}
         />
     );
