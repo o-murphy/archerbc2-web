@@ -5,6 +5,7 @@ import { CartridgeFields } from "./fiedProps";
 import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
 import { useTranslation } from "react-i18next";
+import { ContentTitle } from "./contentTitle";
 
 
 const CartridgeContent = () => {
@@ -13,12 +14,7 @@ const CartridgeContent = () => {
 
   return (
     <View style={styles.container}>
-
-      <HelpButton helpContent={FieldHelp().CartridgeCard}>
-        <Text variant="titleLarge" style={styles.header}>
-          {t("cartridgeContent.Cartridge")}
-        </Text>
-      </HelpButton>
+      <ContentTitle title={t("cartridgeContent.Cartridge")} helpKey="CartridgeCard" />
 
       <View style={styles.row}>
         <HelpButton

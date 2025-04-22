@@ -7,6 +7,7 @@ import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
+import { ContentTitle } from "./contentTitle";
 
 
 const TwistField = () => {
@@ -26,12 +27,12 @@ const TwistField = () => {
                 {
                     value: TwistDir.LEFT,
                     label: t('rifleContent.Left'),
-                    icon: md3PaperIconSource({name: "rotate-left", mode: "outline"}),
+                    icon: md3PaperIconSource({ name: "rotate-left", mode: "outline" }),
                 },
                 {
                     value: TwistDir.RIGHT,
                     label: t('rifleContent.Right'),
-                    icon: md3PaperIconSource({name: "rotate-right", mode: "outline"}),
+                    icon: md3PaperIconSource({ name: "rotate-right", mode: "outline" }),
                 },
             ]}
         />
@@ -44,12 +45,7 @@ const RifleContent = () => {
 
     return (
         <View style={styles.container}>
-
-            <HelpButton helpContent={FieldHelp().RifleCard}>
-                <Text variant="titleLarge" style={styles.header}>
-                    {t("rifleContent.Rifle")}
-                </Text>
-            </HelpButton>
+            <ContentTitle title={t("rifleContent.Rifle")} helpKey="RifleCard" />
 
             <View style={styles.row}>
                 <HelpButton

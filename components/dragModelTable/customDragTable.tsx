@@ -249,7 +249,6 @@ const CustomDragTable = () => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                contentContainerStyle={{ maxHeight: 200 }}
             />
         </Card>
     )

@@ -8,6 +8,7 @@ import { ZeroingFloatFields } from "./fiedProps";
 import { ThemedIcon } from "../icons/customIcons";
 import { useTranslation } from "react-i18next";
 import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { ContentTitle } from "./contentTitle";
 
 
 const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => void }) => {
@@ -15,12 +16,7 @@ const ZeroingContent = ({ onDistancesBtnPress }: { onDistancesBtnPress?: () => v
 
   return (
     <View style={[styles.container]}>
-
-      <HelpButton helpContent={FieldHelp().ZeroingCard}>
-        <Text variant="titleLarge" style={styles.header}>
-          {t("zeroingContent.Zeroing")}
-        </Text>
-      </HelpButton>
+      <ContentTitle title={t("zeroingContent.Zeroing")} helpKey="ZeroingCard" />
 
       <View style={styles.column}>
         <View style={styles.row}>

@@ -8,6 +8,7 @@ import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
 import { BulletFloatFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
+import { ContentTitle } from "./contentTitle";
 
 
 const bcTypeMap: Record<string, React.ReactNode> = {
@@ -57,9 +58,9 @@ const DragModel = () => {
           ]}
         />
       </View>
-      <View style={styles.row}>
+      {/* <View style={styles.row}> */}
         <View style={{ flex: 4 }}>{renderContent()}</View>
-      </View>
+      {/* </View> */}
     </>
   )
 };
@@ -70,12 +71,7 @@ const BulletContent = () => {
 
   return (
     <View style={styles.container}>
-
-      <HelpButton helpContent={FieldHelp().BulletCard}>
-        <Text variant="titleLarge" style={styles.header}>
-          {t("bulletContent.Bullet")}
-        </Text>
-      </HelpButton>
+      <ContentTitle title={t("bulletContent.Bullet")} helpKey="BulletCard" />
 
       <View style={styles.row}>
         <HelpButton

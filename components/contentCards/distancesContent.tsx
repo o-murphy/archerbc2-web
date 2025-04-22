@@ -24,6 +24,7 @@ import { distancesTemplates, ProfileProps } from "@/hooks/fileService/useFilePar
 import { FieldHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
+import { ContentTitle } from "./contentTitle";
 
 
 type DistanceItem = { id: string; value: number, zero: boolean };
@@ -38,7 +39,7 @@ const renderZeroIcon = (visible: boolean) => {
 
 const SortableItem = ({ item }: { item: DistanceItem }) => {
   const { t } = useTranslation()
-  
+
   const { attributes, listeners, setNodeRef, transform, transition }: any =
     useSortable({ id: item.id });
 
@@ -150,12 +151,7 @@ const DistancesContent = () => {
 
   return (
     <View style={styles.container}>
-
-      <HelpButton helpContent={FieldHelp().DistancesCard}>
-        <Text variant="titleLarge" style={styles.header}>
-          {t("distancesContent.Distances")}
-        </Text>
-      </HelpButton>
+      <ContentTitle title={t("distancesContent.Distances")} helpKey="DistancesCard" />
 
       <HelpButton
         helpContent={FieldHelp().QuickRangeSet}

@@ -38,7 +38,7 @@ export const detectDevice = () => {
   return 'unknown';
 };
 
-const isMobileUA = () => {
+export const isMobileUA = () => {
   const dev = detectDevice();
   switch (dev) {
     case "Android":

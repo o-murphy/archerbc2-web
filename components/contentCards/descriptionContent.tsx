@@ -5,6 +5,7 @@ import { HelpButton } from "./help/helpIcons";
 import { FieldHelp } from "./help/helpContent";
 import { DescriptionFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
+import { ContentTitle } from "./contentTitle";
 
 
 const DescriptionContent = () => {
@@ -13,12 +14,7 @@ const DescriptionContent = () => {
 
   return (
     <View style={styles.container}>
-      <HelpButton helpContent={FieldHelp().DescriptionCard}>
-
-        <Text variant="titleLarge" style={styles.header}>
-          {t("descriptionContent.Description")}
-        </Text>
-      </HelpButton>
+      <ContentTitle title={t("descriptionContent.Description")} helpKey="DescriptionCard"/>
 
       <View style={styles.row}>
         <HelpButton
@@ -113,9 +109,6 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
     maxWidth: 500,
-  },
-  header: {
-    marginBottom: 8,
   },
   row: {
     flexDirection: "row",
