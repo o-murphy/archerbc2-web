@@ -12,6 +12,7 @@ import {
     shareBuffer,
     ShareError,
     ShareNotAllowedError,
+    ShareNotSupportedError,
 } from "@/utils/shareAPI";
 
 export type DistanceTemplateType = Record<string, number[]>;
@@ -272,6 +273,8 @@ export const saveParsedData = async (
             } catch (error: unknown) {
                 if (error instanceof ShareError) {
                     if (error instanceof ShareNotAllowedError) {
+                        downloadA7PFile(buffer, filename);
+                    } else if (error instanceof ShareNotSupportedError) {
                         downloadA7PFile(buffer, filename);
                     } else {
                         throw error;

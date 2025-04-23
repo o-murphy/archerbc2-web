@@ -17,6 +17,7 @@ import { toast } from "@/components/services/toastService/toastService";
 import { useTranslation } from "react-i18next";
 import {
     shareContent,
+    ShareError,
     ShareNotAllowedError,
     ShareNotSupportedError,
     ShareUnknownError,
@@ -121,16 +122,17 @@ export const useShareLogic = (
         try {
             await shareContent(urlEncoded);
         } catch (error: unknown) {
-            if (error instanceof ShareNotSupportedError) {
-                toast.error("Sharing is not supported on this device/browser.");
-            } else if (error instanceof ShareNotAllowedError) {
-                toast.error("User canceled or denied the share request.");
-            } else if (error instanceof ShareUnknownError) {
-                toast.error(`An unexpected error occurred: ${error.message}`);
+            if (error instanceof ShareError) {
+                if (error instanceof ShareNotAllowedError) {
+                    setVisible(true);
+                } else if (error instanceof ShareNotSupportedError) {
+                    setVisible(true);
+                } else {
+                    throw error;
+                }
             } else {
-                toast.error("An unknown error occurred");
+                throw error;
             }
-            setVisible(true); // Show dialog if an error occurs during sharing
         }
     };
 
