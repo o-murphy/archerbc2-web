@@ -11,12 +11,13 @@ import {
 } from "react-native-paper";
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
 import { CoefRow } from "a7p-js/dist/types";
-import { DoubleSpinBox, SpinBoxRange } from "../fieldsEdit/doubleSpinBox";
+import { SpinBoxRange } from "../fieldsEdit/doubleSpinBox";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";
 import { useTranslation } from "react-i18next";
 import { ToolTipIconButton } from "../iconButtonWithTooltip";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
+import { LocalizedSpinBox } from "../fieldsEdit/localizedSpinBox";
 
 const MAX_CUSTOM_ITEM_COUNT = 200;
 
@@ -71,7 +72,7 @@ export const CustomRowField = ({
 
     return editMode ? (
         <View style={styles.inputBox}>
-            <DoubleSpinBox
+            <LocalizedSpinBox
                 ref={ref}
                 floatValue={localValue}
                 onFloatValueChange={setLocalValue}

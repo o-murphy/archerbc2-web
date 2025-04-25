@@ -1,9 +1,10 @@
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HelperText, TextInput, TextInputProps } from "react-native-paper";
-import { DoubleSpinBox, SpinBoxProps } from "./doubleSpinBox";
+import { SpinBoxProps } from "./doubleSpinBox";
 import { View, ViewStyle } from "react-native";
 import { ProfileProps } from "@/hooks/fileService/useFileParsing";
+import { LocalizedSpinBox } from "./localizedSpinBox";
 
 export function useProfileFields<K extends keyof ProfileProps>(
     fields: K[],
@@ -48,7 +49,7 @@ export function useProfileFieldState<
     format?: (v: T) => any;
     validate?: (v: T) => boolean;
 }) {
-    const { currentData, setCurrentData, dummyState } = useFileContext();
+    const { currentData, setCurrentData, dummyState, setFieldError } = useFileContext();
     const isLocalChange = useRef(false);
 
     const [value, setValue] = useState<T>(
@@ -66,18 +67,42 @@ export function useProfileFieldState<
 
     useEffect(() => {
         if (!currentData.profile || !isLocalChange.current) return;
-        if (validate && validate(value)) return;
 
-        setCurrentData({
-            ...currentData,
-            profile: {
-                ...currentData.profile,
-                [field]: format(value),
-            },
-        });
+        let hasError: boolean | null = false;
+        if (validate) {
+            hasError = validate(value);
+            setFieldError(field, hasError); // Повідомляємо контекст про помилку
+        } else {
+            setFieldError(field, null); // Очищаємо помилку, якщо валідації немає
+        }
+
+        if (!hasError) {
+            setCurrentData({
+                ...currentData,
+                profile: {
+                    ...currentData.profile,
+                    [field]: format(value),
+                },
+            });
+        }
 
         isLocalChange.current = false;
-    }, [value, currentData, field, setCurrentData]);
+    }, [value, currentData, field, setCurrentData, validate, setFieldError]);
+
+    // useEffect(() => {
+    //     if (!currentData.profile || !isLocalChange.current) return;
+    //     if (validate && validate(value)) return;
+
+    //     setCurrentData({
+    //         ...currentData,
+    //         profile: {
+    //             ...currentData.profile,
+    //             [field]: format(value),
+    //         },
+    //     });
+
+    //     isLocalChange.current = false;
+    // }, [value, currentData, field, setCurrentData]);
 
     const handleChange = (val: T) => {
         isLocalChange.current = true;
@@ -91,6 +116,7 @@ export function useProfileFieldState<
                     ? parse(currentData.profile?.[field])
                     : defaultValue,
             );
+            setFieldError(field, false);
         }
     };
 
@@ -146,20 +172,33 @@ export const FieldEditFloat = ({
         }, [err]),
     });
 
+    // const [local, setLocal] = useState<number>(0)
+
+    // useEffect(() => {
+    //     setLocal(parseFloat(value))
+    // }, [value])
+
     const handleSetValue = (value: number) => {
         setValue(value.toString());
+        // setLocal(value)
     };
+
+    // const onBlur = () => {
+    //     setValue(local.toString());
+    // }
 
     return (
         <View style={props?.style as ViewStyle}>
-            <DoubleSpinBox
+            <LocalizedSpinBox
                 floatValue={parseFloat(value)}
+                // floatValue={local}
                 onFloatValueChange={handleSetValue}
                 onError={setErr}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 dense
                 onBlur={reset}
+                // onBlur={onBlur}
                 {...props}
             />
             <HelperText type="error" visible={!!err}>

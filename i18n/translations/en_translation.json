@@ -176,5 +176,9 @@
     "CartridgeHelpContent": {
         "Description is the base ballistic profile metadata": "Description is the base ballistic profile metadata",
         "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu."
+    },
+    "doubleSpinBoxError": {
+        "greaterThanMax": "Value must be at most {{max}}",
+        "lessThanMin": "Value must be at least {{min}}"
     }
 }

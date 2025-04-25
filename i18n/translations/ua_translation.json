@@ -34,8 +34,8 @@
         "Error": "Не вдалося створити посилання"
     },
     "languageToggle": {
-        "SwitchTo_ua": "Switch to Ukrainian",
-        "SwitchTo_en": "Перемкнути на англійську"
+        "SwitchTo_ua": "Перемкнути на українську",
+        "SwitchTo_en": "Switch to English"
     },
     "sideBar": {
         "Description": "Опис",
@@ -176,5 +176,9 @@
     "CartridgeHelpContent": {
         "Description is the base ballistic profile metadata": "Опис є базовими метаданими балістичного профілю",
         "The name of the ballistic profile as it appears in the device’s \"Rifles\" menu.": "Назва балістичного профілю, як вона відображається в меню \"Гвинтівки\" пристрою."
+    },
+    "doubleSpinBoxError": {
+        "greaterThanMax": "Значення повинно бути не більшим за {{max}}",
+        "lessThanMin": "Значення повинно бути не меншим за {{min}}"
     }
 }

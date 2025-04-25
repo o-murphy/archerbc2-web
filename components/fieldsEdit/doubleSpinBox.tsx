@@ -7,6 +7,35 @@ export type SpinBoxRange = {
     max?: number;
 };
 
+export type SpinBoxRangeErrorType = 'lessThanMin' | 'greaterThanMax';
+
+export class SpinBoxRangeError extends Error {
+    public range?: SpinBoxRange;
+    public actualValue: number;
+    public type?: SpinBoxRangeErrorType;
+
+    constructor(message: string, actualValue: number, range?: SpinBoxRange, type?: SpinBoxRangeErrorType) {
+        super(message);
+        this.name = "SpinBoxRangeError";
+        this.range = range;
+        this.actualValue = actualValue;
+        this.type = type;
+        // Maintain proper stack trace in Node.js
+        Object.setPrototypeOf(this, SpinBoxRangeError.prototype);
+    }
+}
+
+
+function validateRange(value: number, range?: SpinBoxRange): SpinBoxRangeError | null {
+    if (range?.min !== undefined && value < range.min) {
+        return new SpinBoxRangeError(`Value must be at least ${range.min}`, value, range, 'lessThanMin');
+    }
+    if (range?.max !== undefined && value > range.max) {
+        return new SpinBoxRangeError(`Value must be at most ${range.max}`, value, range, 'greaterThanMax');
+    }
+    return null;
+}
+
 export interface SpinBoxProps extends TextInputProps {
     floatValue?: number;
     onFloatValueChange?: (newValue: number) => void;
@@ -16,16 +45,6 @@ export interface SpinBoxProps extends TextInputProps {
     strict?: boolean;
     onError?: (error: Error | null) => void;
     debounceDelay?: number;
-}
-
-function validateRange(value: number, range?: SpinBoxRange): Error | null {
-    if (range?.min !== undefined && value < range.min) {
-        return new Error(`Value must be at least ${range.min}`);
-    }
-    if (range?.max !== undefined && value > range.max) {
-        return new Error(`Value must be at most ${range.max}`);
-    }
-    return null;
 }
 
 export const DoubleSpinBox: React.FC<SpinBoxProps> = forwardRef(

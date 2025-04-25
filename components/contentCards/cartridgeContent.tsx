@@ -28,6 +28,7 @@ const CartridgeContent = () => {
                 >
                     <Text>{t("cartridgeContent.MuzzleVelocity")}</Text>
                 </HelpButton>
+
                 <FieldEditFloat //FIXME float
                     {...(CartridgeFields.cMuzzleVelocity as FieldEditFloatProps)}
                     style={styles.input}

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { FileHandleState } from "./useFileHandler";
 import { Platform } from "react-native";
-import { ParsedData, saveParsedData } from "./useFileParsing";
+import { ParsedData, ProfileProps, saveParsedData } from "./useFileParsing";
 import { toast } from "../../components/services/toastService/toastService";
 
 // Define the context value type
@@ -26,6 +26,9 @@ interface FileContextType {
 
     closeFile: (save?: boolean) => void;
     saveFile: () => void;
+
+    fieldErrors: { [key: string]: boolean | null }; // Стан помилок для полів
+    setFieldError: (field: keyof ProfileProps, error: boolean | null) => void;
 }
 
 // Define the props type for FileProvider
@@ -47,6 +50,9 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
 
     // Dummy state for forcing re-render
     const [dummyState, setDummyState] = useState<boolean>(false);
+
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: boolean | null }>({});
+
 
     if (currentData.profile) {
         console.log(currentData.profile);
@@ -103,6 +109,10 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
         setFileState(defaultState);
     };
 
+    const setFieldError = (field: keyof ProfileProps, error: boolean | null) => {
+        setFieldErrors((prevErrors) => ({ ...prevErrors, [field]: error }));
+    };
+
     return (
         <FileContext.Provider
             value={{
@@ -118,6 +128,9 @@ export const FileProvider: React.FC<FileProviderProps> = ({ children }) => {
                 setDummyState,
                 closeFile,
                 saveFile,
+
+                fieldErrors,
+                setFieldError,
             }}
         >
             {children}

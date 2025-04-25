@@ -82,13 +82,13 @@ export const RifleTextFields: FieldProps = {
 export const RifleFloatFields: FieldFloatProps = {
     rTwist: {
         field: "rTwist",
-        range: { min: -50, max: 50 },
+        range: { min: 0, max: 100 },
         multiplier: 100,
         fraction: 2,
     },
     scHeight: {
         field: "scHeight",
-        range: { min: 0, max: 100 },
+        range: { min: -5000, max: 5000 },
         multiplier: 1,
         fraction: 0,
     },
