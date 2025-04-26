@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Text, TextInput, TextInputProps } from "react-native-paper";
+import { Text, TextInput } from "react-native-paper";
 import {
     FieldEditFloat,
     FieldEditFloatProps,
@@ -13,6 +13,7 @@ import { ThemedIcon, ThemedIconName } from "../icons/customIcons";
 import { useTranslation } from "react-i18next";
 import { ToolTipIconButton } from "../iconButtonWithTooltip";
 import { ContentTitle } from "./contentTitle";
+
 
 interface ZeroingFieldConfig {
     labelKey: string;
@@ -96,12 +97,13 @@ const ZeroingField: React.FC<ZeroingFieldConfig> = ({
     );
 };
 
-const ZeroingContent = ({
-    onDistancesBtnPress,
-}: {
-    onDistancesBtnPress?: () => void;
-}) => {
+
+const ZeroingContent = () => { // Receive the prop
     const { t } = useTranslation();
+
+    const onDistancesEditPress = () => {
+        // onNavigate("distances"); // Use the passed callback
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -127,13 +129,13 @@ const ZeroingContent = ({
                     >
                         <ThemedIcon source="zeroing-distance" size={24} />
                         <ZeroDistanceField style={styles.select} />
-                        <ToolTipIconButton
+                        {/* <ToolTipIconButton
                             tooltip={t("zeroingContent.EditDistances")}
                             style={styles.distancesEditBtn}
                             mode="outlined"
                             icon={"playlist-edit"}
-                            onPress={onDistancesBtnPress}
-                        />
+                            onPress={onDistancesEditPress}
+                        /> */}
                     </View>
                 </View>
                 {zeroingFieldsConfig.map((config) => (

@@ -116,7 +116,7 @@ const DescriptionContent = () => {
                     )}
                 />
             </View>
-        </ScrollView>
+        </ScrollView >
     );
 };
 

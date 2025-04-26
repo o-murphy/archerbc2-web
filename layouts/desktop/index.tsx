@@ -1,5 +1,4 @@
 import MainBackground from "@/components/backgroundImage";
-import EditDialog from "@/components/editDialog";
 import { FileOpener } from "@/hooks/fileService/fileOpener";
 import { FileOpenError } from "@/components/fileOpenError";
 import { HelpDialogHost } from "@/components/services/helpService/helpService";
@@ -9,6 +8,7 @@ import { UrlPayloadHandler } from "@/hooks/fileService/useFileHandler";
 import { useEffect } from "react";
 import { ImageBackground, Platform, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
+import { SideNav } from "@/components/desktop/desktopNav";
 
 export const useApplyScrollbarTheme = () => {
     const { colors } = useTheme();
@@ -62,7 +62,7 @@ const WebLayout = () => {
                 <UrlPayloadHandler />
                 <FileOpener />
                 <FileOpenError />
-                <EditDialog />
+                <SideNav />
                 <StartDialog />
                 <HelpDialogHost />
                 <Toast />

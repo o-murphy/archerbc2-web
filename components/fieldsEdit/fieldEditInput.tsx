@@ -135,12 +135,23 @@ export const FieldEdit = ({ field, ...props }: FieldEditProps) => {
         defaultValue: "",
     });
 
+    const [local, setLocal] = useState<string>("")
+
+    useEffect(() => {
+        setLocal(value)
+    }, [value])
+
+    const onBlur = () => {
+        setValue(local)
+    }
+
     return (
         <TextInput
             mode="outlined"
             dense
-            value={value}
-            onChangeText={setValue}
+            value={local}
+            onChangeText={setLocal}
+            onBlur={onBlur}
             {...props}
         />
     );
@@ -172,33 +183,37 @@ export const FieldEditFloat = ({
         }, [err]),
     });
 
-    // const [local, setLocal] = useState<number>(0)
+    const [local, setLocal] = useState<number>(0)
 
-    // useEffect(() => {
-    //     setLocal(parseFloat(value))
-    // }, [value])
+    useEffect(() => {
+        setLocal(parseFloat(value))
+    }, [value])
 
     const handleSetValue = (value: number) => {
-        setValue(value.toString());
-        // setLocal(value)
+        // setValue(value.toString());
+        setLocal(value)
     };
 
-    // const onBlur = () => {
-    //     setValue(local.toString());
-    // }
+    const onBlur = () => {
+        if (!err) {
+            setValue(local.toString());
+        } else {
+            setLocal(parseFloat(value))
+        }
+    }
 
     return (
         <View style={props?.style as ViewStyle}>
             <LocalizedSpinBox
-                floatValue={parseFloat(value)}
-                // floatValue={local}
+                // floatValue={parseFloat(value)}
+                floatValue={local}
                 onFloatValueChange={handleSetValue}
                 onError={setErr}
                 mode="outlined"
                 keyboardType="decimal-pad"
                 dense
-                onBlur={reset}
-                // onBlur={onBlur}
+                // onBlur={reset}
+                onBlur={onBlur}
                 {...props}
             />
             <HelperText type="error" visible={!!err}>

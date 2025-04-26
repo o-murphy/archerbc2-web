@@ -6,50 +6,46 @@ import { useEffect, useState } from "react";
 import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 
+
 const drawerItems = [
     {
-        label: "Description",
+        label: "sideBar.Description",
         icon: "description",
         route: "description",
         checkFields: ["profileName", "shortNameTop", "shortNameBot", "cartridgeName", "bulletName", "userNote"]
     },
     {
-        label: "Rifle",
+        label: "sideBar.Rifle",
         icon: "rifle",
         route: "rifle",
         checkFields: ["caliber", "rTwist", "scHeight", "twistDir"]
     },
     {
-        label: "Cartridge",
+        label: "sideBar.Cartridge",
         icon: "cartridge",
         route: "cartridge",
         checkFields: ["cMuzzleVelocity", "cZeroTemperature", "cTCoeff"]
     },
     {
-        label: "Bullet",
+        label: "sideBar.Bullet",
         icon: "bullet",
         route: "bullet",
         checkFields: ["bLength", "bWeight", "bDiameter", "bcType", "coefRows", "coefRowsG1", "coefRowsG7", "coefRowsCustom"]
     },
     {
-        label: "Zeroing",
+        label: "sideBar.Zeroing",
         icon: "zeroing",
         route: "zeroing",
         checkFields: ["cZeroPTemperature", "cZeroAirTemperature", "cZeroAirHumidity", "cZeroAirPressure", "cZeroWPitch", "zeroX", "zeroY", "cZeroDistanceIdx"]
     },
     {
-        label: "Distances",
+        label: "sideBar.Distances",
         icon: "distances",
         route: "distances",
         checkFields: ["distances"]
     },
 ];
 
-// Type for the navigation handler in the Sidebar component
-type SideBarProps = {
-    onNavigate: (route: string) => void;
-    selectedRoute: string;
-};
 
 const TabIconWithErrorBadge = ({ source, checkFields }: { source: ThemedIconName, checkFields: (keyof ProfileProps)[] }) => {
     const [badgeVisible, setBadgeVisible] = useState<boolean>(false);
@@ -87,17 +83,29 @@ const TabIconWithErrorBadge = ({ source, checkFields }: { source: ThemedIconName
     );
 };
 
-export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
+
+type SideBarProps = {
+    navigation: any; // Type for navigation object
+    setSelectedRoute: (route: string) => void; // Type for state setter
+    selectedRoute: string;
+};
+
+export function SideBar({ navigation, setSelectedRoute, selectedRoute }: SideBarProps) {
     const { t } = useTranslation();
+
+    const handleItemPress = (routeName: string) => {
+        setSelectedRoute(routeName); // Update the parent's state
+        navigation.navigate(routeName); // Perform navigation
+    };
 
     return (
         <Drawer.Section style={styles.sideBar}>
             <ScrollView contentContainerStyle={styles.sideBar}>
-                {drawerItems.map(({ label, icon, route, checkFields }) => (
+                {drawerItems.map(({ label, icon, route: itemRoute, checkFields }) => (
                     <Drawer.CollapsedItem
-                        key={route}
+                        key={itemRoute}
                         style={styles.collapsedItem}
-                        label={t(`sideBar.${label}`)}
+                        label={t(label)}
                         focusedIcon={() => (
                             <TabIconWithErrorBadge
                                 source={icon as ThemedIconName}
@@ -110,8 +118,8 @@ export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
                                 checkFields={checkFields as (keyof ProfileProps)[] || []}
                             />
                         )}
-                        onPress={() => onNavigate?.(route)}
-                        active={selectedRoute === route}
+                        onPress={() => handleItemPress(itemRoute)}
+                        active={selectedRoute === itemRoute}
                     />
                 ))}
             </ScrollView>

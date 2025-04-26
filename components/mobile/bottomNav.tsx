@@ -26,31 +26,37 @@ const tabs = [
         name: "sideBar.Description",
         content: DescriptionContent,
         icon: "description",
+        checkFields: ["profileName", "shortNameTop", "shortNameBot", "cartridgeName", "bulletName", "userNote"]
     },
     {
         name: "sideBar.Rifle",
         content: RifleContent,
         icon: "rifle",
+        checkFields: ["caliber", "rTwist", "scHeight", "twistDir"]
     },
     {
         name: "sideBar.Cartridge",
         content: CartridgeContent,
         icon: "cartridge",
+        checkFields: ["cMuzzleVelocity", "cZeroTemperature", "cTCoeff"]
     },
     {
         name: "sideBar.Bullet",
         content: BulletContent,
         icon: "bullet",
+        checkFields: ["bLength", "bWeight", "bDiameter", "bcType", "coefRows", "coefRowsG1", "coefRowsG7", "coefRowsCustom"]
     },
     {
         name: "sideBar.Zeroing",
         content: ZeroingContent,
         icon: "zeroing",
+        checkFields: ["cZeroPTemperature", "cZeroAirTemperature", "cZeroAirHumidity", "cZeroAirPressure", "cZeroWPitch", "zeroX", "zeroY", "cZeroDistanceIdx"]
     },
     {
         name: "sideBar.Distances",
         content: DistancesContent,
         icon: "distances",
+        checkFields: ["distances"]
     },
 ];
 
@@ -63,7 +69,7 @@ type TabScreenProps = {
 
 const TabScreen = ({ title, children, route, navigation }: TabScreenProps) => {
     const { t } = useTranslation();
-    console.log(navigation);
+    // console.log(navigation);
 
     return (
         <Surface style={styles.tabContainerStyle}>
