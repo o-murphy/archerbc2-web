@@ -67,7 +67,10 @@ const DescriptionContent = () => {
             <FormField
                 labelKey="descriptionContent.Hints"
                 helpKey="ShortHints"
-                fieldProps={DescriptionFields.shortNameTop as FieldEditProps}
+                fieldProps={{
+                    ...(DescriptionFields.shortNameTop as FieldEditProps),
+                    label: t("descriptionContent.Top"),
+                }}
                 extraFields={[
                     {
                         ...(DescriptionFields.shortNameBot as FieldEditProps),

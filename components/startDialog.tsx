@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
     Button,
     Dialog,
@@ -14,6 +14,8 @@ import { FileOpenerService } from "../hooks/fileService/fileOpener";
 import { useParseFile } from "@/hooks/fileService/useFileParsing";
 import { useTranslation } from "react-i18next";
 import { LanguageToggle } from "./languageToggle";
+import { openLibrary } from "@/utils/openLibrary";
+import { md3PaperIconSource } from "./icons/md3PaperIcons";
 
 const StartDialogDropZone = ({ children }: { children: ReactNode }) => {
     const { fileHandleState, processFile } = useFileHandler(); // Use the custom hook
@@ -43,6 +45,10 @@ const StartDialog = () => {
         FileOpenerService.triggerFileInputClick();
     };
 
+    const onLibraryPress = () => {
+        openLibrary()
+    }
+
     return (
         <Dialog visible={visible} style={styles.dialog} dismissable={false}>
             <StartDialogDropZone>
@@ -65,21 +71,33 @@ const StartDialog = () => {
                                 {t("startDialog.dndHere")}
                             </Text>
                         </Dialog.Content>
-                        <Dialog.Actions style={styles.dialogActions}>
+                        <Dialog.Actions style={styles.dialogActionsCol}>
+                            <View style={styles.dialogActionsRow}>
+                                <Button
+                                    icon={md3PaperIconSource({ name: "file-open" })}
+                                    mode="contained-tonal"
+                                    style={styles.actionButton}
+                                    onPress={onCreatePress}
+                                    disabled
+                                >
+                                    {t("startDialog.CreateNew")}
+                                </Button>
+                                <Button
+                                    icon={md3PaperIconSource({ name: "folder-open" })}
+                                    mode="contained-tonal"
+                                    style={styles.actionButton}
+                                    onPress={onOpenPress}
+                                >
+                                    {t("startDialog.Open")}
+                                </Button>
+                            </View>
                             <Button
-                                mode="contained-tonal"
-                                style={styles.actionButton}
-                                onPress={onCreatePress}
-                                disabled
+                                icon={md3PaperIconSource({ name: "storage" })}
+                                mode="outlined"
+                                style={styles.dialogActionsRow}
+                                onPress={onLibraryPress}
                             >
-                                {t("startDialog.CreateNew")}
-                            </Button>
-                            <Button
-                                mode="contained-tonal"
-                                style={styles.actionButton}
-                                onPress={onOpenPress}
-                            >
-                                {t("startDialog.Open")}
+                                {t("startDialog.OpenLibrary")}
                             </Button>
                         </Dialog.Actions>
                     </Surface>
@@ -99,8 +117,17 @@ const styles = StyleSheet.create({
     dialogTitle: {
         textAlign: "center",
     },
-    dialogActions: {
+    dialogActionsRow: {
+        width: "100%",
+        flexDirection: "row",
         justifyContent: "space-around",
+        gap: 8
+    },
+    dialogActionsCol: {
+        width: "100%",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        gap: 8
     },
     dialogContent: {
         alignItems: "center",

@@ -58,7 +58,7 @@ const zeroingFieldsConfig: ZeroingFieldConfig[] = [
         labelKey: "PowderTemperature",
         helpKey: "cZeroPTemperature",
         fieldKey: "cZeroPTemperature",
-        unitKey: "measure.degree",
+        unitKey: "measure.°C",
     },
     {
         labelKey: "Pitch",

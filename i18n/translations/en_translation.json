@@ -4,13 +4,15 @@
         "OpenOrCreateNewProfile": "Open or create new profile",
         "dndHere": "(or drag'n'drop file here)",
         "CreateNew": "Create new",
-        "Open": "Open"
+        "Open": "Open",
+        "OpenLibrary": "Open profiles library"
     },
     "topBar": {
         "Create new file": "Create new file",
         "OpenFile": "Open file",
         "Download": "Download",
         "RejectChanges": "Reject changes",
+        "Library": "Profiles library",
         "LoadZeroing": "Load zeroing"
     },
     "themeToggle": {
@@ -92,7 +94,7 @@
         "AirPressure": "Air Pressure",
         "Pitch": "Pitch",
         "PowderTemperature": "Powder Temperature",
-        "Humidity": "Air Humidity",
+        "AirHumidity": "Air Humidity",
         "EditDistances": "Edit Distances"
     },
     "distancesContent": {

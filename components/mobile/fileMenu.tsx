@@ -6,6 +6,7 @@ import { FileOpenerService } from "@/hooks/fileService/fileOpener";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useFileContext } from "@/hooks/fileService/fileContext";
+import { openLibrary } from "@/utils/openLibrary";
 
 export const FileMenu = () => {
     const theme = useTheme();
@@ -35,6 +36,10 @@ export const FileMenu = () => {
         console.log("RestoreBackup");
     };
 
+    const onLibraryPress = () => {
+        openLibrary()
+    }
+
     return (
         <Menu
             visible={visible}
@@ -54,7 +59,7 @@ export const FileMenu = () => {
             <Menu.Item
                 leadingIcon={md3PaperIconSource({ name: "file-open" })}
                 disabled
-                onPress={() => {}}
+                onPress={() => { }}
                 title={t("topBar.Create new file")}
             />
             <Menu.Item
@@ -75,8 +80,13 @@ export const FileMenu = () => {
             <Menu.Item
                 leadingIcon={md3PaperIconSource({ name: "my-location" })}
                 disabled
-                onPress={() => {}}
+                onPress={() => { }}
                 title={t("topBar.LoadZeroing")}
+            />
+            <Menu.Item
+                leadingIcon={md3PaperIconSource({ name: "storage" })}
+                onPress={onLibraryPress}
+                title={t("topBar.Library")}
             />
             <ShareDialogMenuItem />
             <Divider />

@@ -9,7 +9,7 @@ import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";
 import { View } from "react-native";
 
-export const TopBar = ({ title }: { title: string }) => {
+export const TopBar = ({ title, helpContentKey }: { title: string, helpContentKey: string }) => {
     const { theme, toggleTheme } = useThemeToggle();
     const helpContent = useHelp();
     const themeIcon = md3PaperIconSource({
@@ -26,7 +26,7 @@ export const TopBar = ({ title }: { title: string }) => {
         await i18n.changeLanguage(newLang);
         setCurrentLang(newLang);
     };
-
+    console.log("T", title)
     return (
         <Appbar.Header>
             <FileMenu />
@@ -35,7 +35,7 @@ export const TopBar = ({ title }: { title: string }) => {
                     <View style={{ flexDirection: "row", gap: 8 }}>
                         <Text variant="titleLarge">{title}</Text>
                         <HelpButton
-                            helpContent={helpContent.cTCoeff}
+                            helpContent={helpContent?.[helpContentKey]}
                         ></HelpButton>
                     </View>
                 }

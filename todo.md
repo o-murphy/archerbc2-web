@@ -7,7 +7,7 @@
         setBadgeVisible(hasErrors);
     }, [fieldErrors]);
 ```
-- [+] improve logic of profile value updates (maybe onBlur)
+- [x] improve logic of profile value updates (maybe onBlur)
 - [ ] Add "Create new" dialog
 - [ ] Save before open new
 - [ ] Improve navigation for desktop layout
@@ -17,4 +17,4 @@
 - [ ] Custom Icons to svg
 - [ ] Improve distances editor
 - [ ] Improve drag-model editor
-- [ ] Add profiles library link or embed
+- [x] Add profiles library link or embed

@@ -12,5 +12,5 @@
         ".expo/types/**/*.ts",
         "expo-env.d.ts",
         "hooks/fileService"
-    ]
+, "components/icons/customIcons.tsx.bak"    ]
 }

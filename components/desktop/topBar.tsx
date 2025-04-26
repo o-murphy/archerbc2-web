@@ -11,6 +11,7 @@ import { LanguageToggle } from "../languageToggle";
 import { useTranslation } from "react-i18next";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { FileMenu } from "../mobile/fileMenu";
+import { openLibrary } from "@/utils/openLibrary";
 
 const TopBar = () => {
     const { t } = useTranslation();
@@ -33,6 +34,10 @@ const TopBar = () => {
         console.log("RestoreBackup");
     };
 
+    const onLibraryPress = () => {
+        openLibrary()
+    }
+
     const renderTooltips = width >= 700;
 
     return (
@@ -45,7 +50,7 @@ const TopBar = () => {
                     <ToolTipIconButton
                         tooltip={t("topBar.Create new file")}
                         icon={md3PaperIconSource({ name: "file-open" })}
-                        onPress={() => {}}
+                        onPress={() => { }}
                         disabled
                     />
                     <ToolTipIconButton
@@ -66,8 +71,14 @@ const TopBar = () => {
                     <ToolTipIconButton
                         tooltip={t("topBar.LoadZeroing")}
                         icon={md3PaperIconSource({ name: "my-location" })}
-                        onPress={() => {}}
+                        onPress={() => { }}
                         disabled
+                    />
+
+                    <ToolTipIconButton
+                        tooltip={t("topBar.Library")}
+                        icon={md3PaperIconSource({ name: "storage" })}
+                        onPress={onLibraryPress}
                     />
                     <ShareDialogWidget />
                 </>

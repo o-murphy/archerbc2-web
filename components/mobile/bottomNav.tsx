@@ -20,41 +20,48 @@ import DistancesContent from "../contentCards/distancesContent";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { TopBar } from "./topBar";
 import { useTranslation } from "react-i18next";
+import DescriptionHelpContent from "../contentCards/help/descriptionHelp";
 
 const tabs = [
     {
         name: "sideBar.Description",
         content: DescriptionContent,
+        helpContentKey: "DescriptionCard",
         icon: "description",
         checkFields: ["profileName", "shortNameTop", "shortNameBot", "cartridgeName", "bulletName", "userNote"]
     },
     {
         name: "sideBar.Rifle",
         content: RifleContent,
+        helpContentKey: "RifleCard",
         icon: "rifle",
         checkFields: ["caliber", "rTwist", "scHeight", "twistDir"]
     },
     {
         name: "sideBar.Cartridge",
         content: CartridgeContent,
+        helpContentKey: "CartridgeCard",
         icon: "cartridge",
         checkFields: ["cMuzzleVelocity", "cZeroTemperature", "cTCoeff"]
     },
     {
         name: "sideBar.Bullet",
         content: BulletContent,
+        helpContentKey: "BulletCard",
         icon: "bullet",
         checkFields: ["bLength", "bWeight", "bDiameter", "bcType", "coefRows", "coefRowsG1", "coefRowsG7", "coefRowsCustom"]
     },
     {
         name: "sideBar.Zeroing",
         content: ZeroingContent,
+        helpContentKey: "ZeroingCard",
         icon: "zeroing",
         checkFields: ["cZeroPTemperature", "cZeroAirTemperature", "cZeroAirHumidity", "cZeroAirPressure", "cZeroWPitch", "zeroX", "zeroY", "cZeroDistanceIdx"]
     },
     {
         name: "sideBar.Distances",
         content: DistancesContent,
+        helpContentKey: "DistancesCard",
         icon: "distances",
         checkFields: ["distances"]
     },
@@ -62,18 +69,19 @@ const tabs = [
 
 type TabScreenProps = {
     title: string;
+    helpContentKey: string;
     children: ReactNode;
     route: RouteProp<ParamListBase, string>;
     navigation: NavigationProp<ParamListBase>;
 };
 
-const TabScreen = ({ title, children, route, navigation }: TabScreenProps) => {
+const TabScreen = ({ title, helpContentKey, children, route, navigation }: TabScreenProps) => {
     const { t } = useTranslation();
     // console.log(navigation);
 
     return (
         <Surface style={styles.tabContainerStyle}>
-            <TopBar title={t(title)} />
+            <TopBar title={t(title)} helpContentKey={helpContentKey} />
             {children}
         </Surface>
     );
@@ -171,7 +179,7 @@ export default function EditNav() {
                 />
             )}
         >
-            {tabs.map(({ name, content: Content, icon }) => (
+            {tabs.map(({ name, content: Content, helpContentKey, icon }) => (
                 <Tab.Screen
                     key={name}
                     name={name}
@@ -188,7 +196,7 @@ export default function EditNav() {
                     }}
                 >
                     {(props) => (
-                        <TabScreen title={name} {...props}>
+                        <TabScreen title={name} helpContentKey={helpContentKey} {...props}>
                             <Content />
                         </TabScreen>
                     )}

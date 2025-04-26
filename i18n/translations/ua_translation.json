@@ -4,13 +4,15 @@
         "OpenOrCreateNewProfile": "Відкрити або створити новий профіль",
         "dndHere": "(або перетягніть файл сюди)",
         "CreateNew": "Створити новий",
-        "Open": "Відкрити"
+        "Open": "Відкрити",
+        "OpenLibrary": "Відкрити бібліотеку профілів"
     },
     "topBar": {
         "Create new file": "Створити новий файл",
         "OpenFile": "Відкрити файл",
         "Download": "Завантажити",
         "RejectChanges": "Скасувати зміни",
+        "Library": "Бібліотека профілів",
         "LoadZeroing": "Завантажити пристрілку"
     },
     "themeToggle": {
@@ -92,7 +94,7 @@
         "AirPressure": "Тиск повітря",
         "Pitch": "Кут нахилу",
         "PowderTemperature": "Температура пороху",
-        "Humidity": "Вологість повітря",
+        "AirHumidity": "Вологість повітря",
         "EditDistances": "Редагувати відстані"
     },
     "distancesContent": {

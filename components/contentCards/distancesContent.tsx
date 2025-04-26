@@ -34,10 +34,6 @@ import { ContentTitle } from "./contentTitle";
 
 type DistanceItem = { id: string; value: number; zero: boolean };
 
-// Function to render the zero icon for the selected distance
-const renderZeroIcon = (visible: boolean) => {
-    return visible ? <ThemedIcon size={24} source="zeroing-distance" /> : null; // Return null when it's not the zeroing distance
-};
 
 const SortableItem = ({ item }: { item: DistanceItem }) => {
     const { t } = useTranslation();
@@ -62,7 +58,7 @@ const SortableItem = ({ item }: { item: DistanceItem }) => {
             <Text style={{ textAlign: "center", alignSelf: "center" }}>
                 {item.value} {t("measure.m")}
             </Text>
-            {renderZeroIcon(item.zero)}
+            {item.zero && <ThemedIcon size={24} source="zeroing-distance" />}
         </Surface>
     );
 };
