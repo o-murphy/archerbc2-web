@@ -28,7 +28,7 @@
         "@react-navigation/bottom-tabs": "^7.3.10",
         "@react-navigation/native": "^7.1.6",
         "@react-navigation/stack": "^7.2.10",
-        "a7p-js": "^1.0.3",
+        "a7p-js": "^1.0.4",
         "base64-js": "^1.5.1",
         "crypto-js": "^4.2.0",
         "expo": "^52.0.44",
