@@ -2,12 +2,20 @@ import { DistanceItemProps, SortableItem } from "./DistanceSortableItem";
 import { useEffect, useState, useCallback } from "react";
 import { nanoid } from "nanoid";
 import {
+    closestCorners,
     DndContext,
     DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
 } from "@dnd-kit/core";
 import {
     SortableContext,
     arrayMove,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { ParsedData } from "@/hooks/fileService/useFileParsing";
@@ -22,6 +30,14 @@ export const SortableDistancesList = () => {
 
     const distances = currentData.profile?.distances ?? [];
     const zeroIdx = currentData.profile?.cZeroDistanceIdx ?? 0;
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(TouchSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates
+        }),
+    );
 
     // Initialize items and update when distances or zeroIdx change
     useEffect(() => {
@@ -77,8 +93,15 @@ export const SortableDistancesList = () => {
         <ScrollView
             contentContainerStyle={styles.container}
         >
-            <DndContext onDragEnd={handleDragEnd}>
-                <SortableContext items={items.map((item) => item.id)}>
+            <DndContext
+                sensors={sensors}
+                onDragEnd={handleDragEnd}
+                collisionDetection={closestCorners}
+            >
+                <SortableContext
+                    items={items.map((item) => item.id)}
+                    strategy={verticalListSortingStrategy}
+                >
                     {items.map((item) => (
                         <SortableItem key={item.id} item={item} onRemovePress={removeItem} />
                     ))}
