@@ -1,4 +1,4 @@
-import { FieldFloatProps, FieldProps } from "../fieldsEdit/fieldEditInput";
+import { FieldFloatProps, FieldProps } from "@/components/fieldsEdit/fieldEditInput";
 
 export const DescriptionFields: FieldProps = {
     profileName: {
@@ -142,10 +142,10 @@ export const ZeroingFloatFields: FieldFloatProps = {
 };
 
 export const DistancesFloatFields: FieldFloatProps = {
-    distances: {
-        field: "zeroX",
-        range: { min: -200, max: 200 },
-        multiplier: -1000,
-        fraction: 2,
+    distances: {  // readonly
+        field: "distances",
+        range: { min: 1, max: 3000 },
+        multiplier: 1,
+        fraction: 0,
     }
 }

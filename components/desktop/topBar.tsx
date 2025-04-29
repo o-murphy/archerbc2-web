@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { FileMenu } from "../mobile/fileMenu";
 import { openLibrary } from "@/utils/openLibrary";
-import { ThemeToggle } from "../themeToggle";
+import { ThemeToggle } from "../ThemeToggle";
 
 const TopBar = () => {
     const { t } = useTranslation();

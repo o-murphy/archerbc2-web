@@ -1,14 +1,12 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
-import {
-    distancesTemplates,
-} from "@/hooks/fileService/useFileParsing";
 import { useHelp } from "../help/helpContent";
 import { HelpButton } from "../help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "../ContentTitle";
-import { DistancesTemplateChip } from "./DistancesTemplateChip";
 import { SortableDistancesList } from "./DistancesList";
+import { DistancesAdd } from "./DistanceAdd";
+import { DistancesTemplates } from "./DistancesTemplates";
 
 
 const DistancesContent = () => {
@@ -23,41 +21,27 @@ const DistancesContent = () => {
             />
 
             <HelpButton helpContent={helpContent.QuickRangeSet}>
-                <Text style={{ alignSelf: "center" }} variant="titleMedium">
+                <Text style={styles.helpButton} variant="titleMedium">
                     {t("distancesContent.QuickRangeSet")}
                 </Text>
             </HelpButton>
 
-            <View
-                style={{
-                    paddingHorizontal: 16,
-                    paddingVertical: 8,
-                    flexDirection: "row",
-                    gap: 8,
-                    flexWrap: "wrap",
-                }}
-            >
-                {Object.entries(distancesTemplates).map(([key, distances]) => (
-                    <DistancesTemplateChip
-                        key={key}
-                        name={key}
-                        distances={distances}
-                    />
-                ))}
-            </View>
-
-            <ScrollView contentContainerStyle={{ ...styles.container, gap: 8 }}>
-                <SortableDistancesList />
-            </ScrollView>
+            <DistancesTemplates />
+            <DistancesAdd />
+            <SortableDistancesList />
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    helpButton: {
+        alignSelf: "center"
+    },
     container: {
         flex: 1,
         padding: 16,
         maxWidth: 500,
+        gap: 8
     },
 });
 

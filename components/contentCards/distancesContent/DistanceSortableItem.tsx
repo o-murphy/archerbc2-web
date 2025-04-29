@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native"; // Import TouchableWithoutFeedb
 import { CSS } from "@dnd-kit/utilities";
 import { ThemedIcon } from "@/components/icons/customIcons";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
+import { ToolTipIconButton } from "@/components/IconButtonWithTooltip";
 
 export interface DistanceItemProps {
     id: string;
@@ -63,7 +64,8 @@ export const SortableItem = React.memo(({ item, onRemovePress = undefined }: Sor
             </View>
             {
                 onRemovePress
-                && <IconButton
+                && <ToolTipIconButton
+                    tooltip={t("distancesContent.RemoveRow")}
                     icon={md3PaperIconSource({ name: "cancel" })}
                     iconColor={theme.colors.error}
                     onPress={() => onRemovePress?.(item)}
@@ -79,17 +81,17 @@ export const SortableItem = React.memo(({ item, onRemovePress = undefined }: Sor
 
 const styles = StyleSheet.create({
     clearButton: {
-        padding: 8, // Adjust padding as needed
+        padding: 8
     },
     sortableItem: {
+        // width: 200,
         flexDirection: "row",
-        // padding: 16,
         borderRadius: 8,
         gap: 16,
         alignItems: 'center', // Added to vertically align items
     },
     textContainer: {
-        padding: 16,
+        padding: 20,
         flexDirection: "row",
         gap: 16,
         flex: 1,

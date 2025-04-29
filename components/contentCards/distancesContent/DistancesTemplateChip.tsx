@@ -23,7 +23,7 @@ export const DistancesTemplateChip = ({
 
     return (
         <Chip mode="flat" onPress={onPress}>
-            {name}
+            {`${name}${t("measure.m")}`}
         </Chip>
     );
 };

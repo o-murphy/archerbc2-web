@@ -4,14 +4,14 @@ import { Text, TextInput } from "react-native-paper";
 import {
     FieldEditFloat,
     FieldEditFloatProps,
-} from "../fieldsEdit/fieldEditInput";
-import ZeroDistanceField from "../fieldsEdit/zeroDistanceField";
-import { useHelp } from "./help/helpContent";
-import { HelpButton } from "./help/helpIcons";
-import { ZeroingFloatFields } from "./fiedProps";
-import { ThemedIcon, ThemedIconName } from "../icons/customIcons";
+} from "@/components/fieldsEdit/fieldEditInput";
+import ZeroDistanceField from "@/components/fieldsEdit/zeroDistanceField";
+import { useHelp } from "@/components/contentCards/help/helpContent";
+import { HelpButton } from "@/components/contentCards/help/helpIcons";
+import { ZeroingFloatFields } from "@/components/contentCards/FiedProps";
+import { ThemedIcon, ThemedIconName } from "@/components/icons/customIcons";
 import { useTranslation } from "react-i18next";
-import { ContentTitle } from "./ContentTitle";
+import { ContentTitle } from "@/components/contentCards/ContentTitle";
 
 
 interface ZeroingFieldConfig {

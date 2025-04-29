@@ -101,6 +101,7 @@
         "Distances": "Відстані",
         "QuickRangeSet": "Швидкий вібір дистанцій",
         "ZeroDistance": "Відстань пристрілки",
+        "Add": "Додати",
         "RemoveRow": "Видалити"
     },
     "zeroDistanceField": {
@@ -108,7 +109,7 @@
     },
     "measure": {
         "inch": "дюйм",
-        "inch_turn": "дюйм/оберт",
+        "inch_turn": "дюйм/об.",
         "mm": "мм",
         "mps": "м/с",
         "°C": "°C",

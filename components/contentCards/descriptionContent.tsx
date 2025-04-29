@@ -3,7 +3,7 @@ import { Text, Divider } from "react-native-paper";
 import { FieldEdit, FieldEditProps } from "../fieldsEdit/fieldEditInput";
 import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
-import { DescriptionFields } from "./fiedProps";
+import { DescriptionFields } from "./FiedProps";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./ContentTitle";
 

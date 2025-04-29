@@ -6,14 +6,14 @@ import {
     FieldEditFloatProps,
     FieldEditProps,
     useProfileFieldState,
-} from "../fieldsEdit/fieldEditInput";
+} from "@/components/fieldsEdit/fieldEditInput";
 import { Profile, TwistDir } from "a7p-js/dist/types";
-import { RifleFloatFields, RifleTextFields } from "./fiedProps";
-import { useHelp } from "./help/helpContent";
-import { HelpButton } from "./help/helpIcons";
+import { useHelp } from "@/components/contentCards//help/helpContent";
+import { HelpButton } from "@/components/contentCards/help/helpIcons";
 import { useTranslation } from "react-i18next";
-import { md3PaperIconSource } from "../icons/md3PaperIcons";
-import { ContentTitle } from "./ContentTitle";
+import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
+import { ContentTitle } from "@/components/contentCards/ContentTitle";
+import { RifleFloatFields, RifleTextFields } from "@/components/contentCards/FiedProps";
 
 const TwistField = () => {
     const { t } = useTranslation();

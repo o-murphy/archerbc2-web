@@ -101,6 +101,7 @@
         "Distances": "Distances",
         "QuickRangeSet": "Quick Range Set",
         "ZeroDistance": "Zero Distance",
+        "Add": "Add",
         "RemoveRow": "Remove"
     },
     "zeroDistanceField": {

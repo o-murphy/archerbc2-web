@@ -10,17 +10,17 @@ import {
 } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation, Surface, Text, useTheme } from "react-native-paper";
-import DescriptionContent from "../contentCards/DescriptionContent";
-import RifleContent from "../contentCards/RifleContent";
 import { ThemedIconName, ThemedTabIcon } from "../icons/customIcons";
-import CartridgeContent from "../contentCards/CartridgeContent";
-import BulletContent from "../contentCards/BulletContent";
-import ZeroingContent from "../contentCards/ZeroingContent";
-import DistancesContent from "../contentCards/distancesContent/DistancesContent";
 import { useFileContext } from "@/hooks/fileService/fileContext";
-import { TopBar } from "./topBar";
+import { TopBar } from "@/components/mobile/topBar";
 import { useTranslation } from "react-i18next";
-import DescriptionHelpContent from "../contentCards/help/descriptionHelp";
+import DescriptionContent from "@/components/contentCards/DescriptionContent";
+import RifleContent from "@/components/contentCards/RifleContent";
+import CartridgeContent from "@/components/contentCards/CartridgeContent";
+import BulletContent from "@/components/contentCards/BulletContent";
+import ZeroingContent from "@/components/contentCards/ZeroingContent";
+import DistancesContent from "@/components/contentCards/distancesContent/DistancesContent";
+
 
 const tabs = [
     {

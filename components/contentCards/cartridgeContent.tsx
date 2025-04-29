@@ -4,7 +4,7 @@ import {
     FieldEditFloat,
     FieldEditFloatProps,
 } from "../fieldsEdit/fieldEditInput";
-import { CartridgeFields } from "./fiedProps";
+import { CartridgeFields } from "./FiedProps";
 import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
 import { useTranslation } from "react-i18next";

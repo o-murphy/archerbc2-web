@@ -10,7 +10,7 @@ import {
 import { BcType, Profile } from "a7p-js/dist/types";
 import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
-import { BulletFloatFields } from "./fiedProps";
+import { BulletFloatFields } from "./FiedProps";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "./ContentTitle";
 

@@ -31,7 +31,7 @@ export const detectDevice = () => {
 
 export const isMobileUA = () => {
     const dev = detectDevice();
-    console.log("Device", dev);
+    // console.log("Device", dev);
     switch (dev) {
         case "Android":
         case "iOS":
@@ -42,13 +42,13 @@ export const isMobileUA = () => {
 };
 
 export const isWebPlatform = () => {
-    console.log("Platform", Platform.OS);
+    // console.log("Platform", Platform.OS);
     return Platform.OS === "web";
 };
 
 export const isMobileWidth = () => {
     const { width, height } = Dimensions.get("window");
-    console.log("dimensions", width, height);
+    // console.log("dimensions", width, height);
     return width < MIN_DESKTOP_WIDTH;
 };
 
