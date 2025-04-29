@@ -2,7 +2,7 @@ import MainBackground from "@/components/backgroundImage";
 import { FileOpener } from "@/hooks/fileService/fileOpener";
 import { FileOpenError } from "@/components/fileOpenError";
 import { HelpDialogHost } from "@/components/services/helpService/helpService";
-import StartDialog from "@/components/startDialog";
+import StartDialog from "@/components/dialogs/StartDialog";
 import { Toast } from "@/components/services/toastService/toastService";
 import { UrlPayloadHandler } from "@/hooks/fileService/useFileHandler";
 import { useEffect } from "react";

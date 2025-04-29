@@ -11,8 +11,7 @@ import { HelpButton } from "./help/helpIcons";
 import { ZeroingFloatFields } from "./fiedProps";
 import { ThemedIcon, ThemedIconName } from "../icons/customIcons";
 import { useTranslation } from "react-i18next";
-import { ToolTipIconButton } from "../iconButtonWithTooltip";
-import { ContentTitle } from "./contentTitle";
+import { ContentTitle } from "./ContentTitle";
 
 
 interface ZeroingFieldConfig {
@@ -100,10 +99,7 @@ const ZeroingField: React.FC<ZeroingFieldConfig> = ({
 
 const ZeroingContent = () => { // Receive the prop
     const { t } = useTranslation();
-
-    const onDistancesEditPress = () => {
-        // onNavigate("distances"); // Use the passed callback
-    };
+    const helpContent = useHelp()
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -115,7 +111,7 @@ const ZeroingContent = () => { // Receive the prop
             <View style={styles.column}>
                 <View style={styles.row}>
                     <HelpButton
-                        helpContent={useHelp().cZeroDistanceIdx}
+                        helpContent={helpContent.cZeroDistanceIdx}
                         style={[styles.label, { alignContent: "center" }]}
                     >
                         <Text>{t("zeroingContent.ZeroDistance")}</Text>
@@ -129,13 +125,6 @@ const ZeroingContent = () => { // Receive the prop
                     >
                         <ThemedIcon source="zeroing-distance" size={24} />
                         <ZeroDistanceField style={styles.select} />
-                        {/* <ToolTipIconButton
-                            tooltip={t("zeroingContent.EditDistances")}
-                            style={styles.distancesEditBtn}
-                            mode="outlined"
-                            icon={"playlist-edit"}
-                            onPress={onDistancesEditPress}
-                        /> */}
                     </View>
                 </View>
                 {zeroingFieldsConfig.map((config) => (

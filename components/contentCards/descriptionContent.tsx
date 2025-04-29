@@ -5,7 +5,7 @@ import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
 import { DescriptionFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
-import { ContentTitle } from "./contentTitle";
+import { ContentTitle } from "./ContentTitle";
 
 interface FormFieldProps {
     labelKey: string;

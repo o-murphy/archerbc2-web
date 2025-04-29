@@ -140,3 +140,12 @@ export const ZeroingFloatFields: FieldFloatProps = {
         fraction: 0,
     },
 };
+
+export const DistancesFloatFields: FieldFloatProps = {
+    distances: {
+        field: "zeroX",
+        range: { min: -200, max: 200 },
+        multiplier: -1000,
+        fraction: 2,
+    }
+}

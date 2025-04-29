@@ -15,7 +15,7 @@ import { SpinBoxRange } from "../fieldsEdit/doubleSpinBox";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";
 import { useTranslation } from "react-i18next";
-import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { ToolTipIconButton } from "../IconButtonWithTooltip";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
 import { LocalizedSpinBox } from "../fieldsEdit/localizedSpinBox";
 

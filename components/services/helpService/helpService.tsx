@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Portal, Dialog, Button, useTheme, Text } from "react-native-paper";
-import { ToolTipIconButton } from "../../iconButtonWithTooltip";
+import { ToolTipIconButton } from "../../IconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
 

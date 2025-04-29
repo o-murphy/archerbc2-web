@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToolTipIconButton } from "./iconButtonWithTooltip";
+import { ToolTipIconButton } from "./IconButtonWithTooltip";
 import { useTranslation } from "react-i18next";
 import CountryFlag from "react-native-country-flag";
 

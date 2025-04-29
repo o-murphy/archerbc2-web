@@ -1,17 +1,17 @@
 import { StyleSheet, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { useFileContext } from "@/hooks/fileService/fileContext";
-import { CloseDialogWidget } from "../closeDialog";
-import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { CloseDialogWidget } from "../dialogs/CloseDialog";
+import { ToolTipIconButton } from "../IconButtonWithTooltip";
 import { md3PaperIconSource } from "@/components/icons/md3PaperIcons";
-import { ShareDialogWidget } from "../shareDialog";
+import { ShareDialogWidget } from "../dialogs/ShareDialog";
 import { FileOpenerService } from "../../hooks/fileService/fileOpener";
-import { ThemeToggle } from "../themeToggle";
-import { LanguageToggle } from "../languageToggle";
+import { LanguageToggle } from "../LanguageToggle";
 import { useTranslation } from "react-i18next";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { FileMenu } from "../mobile/fileMenu";
 import { openLibrary } from "@/utils/openLibrary";
+import { ThemeToggle } from "../themeToggle";
 
 const TopBar = () => {
     const { t } = useTranslation();

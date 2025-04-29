@@ -99,7 +99,9 @@
     },
     "distancesContent": {
         "Distances": "Відстані",
-        "QuickRangeSet": "Швидкий вібір дистанцій"
+        "QuickRangeSet": "Швидкий вібір дистанцій",
+        "ZeroDistance": "Відстань пристрілки",
+        "RemoveRow": "Видалити"
     },
     "zeroDistanceField": {
         "SelectZeroingDistance": "Вибір дистанції пристрілки"

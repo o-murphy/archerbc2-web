@@ -12,7 +12,7 @@ import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
 import { BulletFloatFields } from "./fiedProps";
 import { useTranslation } from "react-i18next";
-import { ContentTitle } from "./contentTitle";
+import { ContentTitle } from "./ContentTitle";
 
 const bcTypeMap: Record<string, React.ReactNode> = {
     G1: <StandardDragTable model={BcType.G1} />,

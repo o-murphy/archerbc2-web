@@ -8,7 +8,7 @@ import { CartridgeFields } from "./fiedProps";
 import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
 import { useTranslation } from "react-i18next";
-import { ContentTitle } from "./contentTitle";
+import { ContentTitle } from "./ContentTitle";
 
 const CartridgeContent = () => {
     const { t } = useTranslation();

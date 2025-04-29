@@ -15,7 +15,7 @@ import { CustomDragRowProps, CustomRowField } from "./customDragTable";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";
 import { useTranslation } from "react-i18next";
-import { ToolTipIconButton } from "../iconButtonWithTooltip";
+import { ToolTipIconButton } from "../IconButtonWithTooltip";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
 
 const MAX_STANDARD_ITEM_COUNT = 5;
@@ -234,7 +234,7 @@ const StandardDragTable = ({ model }: { model: BcType }) => {
                 initialNumToRender={10}
                 scrollEnabled={true}
                 style={{ flex: 1 }}
-                // contentContainerStyle={{ maxHeight: 300 }}
+            // contentContainerStyle={{ maxHeight: 300 }}
             />
         </Card>
     );

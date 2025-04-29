@@ -9,13 +9,13 @@ import {
 } from "react-native-paper";
 import { useFileHandler } from "@/hooks/fileService/useFileHandler";
 import { useFileContext } from "@/hooks/fileService/fileContext";
-import { DropZoneWeb } from "./dropZone/dropZone";
-import { FileOpenerService } from "../hooks/fileService/fileOpener";
+import { DropZoneWeb } from "../dropZone/dropZone";
+import { FileOpenerService } from "../../hooks/fileService/fileOpener";
 import { useParseFile } from "@/hooks/fileService/useFileParsing";
 import { useTranslation } from "react-i18next";
-import { LanguageToggle } from "./languageToggle";
+import { LanguageToggle } from "../LanguageToggle";
 import { openLibrary } from "@/utils/openLibrary";
-import { md3PaperIconSource } from "./icons/md3PaperIcons";
+import { md3PaperIconSource } from "../icons/md3PaperIcons";
 
 const StartDialogDropZone = ({ children }: { children: ReactNode }) => {
     const { fileHandleState, processFile } = useFileHandler(); // Use the custom hook

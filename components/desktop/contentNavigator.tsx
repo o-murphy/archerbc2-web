@@ -1,9 +1,9 @@
-import RifleContent from "../contentCards/rifleContent";
-import DescriptionContent from "../contentCards/descriptionContent";
-import CartridgeContent from "../contentCards/cartridgeContent";
-import BulletContent from "../contentCards/bulletContent";
-import ZeroingContent from "../contentCards/zeroingContent";
-import DistancesContent from "../contentCards/distancesContent";
+import RifleContent from "../contentCards/RifleContent";
+import DescriptionContent from "../contentCards/DescriptionContent";
+import CartridgeContent from "../contentCards/CartridgeContent";
+import BulletContent from "../contentCards/BulletContent";
+import ZeroingContent from "../contentCards/ZeroingContent";
+import DistancesContent from "../contentCards/distancesContent/DistancesContent";
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -28,10 +28,7 @@ export const ContentNavigator = ({ onContentNavigate }: ContentNavigatorProps) =
             <Stack.Screen name="rifle" component={RifleContent} />
             <Stack.Screen name="cartridge" component={CartridgeContent} />
             <Stack.Screen name="bullet" component={BulletContent} />
-            <Stack.Screen
-                name="zeroing"
-                component={(props: any) => <ZeroingContent {...props} onNavigate={onContentNavigate} />}
-            />
+            <Stack.Screen name="zeroing" component={ZeroingContent} />
             <Stack.Screen name="distances" component={DistancesContent} />
         </Stack.Navigator>
     );

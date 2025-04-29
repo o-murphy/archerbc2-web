@@ -89,21 +89,6 @@ export function useProfileFieldState<
         isLocalChange.current = false;
     }, [value, currentData, field, setCurrentData, validate, setFieldError]);
 
-    // useEffect(() => {
-    //     if (!currentData.profile || !isLocalChange.current) return;
-    //     if (validate && validate(value)) return;
-
-    //     setCurrentData({
-    //         ...currentData,
-    //         profile: {
-    //             ...currentData.profile,
-    //             [field]: format(value),
-    //         },
-    //     });
-
-    //     isLocalChange.current = false;
-    // }, [value, currentData, field, setCurrentData]);
-
     const handleChange = (val: T) => {
         isLocalChange.current = true;
         setValue(val);

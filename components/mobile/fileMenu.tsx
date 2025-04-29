@@ -1,7 +1,7 @@
 import { Appbar, Divider, FAB, Menu, useTheme } from "react-native-paper";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
-import { ShareDialogMenuItem } from "../shareDialog";
-import { CloseDialogMenuAction } from "../closeDialog";
+import { ShareDialogMenuItem } from "../dialogs/ShareDialog";
+import { CloseDialogMenuAction } from "../dialogs/CloseDialog";
 import { FileOpenerService } from "@/hooks/fileService/fileOpener";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";

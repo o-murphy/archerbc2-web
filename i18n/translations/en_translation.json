@@ -99,7 +99,9 @@
     },
     "distancesContent": {
         "Distances": "Distances",
-        "QuickRangeSet": "Quick Range Set"
+        "QuickRangeSet": "Quick Range Set",
+        "ZeroDistance": "Zero Distance",
+        "RemoveRow": "Remove"
     },
     "zeroDistanceField": {
         "SelectZeroingDistance": ""

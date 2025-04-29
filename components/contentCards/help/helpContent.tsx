@@ -12,11 +12,11 @@ export const useHelp = (): Partial<
 
     return {
         DescriptionCard: <DescriptionHelpContent />,
-        RifleCard: "",
+        RifleCard: <></>,
         CartridgeCard: <CartridgeHelpContent />,
-        BulletCard: "",
-        ZeroingCard: "",
-        DistancesCard: "",
+        BulletCard: <></>,
+        ZeroingCard: <></>,
+        DistancesCard: <></>,
 
         profileName: <Text variant="bodyMedium">{t("help.profileName")}</Text>,
         ShortHints: <Text variant="bodyMedium">{t("help.ShortHints")}</Text>,

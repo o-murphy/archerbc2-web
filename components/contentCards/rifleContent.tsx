@@ -13,7 +13,7 @@ import { useHelp } from "./help/helpContent";
 import { HelpButton } from "./help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { md3PaperIconSource } from "../icons/md3PaperIcons";
-import { ContentTitle } from "./contentTitle";
+import { ContentTitle } from "./ContentTitle";
 
 const TwistField = () => {
     const { t } = useTranslation();
