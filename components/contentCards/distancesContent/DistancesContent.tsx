@@ -4,7 +4,7 @@ import { useHelp } from "../help/helpContent";
 import { HelpButton } from "../help/helpIcons";
 import { useTranslation } from "react-i18next";
 import { ContentTitle } from "../ContentTitle";
-import { SortableDistancesList } from "./DistancesList";
+import { DistancesListView } from "./DistancesList";
 import { DistancesAdd } from "./DistanceAdd";
 import { DistancesTemplates } from "./DistancesTemplates";
 
@@ -28,7 +28,7 @@ const DistancesContent = () => {
 
             <DistancesTemplates />
             <DistancesAdd />
-            <SortableDistancesList />
+            <DistancesListView />
         </ScrollView>
     );
 };

@@ -2,7 +2,7 @@ import { DistanceItemProps, SortableItem } from "./DistanceSortableItem";
 import { useEffect, useState, useCallback } from "react";
 import { nanoid } from "nanoid";
 import {
-    closestCorners,
+    closestCenter,
     DndContext,
     DragEndEvent,
     KeyboardSensor,
@@ -90,26 +90,32 @@ export const SortableDistancesList = () => {
     };
 
     return (
-        <ScrollView
-            contentContainerStyle={styles.container}
+        <DndContext
+            sensors={sensors}
+            onDragEnd={handleDragEnd}
+            collisionDetection={closestCenter}
+        // collisionDetection={closestCorners}
         >
-            <DndContext
-                sensors={sensors}
-                onDragEnd={handleDragEnd}
-                collisionDetection={closestCorners}
+            <SortableContext
+                items={items.map((item) => item.id)}
+                strategy={verticalListSortingStrategy}
             >
-                <SortableContext
-                    items={items.map((item) => item.id)}
-                    strategy={verticalListSortingStrategy}
-                >
-                    {items.map((item) => (
-                        <SortableItem key={item.id} item={item} onRemovePress={removeItem} />
-                    ))}
-                </SortableContext>
-            </DndContext>
-        </ScrollView>
+                {items.map((item) => (
+                    <SortableItem key={item.id} item={item} onRemovePress={removeItem} />
+                ))}
+            </SortableContext>
+        </DndContext>
     );
 };
+
+
+export const DistancesListView = () => (
+    <ScrollView
+        contentContainerStyle={styles.container}
+    >
+        <SortableDistancesList />
+    </ScrollView>
+)
 
 const styles = StyleSheet.create({
     container: {
