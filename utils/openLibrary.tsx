@@ -1,5 +1,5 @@
 
-const LIBRARY_PATH = "/a7pIndex/"
+const LIBRARY_PATH = "/a7pindex/"
 
 // export const openLibrary = async () => {
 //     try {
