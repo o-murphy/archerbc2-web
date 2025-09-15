@@ -3919,10 +3919,10 @@ expo-asset@~12.0.8:
     "@expo/image-utils" "^0.8.7"
     expo-constants "~18.0.8"
 
-expo-blur@~15.0.6:
-  version "15.0.6"
-  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-15.0.6.tgz#41c36f8b97db45d2273149382dfa4982a1e5cfb0"
-  integrity sha512-MvHkrRtuBSNDVppmHfgMbJkxei8Sa89FLm5XhCzflogAqDJBBzTM2oYs9b5avdA3KJn/aapDNnEOUHiN2voeIA==
+expo-blur@~15.0.7:
+  version "15.0.7"
+  resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-15.0.7.tgz#a11466e697fbf2b272444a38722065e60d0ecbe5"
+  integrity sha512-SugQQbQd+zRPy8z2G5qDD4NqhcD7srBF7fN7O7yq6q7ZFK59VWvpDxtMoUkmSfdxgqONsrBN/rLdk00USADrMg==
 
 expo-constants@~18.0.7, expo-constants@~18.0.8:
   version "18.0.8"
