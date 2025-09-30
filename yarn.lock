@@ -2665,10 +2665,10 @@
   resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.10.tgz"
   integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
 
-a7p-js@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/a7p-js/-/a7p-js-1.0.8.tgz#9159a67bfeecf32b7885da5bfdca556e51f8729c"
-  integrity sha512-Cc4HqXu5brDroEeXrGzwc+LmL6tomHKGBkJYQ1FaUOdG1zSfH4/gWjitSkje9hWueliXwHM95KbHf1rUtLPqag==
+a7p-js@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/a7p-js/-/a7p-js-1.0.9.tgz#e2f759ac21687a60d5ad47b6e7f238eb0ce10a2e"
+  integrity sha512-n3yiLjTGdJnyp2RsbU594+erq6M1dpZdroJ0nUZyeczC3IEi13y2rxcqUNQYEjgZG8lTcjiJwttUDi+yIyaMFw==
   dependencies:
     base64-js "^1.5.1"
     crypto-js "^4.2.0"
@@ -6491,9 +6491,9 @@ protobufjs@*, protobufjs@^7.4.0:
     long "^5.0.0"
 
 protobufjs@^7.5.0:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.5.0.tgz#a317ad80713e9db43c8e55afa8636a9aa76bb630"
-  integrity sha512-Z2E/kOY1QjoMlCytmexzYfDm/w5fKAiRwpSzGtdnXW1zC88Z2yXazHHrOtwCzn+7wSxyE8PYM4rvVcMphF9sOA==
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.5.4.tgz#885d31fe9c4b37f25d1bb600da30b1c5b37d286a"
+  integrity sha512-CvexbZtbov6jW2eXAvLukXjXUW1TzFaivC46BpWc/3BpcCysb5Vffu+B3XHMm8lVEuy2Mm4XGex8hBSg1yapPg==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"

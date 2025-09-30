@@ -7,7 +7,7 @@ import {
     FieldEditFloatProps,
     useProfileFieldState,
 } from "../fieldsEdit/fieldEditInput";
-import { BcType, Profile } from "a7p-js/dist/types";
+import { BcType, Profile } from "a7p-js/types";
 import { HelpButton } from "./help/helpIcons";
 import { useHelp } from "./help/helpContent";
 import { BulletFloatFields } from "./FiedProps";

@@ -8,7 +8,7 @@ import {
     useTheme,
 } from "react-native-paper";
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
-import { CoefRow, BcType } from "a7p-js/dist/types";
+import { CoefRow, BcType } from "a7p-js/types";
 import { useEffect, useMemo, useState } from "react";
 import { ProfileProps } from "@/hooks/fileService/useFileParsing";
 import { CustomDragRowProps, CustomRowField } from "./customDragTable";

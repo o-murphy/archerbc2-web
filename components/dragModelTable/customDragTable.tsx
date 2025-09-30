@@ -10,7 +10,7 @@ import {
     useTheme,
 } from "react-native-paper";
 import { useProfileFieldState } from "../fieldsEdit/fieldEditInput";
-import { CoefRow } from "a7p-js/dist/types";
+import { CoefRow } from "a7p-js/types";
 import { SpinBoxRange } from "../fieldsEdit/doubleSpinBox";
 import { HelpButton } from "../contentCards/help/helpIcons";
 import { useHelp } from "../contentCards/help/helpContent";

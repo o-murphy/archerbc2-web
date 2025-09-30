@@ -7,7 +7,7 @@ import { fromByteArray } from "base64-js";
 import { Platform } from "react-native";
 import { decode } from "a7p-js";
 import { toByteArray } from "base64-js";
-import { BcType, CoefRow, Profile } from "a7p-js/dist/types.js";
+import { BcType, CoefRow, Profile } from "a7p-js/types";
 import {
     shareBuffer,
     ShareError,

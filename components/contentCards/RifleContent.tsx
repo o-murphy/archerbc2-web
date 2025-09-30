@@ -7,7 +7,7 @@ import {
     FieldEditProps,
     useProfileFieldState,
 } from "@/components/fieldsEdit/fieldEditInput";
-import { Profile, TwistDir } from "a7p-js/dist/types";
+import { Profile, TwistDir } from "a7p-js/types";
 import { useHelp } from "@/components/contentCards//help/helpContent";
 import { HelpButton } from "@/components/contentCards/help/helpIcons";
 import { useTranslation } from "react-i18next";
