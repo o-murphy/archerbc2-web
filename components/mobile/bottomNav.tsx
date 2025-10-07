@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import {
     CommonActions,
     NavigationContainer,
+    NavigationIndependentTree,
     NavigationProp,
     ParamListBase,
     RouteProp,
@@ -221,9 +222,11 @@ export const BottomNav = () => {
     return (
         <Surface style={styles.tabContainerStyle}>
             {visible && (
-                <NavigationContainer>
-                    <EditNav />
-                </NavigationContainer>
+                <NavigationIndependentTree>
+                    <NavigationContainer>
+                        <EditNav />
+                    </NavigationContainer>
+                </NavigationIndependentTree>
             )}
         </Surface>
     );
