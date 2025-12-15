@@ -1886,12 +1886,12 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
-"@react-navigation/bottom-tabs@^7.4.0":
-  version "7.7.2"
-  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.7.2.tgz#796894a4d73ead2c787bc5ba583500fbe7e84c6e"
-  integrity sha512-IA1+N9VrZPQiUmNI/T4co/zXyxSZ1m07pbRUBtnZAwqrybNLZh3qsfPIvy+jL89owyGgZEw1UUscHT0EyEhkbQ==
+"@react-navigation/bottom-tabs@^7.4.0", "@react-navigation/bottom-tabs@^7.8.12":
+  version "7.8.12"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-7.8.12.tgz#22863a5a26e73714075f5966a80ea18d7eaceb84"
+  integrity sha512-efVt5ydHK+b4ZtjmN81iduaO5dPCmzhLBFwjCR8pV4x4VzUfJmtUJizLqTXpT3WatHdeon2gDPwhhoelsvu/JA==
   dependencies:
-    "@react-navigation/elements" "^2.8.0"
+    "@react-navigation/elements" "^2.9.2"
     color "^4.2.3"
     sf-symbols-typescript "^2.1.0"
 
@@ -1923,19 +1923,10 @@
     use-latest-callback "^0.2.4"
     use-sync-external-store "^1.5.0"
 
-"@react-navigation/elements@^2.8.0":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.8.1.tgz#4df96e0219a2ed0be20d5452297835e632aaa6f9"
-  integrity sha512-MLmuS5kPAeAFFOylw89WGjgEFBqGj/KBK6ZrFrAOqLnTqEzk52/SO1olb5GB00k6ZUCDZKJOp1BrLXslxE6TgQ==
-  dependencies:
-    color "^4.2.3"
-    use-latest-callback "^0.2.4"
-    use-sync-external-store "^1.5.0"
-
-"@react-navigation/elements@^2.8.3":
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.8.3.tgz#d8f15b3d1ed2a1a5c8bf766a97382505e39851be"
-  integrity sha512-0c5nSDPP3bUFujgkSVqqMShaAup3XIxNe1KTK9LSmwKgWEneyo6OPIjIdiEwPlZvJZKi7ag5hDjacQLGwO0LGA==
+"@react-navigation/elements@^2.8.0", "@react-navigation/elements@^2.8.3", "@react-navigation/elements@^2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.9.2.tgz#0ee330ff9b82f748f05630616ada9426b1f07911"
+  integrity sha512-J1GltOAGowNLznEphV/kr4zs0U7mUBO1wVA2CqpkN8ePBsoxrAmsd+T5sEYUCXN9KgTDFvc6IfcDqrGSQngd/g==
   dependencies:
     color "^4.2.3"
     use-latest-callback "^0.2.4"
