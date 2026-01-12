@@ -71,7 +71,7 @@
         "@types/crypto-js": "^4.2.2",
         "@types/jest": "29.5.14",
         "@types/protobufjs": "^6.0.0",
-        "@types/react": "^19.2.7",
+        "@types/react": "^19.2.8",
         "@types/react-test-renderer": "^19.1.0",
         "@types/yup": "^0.32.0",
         "babel-plugin-module-resolver": "^5.0.2",
