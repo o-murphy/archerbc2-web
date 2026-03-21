@@ -67,7 +67,7 @@ const EditDialog = () => {
                     selectedRoute={selectedRoute}
                 />
                 <Surface style={styles.surfaceContent}>
-                    <ContentNavigator onContentNavigate={handleContentNavigate} /> {/* Pass the callback */}
+                    <ContentNavigator onContentNavigate={handleContentNavigate} /* Pass the callback */ />
                 </Surface>
             </Dialog.Content>
         </Dialog>
