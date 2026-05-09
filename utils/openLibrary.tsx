@@ -4,7 +4,7 @@ const LIBRARY_PATH = "/a7pindex/"
 // export const openLibrary = async () => {
 //     try {
 //         const url = `${window.location.origin}${LIBRARY_PATH}`;
-//         // const url = `https://portfolio.o-murphy.net${LIBRARY_PATH}`;
+//         // const url = `https://o-murphy.net${LIBRARY_PATH}`;
 //         console.log(url)
 //         window.open(url, '_blank');
 //     } catch (error) {
