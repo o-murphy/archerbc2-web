@@ -1,15 +1,5 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StyleSheet } from "react-native";
-
-import {
-    CommonActions,
-    NavigationContainer,
-    NavigationIndependentTree,
-    NavigationProp,
-    ParamListBase,
-    RouteProp,
-} from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation, Surface, Text, useTheme } from "react-native-paper";
 import { ThemedIconName, ThemedTabIcon } from "../icons/customIcons";
 import { useFileContext } from "@/hooks/fileService/fileContext";
@@ -68,174 +58,81 @@ const tabs = [
     },
 ];
 
-type TabScreenProps = {
-    title: string;
-    helpContentKey: string;
-    children: ReactNode;
-    route: RouteProp<ParamListBase, string>;
-    navigation: NavigationProp<ParamListBase>;
-};
+type Route = { key: string; title: string };
 
-const TabScreen = ({ title, helpContentKey, children, route, navigation }: TabScreenProps) => {
-    const { t } = useTranslation();
-    // console.log(navigation);
-
-    return (
-        <Surface style={styles.tabContainerStyle}>
-            <TopBar title={t(title)} helpContentKey={helpContentKey} />
-            {children}
-        </Surface>
-    );
-};
-
-const Tab = createBottomTabNavigator();
-
-export default function EditNav() {
+const EditNav = () => {
     const theme = useTheme();
     const { t } = useTranslation();
-    return (
-        <Tab.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}
-            tabBar={({ navigation, state, descriptors, insets }) => (
-                <BottomNavigation.Bar
-                    style={{
-                        height: 100,
-                        backgroundColor: theme.colors.elevation.level2,
-                    }} // matches your dark theme
-                    activeIndicatorStyle={{ height: 48, marginTop: 16 }}
-                    labeled={true}
-                    navigationState={state}
-                    safeAreaInsets={insets}
-                    onTabPress={({ route, preventDefault }) => {
-                        const event = navigation.emit({
-                            type: "tabPress",
-                            target: route.key,
-                            canPreventDefault: true,
-                        });
+    const [index, setIndex] = useState(0);
 
-                        if (event.defaultPrevented) {
-                            preventDefault();
-                        } else {
-                            navigation.dispatch({
-                                ...CommonActions.navigate(
-                                    route.name,
-                                    route.params,
-                                ),
-                                target: state.key,
-                            });
-                        }
-                    }}
-                    renderIcon={({ route, focused, color }) => {
-                        const { options } = descriptors[route.key];
-                        if (options.tabBarIcon) {
-                            return options.tabBarIcon({
-                                focused,
-                                color,
-                                size: 40,
-                            });
-                        }
-                        return null;
-                    }}
-                    getLabelText={({ route }: { route: any }) => {
-                        const { options } = descriptors[route.key];
-                        const label =
-                            options.tabBarLabel !== undefined
-                                ? options.tabBarLabel
-                                : options.title !== undefined
-                                    ? options.title
-                                    : route.title;
-                        return label;
-                    }}
-                    renderLabel={({
-                        route,
-                        focused,
-                        color,
-                    }: {
-                        route: any;
-                        focused: boolean;
-                        color: any;
-                    }) => {
-                        const { options } = descriptors[route.key];
-                        const label =
-                            options.tabBarLabel !== undefined
-                                ? options.tabBarLabel
-                                : options.title !== undefined
-                                    ? options.title
-                                    : route.title;
-
-                        return (
-                            <Text
-                                variant="labelSmall"
-                                style={{
-                                    textAlign: "center",
-                                    marginTop: 16,
-                                }}
-                            >
-                                {label}
-                            </Text>
-                        );
-                    }}
-                />
-            )}
-        >
-            {tabs.map(({ name, content: Content, helpContentKey, icon }) => (
-                <Tab.Screen
-                    key={name}
-                    name={name}
-                    options={{
-                        title: `ArcherBC2 | ${t(name)}`,
-                        tabBarLabelPosition: "beside-icon",
-                        tabBarLabel: t(name),
-                        tabBarIcon: ({ ...props }) => (
-                            <ThemedTabIcon
-                                source={icon as ThemedIconName}
-                                {...props}
-                            />
-                        ),
-                    }}
-                >
-                    {(props) => (
-                        <TabScreen title={name} helpContentKey={helpContentKey} {...props}>
-                            <Content />
-                        </TabScreen>
-                    )}
-                </Tab.Screen>
-            ))}
-        </Tab.Navigator>
+    const routes: Route[] = useMemo(
+        () => tabs.map(({ name }) => ({ key: name, title: t(name) })),
+        [t]
     );
-}
+
+    const renderScene = ({ route }: { route: Route }) => {
+        const tab = tabs.find((tab) => tab.name === route.key);
+        if (!tab) return null;
+        const Content = tab.content;
+        return (
+            <Surface style={styles.sceneStyle}>
+                <TopBar title={t(tab.name)} helpContentKey={tab.helpContentKey} />
+                <Content />
+            </Surface>
+        );
+    };
+
+    return (
+        <BottomNavigation
+            navigationState={{ index, routes }}
+            onIndexChange={setIndex}
+            renderScene={renderScene}
+            barStyle={{
+                height: 100,
+                backgroundColor: theme.colors.elevation.level2,
+            }}
+            activeIndicatorStyle={{ height: 48, marginTop: 16 }}
+            labeled={true}
+            renderIcon={({ route }) => {
+                const tab = tabs.find((tab) => tab.name === route.key);
+                if (!tab) return null;
+                return <ThemedTabIcon source={tab.icon as ThemedIconName} size={40} />;
+            }}
+            renderLabel={({ route }) => (
+                <Text variant="labelSmall" style={styles.tabLabel}>
+                    {route.title}
+                </Text>
+            )}
+        />
+    );
+};
 
 export const BottomNav = () => {
     const [visible, setVisible] = useState<boolean>(false);
     const { currentData } = useFileContext();
 
     useEffect(() => {
-        if (currentData.profile) {
-            setVisible(true);
-        } else {
-            setVisible(false);
-        }
+        setVisible(!!currentData.profile);
     }, [currentData]);
 
     return (
-        <Surface style={styles.tabContainerStyle}>
-            {visible && (
-                <NavigationIndependentTree>
-                    <NavigationContainer>
-                        <EditNav />
-                    </NavigationContainer>
-                </NavigationIndependentTree>
-            )}
+        <Surface style={styles.containerStyle}>
+            {visible && <EditNav />}
         </Surface>
     );
 };
 
 const styles = StyleSheet.create({
-    tabContainerStyle: {
+    containerStyle: {
         flex: 1,
         justifyContent: "center",
         alignItems: "stretch",
+    },
+    sceneStyle: {
+        flex: 1,
+    },
+    tabLabel: {
+        textAlign: "center",
+        marginTop: 16,
     },
 });
