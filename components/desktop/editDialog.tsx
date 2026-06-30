@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import { Dialog, Surface } from "react-native-paper";
 import SideBar from "./sideBar";
 import TopBar from "./topBar";
 import { useFileContext } from "@/hooks/fileService/fileContext";
 import { ContentNavigator } from "./contentNavigator";
-import { useNavigation } from "@react-navigation/native";
 
 
 // Type for dialog dimensions
@@ -29,7 +28,6 @@ const EditDialog = () => {
     const [dialogDimensions, setDialogDimensions] = useState<DialogDimensions>(calculateDialogDimensions());
     const [visible, setVisible] = useState<boolean>(false);
     const [selectedRoute, setSelectedRoute] = useState<string>("description");
-    const navigation = useNavigation();
 
     const { currentData } = useFileContext();
 
@@ -45,12 +43,6 @@ const EditDialog = () => {
         return () => subscription.remove();
     }, []);
 
-    const handleContentNavigate = (routeName: string) => {
-        console.log("Navigate from content to:", routeName);
-        setSelectedRoute(routeName);
-        navigation.navigate(routeName as never);
-    };
-
     return (
         <Dialog
             visible={visible}
@@ -62,12 +54,11 @@ const EditDialog = () => {
             </Dialog.Title>
             <Dialog.Content style={styles.dialogContent}>
                 <SideBar
-                    navigation={navigation}
-                    setSelectedRoute={setSelectedRoute}
+                    onNavigate={setSelectedRoute}
                     selectedRoute={selectedRoute}
                 />
                 <Surface style={styles.surfaceContent}>
-                    <ContentNavigator onContentNavigate={handleContentNavigate} /* Pass the callback */ />
+                    <ContentNavigator route={selectedRoute} />
                 </Surface>
             </Dialog.Content>
         </Dialog>

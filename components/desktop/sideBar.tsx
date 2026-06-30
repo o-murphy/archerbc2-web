@@ -85,17 +85,15 @@ const TabIconWithErrorBadge = ({ source, checkFields }: { source: ThemedIconName
 
 
 type SideBarProps = {
-    navigation: any; // Type for navigation object
-    setSelectedRoute: (route: string) => void; // Type for state setter
+    onNavigate: (route: string) => void;
     selectedRoute: string;
 };
 
-export function SideBar({ navigation, setSelectedRoute, selectedRoute }: SideBarProps) {
+export function SideBar({ onNavigate, selectedRoute }: SideBarProps) {
     const { t } = useTranslation();
 
     const handleItemPress = (routeName: string) => {
-        setSelectedRoute(routeName); // Update the parent's state
-        navigation.navigate(routeName); // Perform navigation
+        onNavigate(routeName);
     };
 
     return (
