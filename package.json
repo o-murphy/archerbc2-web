@@ -26,10 +26,10 @@
         "@expo/vector-icons": "^15.1.1",
         "@react-native-async-storage/async-storage": "2.2.0",
         "@react-native-clipboard/clipboard": "^1.16.3",
-        "a7p-js": "^1.1.0",
+        "a7p-js": "^1.2.1",
         "base64-js": "^1.5.1",
         "crypto-js": "^4.2.0",
-        "expo": "~55.0.27",
+        "expo": "~57.0.4",
         "expo-blur": "~55.0.15",
         "expo-constants": "~55.0.16",
         "expo-font": "~55.0.8",
@@ -42,7 +42,7 @@
         "expo-symbols": "~55.0.9",
         "expo-system-ui": "~55.0.19",
         "expo-web-browser": "~55.0.17",
-        "i18next": "^26.3.4",
+        "i18next": "^26.3.5",
         "i18next-browser-languagedetector": "^8.2.1",
         "nanoid": "^5.1.6",
         "protobufjs": "^8.7.0",
@@ -78,7 +78,7 @@
         "jest-expo": "~55.0.19",
         "protobufjs-cli": "^2.6.0",
         "react-test-renderer": "^19.2.7",
-        "typescript": "~5.9.2"
+        "typescript": "~7.0.2"
     },
     "private": true
 }
