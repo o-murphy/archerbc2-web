@@ -26,7 +26,7 @@
         "@expo/vector-icons": "^15.1.1",
         "@react-native-async-storage/async-storage": "2.2.0",
         "@react-native-clipboard/clipboard": "^1.16.3",
-        "a7p-js": "^1.2.3",
+        "a7p-js": "^1.2.4",
         "base64-js": "^1.5.1",
         "expo": "^57.0.0",
         "expo-constants": "~57.0.3",
