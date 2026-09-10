@@ -751,10 +751,10 @@
     "@babel/plugin-transform-modules-commonjs" "^7.29.7"
     "@babel/plugin-transform-typescript" "^7.29.7"
 
-"@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.23.2", "@babel/runtime@^7.25.0", "@babel/runtime@^7.29.2":
-  version "7.29.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.2.tgz#9a6e2d05f4b6692e1801cd4fb176ad823930ed5e"
-  integrity sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==
+"@babel/runtime@^7.18.6", "@babel/runtime@^7.20.0", "@babel/runtime@^7.23.2", "@babel/runtime@^7.25.0", "@babel/runtime@^7.29.7":
+  version "7.29.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.7.tgz#12022450c45a4da6d8d8287b18a4ff2ddb23f768"
+  integrity sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==
 
 "@babel/template@^7.27.2", "@babel/template@^7.28.6", "@babel/template@^7.29.7", "@babel/template@^7.3.3":
   version "7.29.7"
@@ -3880,10 +3880,10 @@ i18next-browser-languagedetector@^8.2.1:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next@^26.3.6:
-  version "26.3.6"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-26.3.6.tgz#599db275c50b66d28a69d8f6c5162c245ce9296b"
-  integrity sha512-Bu5Z2nAXgfVyM8xvW3jk9EKRIuX37PudsrBViThNFx7CR7aaYTpP01cxNB/E4c4UUzTDiAZRstEhsRfPOL/8xA==
+i18next@^26.4.2:
+  version "26.4.2"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-26.4.2.tgz#824233630f147359296bcaddf1404945d2b211bf"
+  integrity sha512-RX+R0VLg13IbvRuJSxnqykUFS9vQZTl8wYpWPCIUDWVrSGjsQywB5Y+pjzrkboxGAuYfJZVH1InFTdgBdxq6ug==
 
 iconv-lite@0.6.3:
   version "0.6.3"
@@ -5748,10 +5748,10 @@ prompts@^2.0.1, prompts@^2.2.1, prompts@^2.3.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-protobufjs-cli@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/protobufjs-cli/-/protobufjs-cli-2.6.2.tgz#cbe6e9586a1dc3131af60f4da8988579a6178dc7"
-  integrity sha512-Bx/yrAQ5wacylmVqV5GqznF9fFoFwMR16iLpptaxsGDTovJtvId3KhQa7VDb5OHmQbTny7eGqGmFzb41pl+F4A==
+protobufjs-cli@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/protobufjs-cli/-/protobufjs-cli-2.7.0.tgz#6b8dfaba99ebeeb7e7ff13fa408aa220d298e92d"
+  integrity sha512-wjrZPibf/U73dDJMh9jCqjyeDH7t6+OMD16vKp/Z1CY7yyVE/pX5a9EvCq89p3ADHo+KyaLknA5lxyaaM252KA==
   dependencies:
     escodegen "^2.0.0"
     espree "^9.6.1"
@@ -5761,10 +5761,10 @@ protobufjs-cli@^2.6.2:
     minimist "^1.2.8"
     tmp "^0.2.7"
 
-protobufjs@^8.7.2:
-  version "8.7.2"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-8.7.2.tgz#9b4049de0bcf0eab21651d23afda6eacc591fa31"
-  integrity sha512-oTVHV+oelUBtiu5iTuTNNZ0eLYsXSMxry4cgr30mayNkgIZL6qZ0IOQVPuSWGcyAaXKl/XgqwWHIC3a0khYVBA==
+protobufjs@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-8.8.0.tgz#7ed071d94b6755f63cc9936ecd82e4deac7cf624"
+  integrity sha512-N3xhQ5yyBx3vQq4gubBfASzYhJGNzeDbjqBpu61g7UVylsN/qyffU96TKWD3GbbLOKF82VGNRNvv1+BFgE31Eg==
   dependencies:
     long "^5.3.2"
 
@@ -5847,12 +5847,12 @@ react-freeze@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-freeze/-/react-freeze-1.0.4.tgz#cbbea2762b0368b05cbe407ddc9d518c57c6f3ad"
   integrity sha512-r4F0Sec0BLxWicc7HEyo2x3/2icUTrRmDjaaRyzzn+7aDyFZliszMDOgLVwSnQnYENOlL1o569Ze2HZefk8clA==
 
-react-i18next@^17.0.11:
-  version "17.0.11"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-17.0.11.tgz#62e93cbc4cd336554f018ac05a677c26886a0f72"
-  integrity sha512-cDtkXgxjuFTWUH6V+aQn1Ve5vDiUztCNPWW5GtSHDccsgRXO1nE6QFWCEmc1KAutrb3OUv87wFShJL5RhUwPXg==
+react-i18next@^17.0.13:
+  version "17.0.13"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-17.0.13.tgz#b35ec04059096797e6b12ea2f6552168c0172f7b"
+  integrity sha512-Cc1PscmblIHA1kljTqDwrcVMI21ydgmUzw0UAeQBe7pAOgfuRLfzXze4EUBQoeDiICzFIXXhHFoZxuetNg5D0Q==
   dependencies:
-    "@babel/runtime" "^7.29.2"
+    "@babel/runtime" "^7.29.7"
     html-parse-stringify "^4.0.1"
     use-sync-external-store "^1.6.0"
 
