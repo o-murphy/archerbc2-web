@@ -2161,10 +2161,10 @@
   resolved "https://registry.npmjs.org/@types/react-reconciler/-/react-reconciler-0.33.1.tgz"
   integrity sha512-0kF59ji2mKuHUd5wytHSpmORybMYVerJvq0K10pz9ZFoOlJ3e+w1LBjLshWpCrokeyQOioRodNbO4PH4ddvRfg==
 
-"@types/react-test-renderer@^19.1.0", "@types/react-test-renderer@^19.3.0":
-  version "19.3.0"
-  resolved "https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-19.3.0.tgz"
-  integrity sha512-TX4p2D4Z2oigM3SXU7+QyLSUnSR0vR1S1Pfxm/qFL9nHQ3jclgi6ioGoWQmlIr1DeKRVmPJrmNlhgM0JlWlLUg==
+"@types/react-test-renderer@^19.1.0", "@types/react-test-renderer@^19.3.1":
+  version "19.3.1"
+  resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-19.3.1.tgz#503fc01c38fea541cd979dfe7322cd8f46486ec4"
+  integrity sha512-9AwMfeBOcXsN5kC4oAauNTOKEwqLHtc69tkJC2CihQ5fCELDwzfQvookvtyaxm6i+vc5LLD0V5OLB8arzY8Smw==
   dependencies:
     "@types/react" "*"
 
@@ -5922,10 +5922,10 @@ react-native-paper-dropdown@^2.3.1:
   dependencies:
     react-native-paper "^5.12.3"
 
-react-native-paper@^5.12.3, react-native-paper@^5.15.3:
-  version "5.15.3"
-  resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-5.15.3.tgz"
-  integrity sha512-GEyNTmWElIZgnYw09AjjCNupRYzCmP79uAAyGSyCEUZz7KBz1wtJcC0wVUkozR1Rn3PK/td/9LlR6+F1hzmYvA==
+react-native-paper@^5.12.3, react-native-paper@^5.15.4:
+  version "5.15.4"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-5.15.4.tgz#1a5b2f763e6a1433dfd4e1020e66ed25c03ddef8"
+  integrity sha512-8ziMr8PEXB3V4LUY3EUdioDqU3AjM3t1F89O0pXHSkRrKLWIDfdTneB4mdsaETYacLa5qUFMtUuhwu2MC23+3Q==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.9"
     color "^3.1.2"
